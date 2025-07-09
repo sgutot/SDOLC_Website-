@@ -143,16 +143,11 @@ LOCALE_PATHS = [
 ]
 
 
-# Static files (CSS, JavaScript, Images)
+# settings.py (optimized version)
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # For production collection
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
-    os.path.join(BASE_DIR, 'deped_app/static'),
-]
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
-    os.path.join(BASE_DIR, 'deped_app/static'),
+    os.path.join(BASE_DIR, 'deped_app/static'),  # Your app-specific static files
 ]
 # Media files
 MEDIA_URL = '/media/'
