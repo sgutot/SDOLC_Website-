@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h2>Search Results for "{{ query }}"</h2>
+    
+    {% if total_results > 0 %}
+        <p>Found {{ total_results }} results</p>
+        
+        <!-- Include the partial template -->
+        {% include "deped_app/includes/search_results.html" %}
+        
+    {% else %}
+        <p>No results found for "{{ query }}"</p>
+    {% endif %}
+</div>
+{% endblock %}

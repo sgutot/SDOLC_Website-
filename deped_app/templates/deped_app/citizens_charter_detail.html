@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+{% load static humanize %}
+
+{% block content %}
+<div class="container py-3">
+    <!-- Centered Breadcrumb Navigation -->
+    <div class="d-flex justify-content-center">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'home' %}"><strong>Home</strong></a></li>
+                <li class="breadcrumb-item"><a href="{% url 'citizens_charter' %}"><strong>Charter</strong></a></li>
+                <li class="breadcrumb-item active" style="color: #555;" aria-current="page">{{ charter.title }}</li>
+            </ol>
+        </nav>
+    </div>
+    
+    <!-- Main Content Card with hover effect -->
+    <div class="card border-0 shadow-sm mb-3 hover-card" style="max-width: 800px; margin: 0 auto;">
+        <div class="card-body p-4">
+            <!-- Title with line below -->
+            <h2 class="text-center mb-3" style="font-size: 1.1rem; color: #7A0213; font-weight: 600;">{{ charter.title }}</h2>
+            <hr class="my-2" style="border-top: 1px solid #eee;">
+
+            <!-- Content -->
+            <div class="mb-4" style="font-size: 0.9rem; line-height: 1.6;">
+                {{ charter.content|linebreaks }}
+            </div>
+            
+            <!-- Line before buttons -->
+            <hr class="my-4" style="border-top: 1px solid #555;">
+            
+            <!-- Action Buttons with posted date -->
+            
+<div class="d-flex justify-content-between align-items-center">
+    <div class="text-muted small">
+        <i class="far fa-calendar-alt me-1"></i>Posted: {{ charter.date_posted|date:"M d, Y" }}
+    </div>
+    <div class="d-flex gap-2">
+        {% if charter.link %}
+        <a href="{{ charter.link }}" class="btn btn-primary" target="_blank" style="font-size: 0.85rem; padding: 0.4rem 1.1rem; min-width: 130px; border-radius: 20px;">
+            <i class="fas fa-external-link-alt me-1"></i> View 
+        </a>
+        {% endif %}
+        
+        {% if charter.file %}
+        <a href="{{ charter.file.url }}" class="btn btn-outline-primary" download style="font-size: 0.85rem; padding: 0.4rem 1.1rem; min-width: 130px; border-radius: 20px;">
+            <i class="fas fa-download me-1"></i> Download
+        </a>
+        {% endif %}
+        
+        
+    </div>
+</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    h1 {
+        color: #7A0213;
+        font-weight: 700;
+    }
+    
+    h2 {
+        color: #333;
+        font-weight: 600;
+        text-align: center;
+    }
+    
+    .card {
+        border-radius: 8px;
+        margin: 0 auto;
+        transition: all 0.3s ease;
+    }
+    
+    .hover-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+        border-color: #7A0213;
+    }
+    
+    .btn {
+        font-weight: 500;
+        transition: all 0.2s;
+        text-align: center;
+        border: 1px solid transparent;
+    }
+    
+    .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    .btn-primary {
+        background-color: #7A0213;
+        border-color: #7A0213;
+    }
+    
+    .btn-primary:hover {
+        background-color: #5a0110;
+        border-color: #5a0110;
+    }
+    
+    .btn-outline-primary {
+        border-color: #7A0213;
+        color: #7A0213;
+    }
+    
+    .btn-outline-primary:hover {
+        background-color: #7A0213;
+        border-color: #7A0213;
+        color: white;
+    }
+    
+    .btn-outline-secondary {
+        border-color: #6c757d;
+        color: #6c757d;
+    }
+    
+    .btn-outline-secondary:hover {
+        background-color: #6c757d;
+        color: white;
+    }
+    
+    .breadcrumb {
+        background-color: transparent;
+        padding: 0.5rem 1rem;
+        border-radius: 4px;
+        font-size: 0.9rem;
+    }
+    
+    .breadcrumb-item.active {
+        color: #7A0213;
+        font-weight: 500;
+    }
+</style>
+{% endblock %}

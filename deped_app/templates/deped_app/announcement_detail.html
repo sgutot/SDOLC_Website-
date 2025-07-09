@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container my-2">
+    <!-- Compact Breadcrumb -->
+    <nav aria-label="breadcrumb" class="mb-3">
+        <ol class="breadcrumb justify-content-center" style="font-size: 0.85rem; background-color: transparent; padding: 0.5rem 0;">
+            <li class="breadcrumb-item"><a href="{% url 'home' %}" style="color: #7A0213; text-decoration: none;">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page" style="color: #495057;">{{ announcement.title}}</li>
+        </ol>
+    </nav>
+
+    <div class="announcement-detail bg-white rounded-2 shadow-sm p-2 p-md-3">
+        <!-- Compact Header -->
+        <div class="announcement-header mb-2 pb-1 border-bottom">
+            <h5 class="fs-6 fw-bold mb-0 text-center" style="color: #7A0213;">{{ announcement.title }}</h5>
+        </div>
+
+        <!-- Compact Content -->
+        <div class="announcement-content fs-6 lh-sm py-1">
+            {{ announcement.content|linebreaks }}
+        </div>
+
+        <!-- Compact Attachments -->
+        <div class="announcement-actions mt-2 pt-1 border-top">
+            <div class="d-flex flex-wrap gap-1 align-items-center justify-content-between">
+                <div class="text-muted small" style="font-size: 1rem;">
+                    <i class="far fa-calendar-alt me-1"></i>
+                    <span>{{ announcement.date_posted|date:"M d, Y" }}</span>
+                </div>
+                <div class="d-flex gap-1">
+                    {% if announcement.file %}
+                    <a href="{{ announcement.file.url }}" class="btn btn-sm px-2 py-0" style="font-size: 1rem;">
+                        <i class="fas fa-file-pdf me-1"></i> View
+                    </a>
+                    {% endif %}
+                    {% if announcement.file %}
+                    <a href="{{ announcement.file.url }}" download class="btn btn-sm px-2 py-0" style="font-size: 1rem;">
+                        <i class="fas fa-download"></i>
+                    </a>
+                    {% endif %}
+                    {% if announcement.link %}
+                    <a href="{{ announcement.link }}" class="btn btn-sm px-2 py-0" style="font-size: 1rem;" target="_blank">
+                        <i class="fas fa-external-link-alt"></i>
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .announcement-detail {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    
+    .announcement-header {
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    }
+    
+    .announcement-content {
+        color: #495057;
+        line-height: 1.4;
+    }
+    
+    .announcement-content img {
+        max-width: 90%;
+        height: auto;
+        border-radius: 4px;
+        margin: 0.75rem 0;
+    }
+    
+    .btn {
+        transition: all 0.2s ease;
+        padding: 0.25rem 0.5rem;
+        font-size: 0.75rem;
+        border-radius: 3px;
+    }
+
+    @media (max-width: 768px) {
+        .container {
+            padding-left: 0.75rem;
+            padding-right: 0.75rem;
+        }
+        
+        .announcement-detail {
+            padding: 0.75rem;
+        }
+        
+        .announcement-header h5 {
+            font-size: 0.9375rem;
+        }
+        
+        .announcement-content {
+            font-size: 0.75rem;
+            line-height: 1.3;
+        }
+        
+        .announcement-actions {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.25rem;
+        }
+    }
+</style>
+{% endblock %}

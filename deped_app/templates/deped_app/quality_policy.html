@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+        <h2 class="mb-4">Quality Policy</h2>
+        
+        {% for policy in quality_policy %}
+        <div class="card mb-4">
+            <div class="card-body">
+                <h3 class="card-title">{{ policy.title }}</h3>
+                <div class="mt-3">
+                    {{ policy.content|safe }}
+                </div>
+                
+                {% if policy.file %}
+                <a href="{{ policy.file.url }}" class="btn btn-primary mt-3" download>
+                    Download Policy <i class="fas fa-download ms-2"></i>
+                </a>
+                {% endif %}
+                
+                {% if policy.link %}
+                <a href="{{ policy.link }}" class="btn btn-secondary mt-3" target="_blank">
+                    Related Link <i class="fas fa-external-link-alt ms-2"></i>
+                </a>
+                {% endif %}
+            </div>
+        </div>
+        {% empty %}
+        <div class="alert alert-info">
+            No quality policy information available at this time.
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

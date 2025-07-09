@@ -1,0 +1,818 @@
+<div class="search-results container py-4">
+    <style>
+    .search-results {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    .search-category {
+        margin-bottom: 3rem;
+    }
+    
+    .category-title {
+        font-weight: 600;
+        color: #2c3e50;
+        padding-bottom: 0.75rem;
+        border-bottom: 2px solid #f0f0f0;
+        margin-bottom: 1.5rem;
+        font-size: 0.9rem;
+    }
+    
+    .search-item {
+        transition: all 0.3s ease;
+        margin-bottom: 1.5rem;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        height: 100%;
+        font-size: 0.95rem;
+    }
+    
+    .search-item:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    
+    .search-item .card-title {
+        transition: color 0.2s ease;
+        margin-bottom: 0.75rem;
+        font-size: 0.95rem;
+    }
+    
+    .search-item:hover .card-title {
+        color: #2980b9;
+    }
+    
+    .search-excerpt {
+        color: #6c757d;
+        font-size: 0.85rem;
+        margin-bottom: 1rem;
+    }
+    
+    .search-meta {
+        font-size: 0.75rem;
+        color: #6c757d;
+    }
+
+    /* Search heading */
+    .search-results h1 {
+        font-size: 1.5rem; /* Reduced from likely 2rem */
+        margin-bottom: 1rem;
+    }
+    
+    /* Section headings */
+    .search-results h2 {
+        font-size: 1.2rem; /* Reduced from likely 1.5rem */
+        margin: 1rem 0 0.5rem 0;
+    }
+    
+    /* Subsection headings */
+    .search-results h3 {
+        font-size: 1rem; /* Reduced from likely 1.2rem */
+        margin: 0.8rem 0 0.4rem 0;
+    }
+    
+    /* Bold items in lists */
+    .search-results strong {
+        font-size: 0.95rem; /* Slightly larger than normal text */
+    }
+    
+    /* Price/amount values */
+    .price-amount {
+        font-size: 0.85rem;
+        color: #555;
+    }
+    
+    /* Year indicator */
+    .year {
+        font-size: 0.8rem;
+        color: #666;
+    }
+    
+    /* Divider line */
+    .divider {
+        margin: 0.8rem 0;
+        border-top: 1px solid #eee;
+    }
+    
+    .pagination {
+        justify-content: center;
+        margin: 2rem 0;
+    }
+    
+    .page-item.active .page-link {
+        background-color: #3498db;
+        border-color: #3498db;
+    }
+    
+    .page-link {
+        color: #3498db;
+    }
+    
+    .see-all-wrapper {
+        text-align: center;
+        margin-top: 3rem;
+        padding: 2rem 0;
+    }
+    
+    .see-all-wrapper .btn {
+        padding: 0.75rem 2rem;
+        border-radius: 50px;
+        font-weight: 500;
+        font-size: 1rem;
+    }
+    
+    .card-footer {
+        background-color: rgba(0,0,0,0.03);
+        border-top: 1px solid rgba(0,0,0,0.05);
+        padding: 0.75rem 1.25rem;
+    }
+    
+    .card-img-top {
+        height: 180px;
+        object-fit: cover;
+        width: 100%;
+    }
+    
+    .btn-outline-secondary {
+        border-color: #dee2e6;
+    }
+    
+    .text-muted {
+        color: #6c757d!important;
+    }
+</style>
+
+    <!-- Awards Results -->
+    {% if results.awards %}
+    <div class="search-category">
+        <h3 class="category-title">
+            <i class="fas fa-trophy me-2"></i>Awards ({{ results.awards|length }})
+        </h3>
+        <div class="row">
+            {% for item in results.awards %}
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="search-item card h-100">
+                    <div class="card-body">
+                        <h4 class="card-title h5">
+                            <a href="{% url 'awards' %}" class="text-decoration-none">{{ item.title }}</a>
+                        </h4>
+                        <p class="search-excerpt card-text">{{ item.content|truncatewords:20 }}</p>
+                    </div>
+                    <div class="card-footer bg-transparent">
+                        <small class="search-meta">
+                            <i class="far fa-calendar-alt me-1"></i>{{ item.date_posted|date:"F d, Y" }}
+                        </small>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- News Results -->
+    {% if results.news %}
+    <div class="search-category">
+        <h3 class="category-title">
+            <i class="fas fa-newspaper me-2"></i>News ({{ results.news|length }})
+        </h3>
+        <div class="row">
+            {% for item in news_page %}
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="search-item card h-100">
+                    {% if item.image %}
+                    <img src="{{ item.image.url }}" class="card-img-top" alt="{{ item.title }}">
+                    {% endif %}
+                    <div class="card-body">
+                        <h4 class="card-title h5">
+                            <a href="{% url 'news_detail' item.slug %}" class="text-decoration-none">{{ item.title }}</a>
+                        </h4>
+                        <p class="search-excerpt card-text">{{ item.content|truncatewords:30 }}</p>
+                    </div>
+                    <div class="card-footer bg-transparent">
+                        <small class="search-meta">
+                            <i class="far fa-calendar-alt me-1"></i>{{ item.date_posted|date:"F d, Y" }}
+                        </small>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <!-- Pagination -->
+        {% if news_page.paginator.num_pages > 1 %}
+        <nav aria-label="News pagination">
+            <ul class="pagination">
+                {% if news_page.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?search_query={{ query|urlencode }}&page={{ news_page.previous_page_number }}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                {% endif %}
+                
+                {% for i in news_page.paginator.page_range %}
+                <li class="page-item {% if news_page.number == i %}active{% endif %}">
+                    <a class="page-link" href="?search_query={{ query|urlencode }}&page={{ i }}">{{ i }}</a>
+                </li>
+                {% endfor %}
+                
+                {% if news_page.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?search_query={{ query|urlencode }}&page={{ news_page.next_page_number }}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+        <p class="text-center text-muted small">
+            Page {{ news_page.number }} of {{ news_page.paginator.num_pages }}
+        </p>
+        {% endif %}
+    </div>
+    {% endif %}
+
+    <!-- Announcements Results -->
+    {% if results.announcements %}
+    <div class="search-category">
+        <h3 class="category-title">
+            <i class="fas fa-bullhorn me-2"></i>Announcements ({{ results.announcements|length }})
+        </h3>
+        <div class="row">
+            {% for item in results.announcements %}
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="search-item card h-100">
+                    <div class="card-body">
+                        <h4 class="card-title h5">
+                            <a href="{% url 'announcement_detail' item.pk %}" class="text-decoration-none">{{ item.title }}</a>
+                        </h4>
+                        <p class="search-excerpt card-text">{{ item.content|truncatewords:20 }}</p>
+                    </div>
+                    <div class="card-footer bg-transparent">
+                        <small class="search-meta">
+                            <i class="far fa-calendar-alt me-1"></i>{{ item.date_posted|date:"F d, Y" }}
+                        </small>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Programs Results -->
+    {% if results.programs %}
+    <div class="search-category">
+        <h3 class="category-title">
+            <i class="fas fa-project-diagram me-2"></i>Programs ({{ results.programs|length }})
+        </h3>
+        <div class="row">
+            {% for item in results.programs %}
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="search-item card h-100">
+                    <div class="card-body">
+                        <h4 class="card-title h5">
+                            <a href="{% url 'program_detail' item.pk %}" class="text-decoration-none">
+                                {{ item.name|default:"Untitled Program" }}
+                            </a>
+                        </h4>
+                        <p class="search-excerpt card-text">
+                            {{ item.description|truncatewords:25|default:"No description available." }}
+                        </p>
+                    </div>
+                    <div class="card-footer bg-transparent">
+                        <small class="text-muted">
+                            <i class="far fa-calendar-alt me-1"></i>{{ item.date_posted|date:"F d, Y" }}
+                        </small>
+                        {% if item.link %}
+                        <a href="{{ item.link }}" class="btn btn-sm btn-outline-secondary float-end" target="_blank">
+                            <i class="fas fa-external-link-alt"></i>
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Organizational Chart Results -->
+    {% if results.organizational_chart %}
+    <div class="search-category">
+        <h3 class="category-title">
+            <i class="fas fa-sitemap me-2"></i>Organizational Charts ({{ results.organizational_chart|length }})
+        </h3>
+        <div class="row">
+            {% for item in results.organizational_chart %}
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="search-item card h-100">
+                    <div class="card-body">
+                        <h4 class="card-title h5">
+                            <a href="{% url 'organizational_chart' %}?dept={{ item.management }}#{{ item.id }}" class="text-decoration-none">
+                                {{ item.get_management_display }} - {{ item.management|default:"Organizational Chart" }}
+                            </a>
+                        </h4>
+                        {% if item.positions %}
+                        <p class="search-excerpt card-text"><strong>Position:</strong> {{ item.positions }}</p>
+                        {% endif %}
+                        {% if item.name %}
+                        <p class="search-excerpt card-text"><strong>Name:</strong> {{ item.name }}</p>
+                        {% endif %}
+                        {% if item.about %}
+                        <p class="search-excerpt card-text">{{ item.about|truncatewords:20 }}</p>
+                        {% endif %}
+                    </div>
+                    <div class="card-footer bg-transparent">
+                        <small class="search-meta">
+                            <i class="far fa-calendar-alt me-1"></i>Posted on {{ item.date_posted|date:"F d, Y" }}
+                        </small>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Citizens Charter Results -->
+    {% if results.citizens_charter %}
+    <div class="search-category">
+        <h3 class="category-title">
+            <i class="fas fa-file-contract me-2"></i>Citizens Charter ({{ results.citizens_charter|length }})
+        </h3>
+        <div class="row">
+            {% for item in results.citizens_charter %}
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="search-item card h-100">
+                    <div class="card-body">
+                        <h4 class="card-title h5">
+                            <a href="{% url 'citizens_charter_detail' item.pk %}" class="text-decoration-none">{{ item.title }}</a>
+                        </h4>
+                        <p class="search-excerpt card-text">{{ item.content|truncatewords:20 }}</p>
+                    </div>
+                    <div class="card-footer bg-transparent">
+                        <small class="search-meta">
+                            <i class="far fa-calendar-alt me-1"></i>{{ item.date_posted|date:"F d, Y" }}
+                        </small>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Vision Results -->
+    {% if results.vision %}
+    <div class="search-category">
+        <h3 class="category-title">
+            <i class="fas fa-eye me-2"></i>The DepEd Vision ({{ results.vision|length }})
+        </h3>
+        <div class="row">
+            {% for item in results.vision %}
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="search-item card h-100">
+                    <div class="card-body">
+                        <h4 class="card-title h5">
+                            <a href="{% url 'vision_mission_core_values_mandate_quality_policy' %}#vision-{{ item.pk }}" class="text-decoration-none">{{ item.title }}</a>
+                        </h4>
+                        <p class="search-excerpt card-text">{{ item.content|truncatewords:20 }}</p>
+                    </div>
+                    <div class="card-footer bg-transparent">
+                        <small class="search-meta">
+                            <i class="far fa-calendar-alt me-1"></i>{{ item.date_posted|date:"F d, Y" }}
+                        </small>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Mission Results -->
+    {% if results.mission %}
+    <div class="search-category">
+        <h3 class="category-title">
+            <i class="fas fa-bullseye me-2"></i>Mission ({{ results.mission|length }})
+        </h3>
+        <div class="row">
+            {% for item in results.mission %}
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="search-item card h-100">
+                    <div class="card-body">
+                        <h4 class="card-title h5">
+                            <a href="{% url 'vision_mission_core_values_mandate_quality_policy' %}#mission-{{ item.pk }}" class="text-decoration-none">{{ item.title }}</a>
+                        </h4>
+                        <p class="search-excerpt card-text">{{ item.content|truncatewords:20 }}</p>
+                    </div>
+                    <div class="card-footer bg-transparent">
+                        <small class="search-meta">
+                            <i class="far fa-calendar-alt me-1"></i>{{ item.date_posted|date:"F d, Y" }}
+                        </small>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Mandate Results -->
+    {% if results.mandate %}
+    <div class="search-category">
+        <h3 class="category-title">
+            <i class="fas fa-gavel me-2"></i>Mandate ({{ results.mandate|length }})
+        </h3>
+        <div class="row">
+            {% for item in results.mandate %}
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="search-item card h-100">
+                    <div class="card-body">
+                        <h4 class="card-title h5">
+                            <a href="{% url 'vision_mission_core_values_mandate_quality_policy' %}#mandate-{{ item.pk }}" class="text-decoration-none">{{ item.title }}</a>
+                        </h4>
+                        <p class="search-excerpt card-text">{{ item.content|truncatewords:20 }}</p>
+                    </div>
+                    <div class="card-footer bg-transparent">
+                        <small class="search-meta">
+                            <i class="far fa-calendar-alt me-1"></i>{{ item.date_posted|date:"F d, Y" }}
+                        </small>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Core Values Results -->
+    {% if results.core_values %}
+    <div class="search-category">
+        <h3 class="category-title">
+            <i class="fas fa-heart me-2"></i>Core Values ({{ results.core_values|length }})
+        </h3>
+        <div class="row">
+            {% for item in results.core_values %}
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="search-item card h-100">
+                    <div class="card-body">
+                        <h4 class="card-title h5">
+                            <a href="{% url 'vision_mission_core_values_mandate_quality_policy' %}#core-values-{{ item.pk }}" class="text-decoration-none">{{ item.title }}</a>
+                        </h4>
+                        <p class="search-excerpt card-text">{{ item.content|truncatewords:20 }}</p>
+                    </div>
+                    <div class="card-footer bg-transparent">
+                        <small class="search-meta">
+                            <i class="far fa-calendar-alt me-1"></i>{{ item.date_posted|date:"F d, Y" }}
+                        </small>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Quality Policy Results -->
+    {% if results.quality_policy %}
+    <div class="search-category">
+        <h3 class="category-title">
+            <i class="fas fa-award me-2"></i>Quality Policy ({{ results.quality_policy|length }})
+        </h3>
+        <div class="row">
+            {% for item in results.quality_policy %}
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="search-item card h-100">
+                    <div class="card-body">
+                        <h4 class="card-title h5">
+                            <a href="{% url 'vision_mission_core_values_mandate_quality_policy' %}#quality-policy-{{ item.id }}" class="text-decoration-none">
+                                {{ item.title|default:"Quality Policy" }}
+                            </a>
+                        </h4>
+                        <p class="search-excerpt card-text">
+                            {{ item.content|truncatewords:25|default:"No content available." }}
+                        </p>
+                    </div>
+                    <div class="card-footer bg-transparent">
+                        <small class="text-muted">
+                            <i class="far fa-calendar-alt me-1"></i>Posted {{ item.date_posted|date:"M d, Y" }}
+                        </small>
+                        {% if item.file %}
+                        <a href="{{ item.file.url }}" class="btn btn-sm btn-outline-secondary float-end" download>
+                            <i class="fas fa-download"></i>
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Division Memo Results -->
+    {% if results.division_memo %}
+    <div class="search-category">
+        <h3 class="category-title">
+            <i class="fas fa-file-alt me-2"></i>Division Memo ({{ results.division_memo|length }})
+        </h3>
+        <div class="row">
+            {% for item in results.division_memo %}
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="search-item card h-100">
+                    <div class="card-body">
+                        <h4 class="card-title h5">
+                            <a href="{% url 'division_memo_detail' item.pk %}" class="text-decoration-none">{{ item.title }}</a>
+                        </h4>
+                        <p class="search-excerpt card-text">{{ item.content|truncatewords:20 }}</p>
+                    </div>
+                    <div class="card-footer bg-transparent">
+                        <small class="search-meta">
+                            <i class="far fa-calendar-alt me-1"></i>{{ item.date_posted|date:"F d, Y" }}
+                        </small>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Office Memo Results -->
+    {% if results.office_memo %}
+    <div class="search-category">
+        <h3 class="category-title">
+            <i class="fas fa-file-signature me-2"></i>Office Memo ({{ results.office_memo|length }})
+        </h3>
+        <div class="row">
+            {% for item in results.office_memo %}
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="search-item card h-100">
+                    <div class="card-body">
+                        <h4 class="card-title h5">
+                            <a href="{% url 'office_memo_detail' item.pk %}" class="text-decoration-none">{{ item.title }}</a>
+                        </h4>
+                        <p class="search-excerpt card-text">{{ item.content|truncatewords:20 }}</p>
+                    </div>
+                    <div class="card-footer bg-transparent">
+                        <small class="search-meta">
+                            <i class="far fa-calendar-alt me-1"></i>{{ item.date_posted|date:"F d, Y" }}
+                        </small>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- DepEd Order Results -->
+    {% if results.deped_order %}
+    <div class="search-category">
+        <h3 class="category-title">
+            <i class="fas fa-file-invoice me-2"></i>DepEd Order ({{ results.deped_order|length }})
+        </h3>
+        <div class="row">
+            {% for item in results.deped_order %}
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="search-item card h-100">
+                    <div class="card-body">
+                        <h4 class="card-title h5">
+                            <a href="{% url 'deped_order_detail' item.pk %}" class="text-decoration-none">{{ item.title }}</a>
+                        </h4>
+                        <p class="search-excerpt card-text">{{ item.content|truncatewords:20 }}</p>
+                    </div>
+                    <div class="card-footer bg-transparent">
+                        <small class="search-meta">
+                            <i class="far fa-calendar-alt me-1"></i>{{ item.date_posted|date:"F d, Y" }}
+                        </small>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- DepEd Advisories Results -->
+    {% if results.deped_advisories %}
+    <div class="search-category">
+        <h3 class="category-title">
+            <i class="fas fa-exclamation-circle me-2"></i>DepEd Advisories ({{ results.deped_advisories|length }})
+        </h3>
+        <div class="row">
+            {% for item in results.deped_advisories %}
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="search-item card h-100">
+                    <div class="card-body">
+                        <h4 class="card-title h5">
+                            <a href="{% url 'deped_advisories_detail' item.pk %}" class="text-decoration-none">{{ item.title }}</a>
+                        </h4>
+                        <p class="search-excerpt card-text">{{ item.content|truncatewords:20 }}</p>
+                    </div>
+                    <div class="card-footer bg-transparent">
+                        <small class="search-meta">
+                            <i class="far fa-calendar-alt me-1"></i>{{ item.date_posted|date:"F d, Y" }}
+                        </small>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Bid Opportunities Results -->
+{% load humanize %}
+{% if results.bid_opportunities %}
+<div class="search-category mb-5">
+    <h3 class="category-title mb-4 pb-2 border-bottom">
+        <i class="fas fa-gavel me-2"></i>Bid Opportunities ({{ results.bid_opportunities|length }})
+    </h3>
+    <div class="row g-4">
+        {% for item in results.bid_opportunities %}
+        <div class="col-md-6 col-lg-4">
+            <div class="search-item card h-100 shadow-sm">
+                <div class="card-header bg-light">
+                    <span class="badge bg-primary">{{ item.ref|default:"No Ref" }}</span>
+                </div>
+                <div class="card-body">
+                    <h4 class="card-title h5">
+                        <a href="{% url 'bid_opportunity_detail' item.pk %}" class="text-decoration-none stretched-link">
+                            {{ item.projectname|truncatewords:10 }}
+                        </a>
+                    </h4>
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        {% if item.abc %}
+                        <span class="badge bg-success">
+                            ₱{{ item.abc|floatformat:2|intcomma }}
+                        </span>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="card-footer bg-transparent">
+                    <div class="d-flex">
+                        <span class="text-muted small">
+                            <i class="far fa-calendar-alt me-1"></i>{{ item.date_posted|date:"M d, Y" }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+
+    <!-- Awards Notices Results -->
+    {% if results.awards_notices %}
+    <div class="search-category">
+        <h3 class="category-title">
+            <i class="fas fa-medal me-2"></i>Awards Notice ({{ results.awards_notices|length }})
+        </h3>
+        <div class="row">
+            {% for item in results.awards_notices %}
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="search-item card h-100">
+                    <div class="card-body">
+                        <h4 class="card-title h5">
+                            <a href="{% url 'awards_notices_detail' item.pk %}" class="text-decoration-none">{{ item.projectname }}</a>
+                        </h4>
+                        <p class="search-excerpt card-text">{{ item.abc }}</p>
+                    </div>
+                    <div class="card-footer bg-transparent">
+                        <small class="search-meta">
+                            <i class="far fa-calendar-alt me-1"></i>{{ item.date_posted|date:"F d, Y" }}
+                        </small>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Rewards Recognitions Results -->
+    {% if results.rewards_recognitions %}
+    <div class="search-category">
+        <h3 class="category-title">
+            <i class="fas fa-star me-2"></i>Rewards Recognitions ({{ results.rewards_recognitions|length }})
+        </h3>
+        <div class="row">
+            {% for item in results.rewards_recognitions %}
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="search-item card h-100">
+                    <div class="card-body">
+                        <h4 class="card-title h5">
+                            <a href="{% url 'rewards_recognitions_detail' item.pk %}" class="text-decoration-none">{{ item.title }}</a>
+                        </h4>
+                        <p class="search-excerpt card-text">{{ item.description|truncatewords:20 }}</p>
+                    </div>
+                    <div class="card-footer bg-transparent">
+                        <small class="search-meta">
+                            <i class="far fa-calendar-alt me-1"></i>{{ item.date_posted|date:"F d, Y" }}
+                        </small>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Recruitment Selection Placement Results -->
+    {% if results.recruitment_selection_placement %}
+    <div class="search-category">
+        <h3 class="category-title">
+            <i class="fas fa-user-tie me-2"></i>Recruitment Selection Placement ({{ results.recruitment_selection_placement|length }})
+        </h3>
+        <div class="row">
+            {% for item in results.recruitment_selection_placement %}
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="search-item card h-100">
+                    <div class="card-body">
+                        <h4 class="card-title h5">
+                            <a href="{% url 'recruitment_selection_placement_detail' item.pk %}" class="text-decoration-none">{{ item.title }}</a>
+                        </h4>
+                        <p class="search-excerpt card-text">{{ item.description|truncatewords:20 }}</p>
+                    </div>
+                    <div class="card-footer bg-transparent">
+                        <small class="search-meta">
+                            <i class="far fa-calendar-alt me-1"></i>{{ item.date_posted|date:"F d, Y" }}
+                        </small>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Performance Management Results -->
+    {% if results.performance_management %}
+    <div class="search-category">
+        <h3 class="category-title">
+            <i class="fas fa-chart-line me-2"></i>Performance Management ({{ results.performance_management|length }})
+        </h3>
+        <div class="row">
+            {% for item in results.performance_management %}
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="search-item card h-100">
+                    <div class="card-body">
+                        <h4 class="card-title h4">
+                            <a href="{% url 'performance_management_detail' item.pk %}" class="text-decoration-none">{{ item.title }}</a>
+                        </h4>
+                        <p class="search-excerpt card-text">{{ item.description|truncatewords:20 }}</p>
+                    </div>
+                    <div class="card-footer bg-transparent">
+                        <small class="search-meta">
+                            <i class="far fa-calendar-alt me-1"></i>{{ item.date_posted|date:"F d, Y" }}
+                        </small>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Learning Development Results -->
+    {% if results.learning_development %}
+    <div class="search-category">
+        <h3 class="category-title">
+            <i class="fas fa-graduation-cap me-2"></i>Learning Development ({{ results.learning_development|length }})
+        </h3>
+        <div class="row">
+            {% for item in results.learning_development %}
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="search-item card h-100">
+                    <div class="card-body">
+                        <h4 class="card-title h5">
+                            <a href="{% url 'learning_development_detail' item.pk %}" class="text-decoration-none">{{ item.title }}</a>
+                        </h4>
+                        <p class="search-excerpt card-text">{{ item.description|truncatewords:20 }}</p>
+                    </div>
+                    <div class="card-footer bg-transparent">
+                        <small class="search-meta">
+                            <i class="far fa-calendar-alt me-1"></i>{{ item.date_posted|date:"F d, Y" }}
+                        </small>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- "See All" Link for AJAX requests -->
+    {% if is_ajax and results %}
+<div class="see-all-wrapper">
+    <a href="{% url 'search' %}?search_query={{ query|urlencode }}" style="font-size: 10px; text-decoration: none;">
+        <i class="fas fa-search me-1"></i>See all {{ total_results }} results
+    </a>
+</div>
+{% endif %}
+</div>

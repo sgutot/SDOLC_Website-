@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Issuances - {{ block.super }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+        <h2 class="mb-4">Latest Issuances</h2>
+
+        {% for item in issuances %}
+        <div class="card mb-4">
+            <div class="card-body">
+                <h3 class="card-title">{{ item.title }}</h3>
+                <p class="card-text">
+                    <a href="{{ item.file.url }}" target="_blank">{{ item.file.name }}</a>
+                </p>
+                <a href="{% url 'issuance_detail' item.pk %}" class="btn btn-primary">Read more →</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

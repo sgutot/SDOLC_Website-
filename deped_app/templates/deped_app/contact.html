@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+{% load static crispy_forms_tags %}
+
+{% block title %}Contact Us - {{ block.super }}{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row g-5">
+        <!-- Contact Form Column -->
+        <div class="col-lg-6">
+            <div class="card shadow-sm border-0 rounded-4">
+                <div class="card-body p-4 p-md-5">
+                    <h3 class="h4 fw-bold mb-4 text-center" style="color: #7A0213;">Get In Touch</h3>
+                    
+                    {% if messages %}
+                    {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show mb-4">
+                        <i class="fas {% if message.tags == 'success' %}fa-check-circle{% else %}fa-exclamation-circle{% endif %} me-2"></i>
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+                    
+                    <form method="post" novalidate>
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label class="form-label">Full Name</label>
+                            {{ form.fullname }}
+                            {% if form.fullname.errors %}
+                                <div class="text-danger small">
+                                    {% for error in form.fullname.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Work Email</label>
+                            {{ form.workemail }}
+                            {% if form.workemail.errors %}
+                                <div class="text-danger small">
+                                    {% for error in form.workemail.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Organization</label>
+                            {{ form.organization }}
+                            {% if form.organization.errors %}
+                                <div class="text-danger small">
+                                    {% for error in form.organization.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Message</label>
+                            {{ form.message }}
+                            {% if form.message.errors %}
+                                <div class="text-danger small">
+                                    {% for error in form.message.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="d-grid mt-4">
+                            <button type="submit" class="btn btn-primary py-3" style="background-color: #7A0213; border: none;">
+                                <i class="fas fa-paper-plane me-2"></i> Send Message
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Info Column -->
+        <div class="col-lg-6">
+            <div class="card shadow-sm border-0 rounded-4 h-100">
+                <div class="card-body p-4 p-md-5">
+                    <h3 class="h4 fw-bold mb-4 text-center" style="color: #7A0213;">Our Location</h3>
+                    
+                    <div class="ratio ratio-16x9 mb-4 rounded-3 overflow-hidden shadow-sm">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d557.1669504445035!2d120.6044166482363!3d18.196775576311683!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e1!3m2!1sen!2sph!4v1614819691850!5m2!1sen!2sph" 
+                                allowfullscreen="" loading="lazy"></iframe>
+                    </div>
+                    
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-header border-0 text-white" style="background-color: #7A0213;">
+                            <h4 class="h5 mb-0"><i class="fas fa-info-circle me-2"></i>Contact Information</h4>
+                        </div>
+                        <div class="card-body">
+                            {% if site_settings %}
+                            <div class="contact-info">
+                                <p class="mb-3"><i class="fas fa-envelope me-2" style="color: #7A0213;"></i> {{ site_settings.contact_email }}</p>
+                                <p class="mb-3"><i class="fas fa-phone me-2" style="color: #7A0213;"></i> {{ site_settings.contact_phone }}</p>
+                                <p class="mb-0"><i class="fas fa-map-marker-alt me-2" style="color: #7A0213;"></i> {{ site_settings.address }}</p>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .contact-form, .contact-location {
+        transition: all 0.3s ease;
+    }
+    .contact-form:hover, .contact-location:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.15)!important;
+    }
+    .form-control, .form-select {
+        padding: 0.75rem 1rem;
+        border-radius: 0.5rem;
+    }
+    .form-control:focus, .form-select:focus {
+        border-color: #7A0213;
+        box-shadow: 0 0 0 0.25rem rgba(122,2,19,0.25);
+    }
+    .btn-primary {
+        transition: all 0.3s ease;
+    }
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(122, 2, 19, 0.3);
+    }
+</style>
+{% endblock %}

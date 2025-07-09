@@ -1,0 +1,218 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ news.title }} - {{ block.super }}{% endblock %}
+
+{% block content %}
+<div class="container py-3">
+    <!-- Breadcrumb Navigation -->
+    <div class="d-flex justify-content-center">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'home' %}" style="color: #7A0213;"><strong>Home</strong></a></li>
+                <li class="breadcrumb-item"><a href="{% url 'news_list' %}" style="color: #7A0213;"><strong>News</strong></a></li>
+                <li class="breadcrumb-item active" aria-current="page" style="color: #555;">{{ news.title }}</li>
+            </ol>
+        </nav>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <!-- News Article Card -->
+            <div class="card border-0 shadow-sm mb-3">
+                <!-- Image Section -->
+                {% if news.image %}
+                <div class="program-image-container">
+                    <img src="{{ news.image.url }}" class="program-header-img" alt="{{ news.title }}" loading="lazy">
+                </div>
+                {% else %}
+                <div class="program-header-placeholder text-white text-center py-4">
+                    <i class="fas fa-newspaper fa-3x opacity-25"></i>
+                </div>
+                {% endif %}
+                
+                <div class="card-body p-4">
+                    <!-- Title -->
+                    <h3 class="card-title mb-3 text-center" style="color: #7A0213; font-weight: 600;">
+                        {{ news.title }}
+                    </h3>
+                    
+                    <hr class="my-3" style="border-top: 1px solid rgba(122, 2, 19, 0.15);">
+                    
+                    <!-- Content -->
+                    <div class="card-text mb-4" style="line-height: 1.6; color: #555;">
+                        {{ news.content|safe }}
+                    </div>
+                </div>
+
+                <hr class="my-3" style="border-top: 1px solid rgba(122, 2, 19, 0.15);">
+                
+                <!-- Card Footer with Buttons -->
+                <div class="card-footer bg-transparent border-top-0 py-3 px-4">
+                    <div class="d-flex flex-column flex-md-row justify-content-between align-items-center">
+                        <div class="text-muted mb-2 mb-md-0">
+                            <i class="far fa-calendar-alt me-1"></i>
+                            Posted: {{ news.date_posted|date:"M d, Y" }}
+                        </div>
+                        
+                        <div class="d-flex gap-2">
+                            {% if news.file %}
+                            <a href="{{ news.file.url }}" class="btn btn-sm btn-outline-primary px-3 py-1" download>
+                                <i class="fas fa-download me-1"></i> Download
+                            </a>
+                            {% endif %}
+                            
+                            {% if news.link %}
+                            <a href="{{ news.link }}" class="btn btn-sm btn-primary px-3 py-1" target="_blank">
+                                <i class="fas fa-external-link-alt me-1"></i> View Link
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .program-image-container {
+        width: 100%;
+        height: 250px;
+        overflow: hidden;
+        position: relative;
+    }
+    
+    .program-header-img {
+        object-fit: cover;
+        height: 100%;
+        width: 100%;
+    }
+    
+    .program-header-placeholder {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #7A0213;
+        height: 200px;
+    }
+    
+    .card {
+        border-radius: 6px;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        border: 1px solid rgba(122, 2, 19, 0.1);
+    }
+    
+    .card:hover {
+        box-shadow: 0 4px 12px rgba(122, 2, 19, 0.1);
+    }
+    
+    .card-title {
+        font-size: 1.3rem;
+    }
+    
+    .card-text {
+        font-size: 0.9rem;
+    }
+    
+    .card-text img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 6px;
+        margin: 1rem 0;
+    }
+    
+    .card-text h2 {
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-top: 1.5rem;
+        margin-bottom: 1rem;
+        color: #7A0213;
+    }
+    
+    .card-text h3 {
+        font-size: 1rem;
+        font-weight: 600;
+        margin-top: 1.25rem;
+        margin-bottom: 0.75rem;
+    }
+    
+    .card-text ul,
+    .card-text ol {
+        padding-left: 1.25rem;
+        margin-bottom: 1rem;
+    }
+    
+    .card-text li {
+        margin-bottom: 0.5rem;
+    }
+    
+    .text-muted {
+        font-size: 0.8rem;
+        color: #777 !important;
+    }
+    
+    .btn {
+        font-size: 0.85rem;
+        border-radius: 4px;
+        transition: all 0.2s;
+    }
+    
+    .btn:hover {
+        transform: translateY(-1px);
+    }
+    
+    .btn-primary {
+        background-color: #7A0213;
+        border-color: #7A0213;
+    }
+    
+    .btn-primary:hover {
+        background-color: #60010e;
+        border-color: #60010e;
+    }
+    
+    .btn-outline-primary {
+        color: #7A0213;
+        border-color: #7A0213;
+    }
+    
+    .btn-outline-primary:hover {
+        background-color: #7A0213;
+        color: white;
+    }
+    
+    .breadcrumb-item a {
+        text-decoration: none;
+    }
+    
+    .breadcrumb-item.active {
+        color: #7A0213 !important;
+        font-weight: 500;
+    }
+    
+    @media (max-width: 768px) {
+        .program-image-container {
+            height: 200px;
+        }
+        
+        .program-header-placeholder {
+            height: 160px;
+        }
+        
+        .d-flex.flex-column.flex-md-row {
+            flex-direction: column-reverse;
+        }
+        
+        .gap-2 {
+            width: 100%;
+            justify-content: space-between;
+        }
+        
+        .card-title {
+            font-size: 1.1rem;
+        }
+    }
+</style>
+{% endblock %}

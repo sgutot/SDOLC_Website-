@@ -1,0 +1,269 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}News{{ block.super }}{% endblock %}
+
+{% block content %}
+<div class="container-fluid px-3" style="max-width: 1200px;">
+    <div class="row mb-4">
+        <div class="col-md-8 mx-auto text-center">
+            <h1 class="mb-3" style="color: #7A0213; font-size: 1.8rem; font-weight: 700;">
+                <strong>News</strong>
+            </h1>
+            
+            <!-- Enhanced Search Bar -->
+            <div class="search-container mb-4">
+                <form method="get">
+                    <div class="search-bar-wrapper">
+                        <div class="input-group search-bar-group">
+                            <input type="text" 
+                                   name="q" 
+                                   class="form-control search-input" 
+                                   placeholder="Search Opportunities..." 
+                                   value="{{ search_query|default:'' }}"
+                                   aria-label="Search news articles">
+                            <button class="btn search-btn" type="submit" aria-label="Search">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mx-0">
+        <!-- Main News Content -->
+        <div class="col-md-12 px-0">
+            {% if search_query %}
+                <div class="mb-4 px-2">
+                    <h4 style="font-size: 0.9rem; ">Search Results for "{{ search_query }}" ({{ news.paginator.count }})</h4>
+                </div>
+                
+                {% if not news %}
+                <div class="alert alert-info mt-3" style="font-size: 0.9rem;">
+                    No news articles found matching your search.
+                </div>
+                {% endif %}
+            {% endif %}
+            
+            <div class="row g-3 mb-4 mx-0">
+                {% for item in news %}
+                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 px-2">
+                    <div class="card h-100 border-0 shadow-sm">
+                        {% if item.image %}
+                        <div class="position-relative mobile-img-container">
+                            <img src="{{ item.image.url }}" class="card-img-top w-100 h-100 position-absolute top-0 start-0" alt="{{ item.title }}" style="object-fit: cover;">
+                        </div>
+                        {% endif %}
+                        <div class="card-body p-3">
+                            <h5 class="card-title mb-2" style="font-size: 0.9rem;">
+                                <a href="{% url 'news_detail' item.slug %}" class="text-decoration-none" style="color: #0d1c36;">{{ item.title }}</a>
+                            </h5>
+                            <p class="card-text text-muted small mb-2" style="font-size: 0.8rem;">
+                                {{ item.date_posted|date:"F j, Y" }}
+                            </p>
+                            <p class="card-text mb-0" style="font-size: 0.9rem;">
+                                {{ item.content|truncatewords:15|striptags }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                    {% if not search_query %}
+                    <div class="col-12 px-2">
+                        <div class="alert alert-info" style="font-size: 0.9rem;">
+                            No news articles available.
+                        </div>
+                    </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            
+            <!-- Pagination -->
+            {% if news.has_other_pages %}
+            <nav aria-label="Page navigation" class="mt-4 px-2">
+                <ul class="pagination justify-content-center" style="font-size: 0.9rem;">
+                    {% if news.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ news.previous_page_number }}{% if search_query %}&q={{ search_query }}{% endif %}" aria-label="Previous">
+                            «
+                        </a>
+                    </li>
+                    {% endif %}
+                    
+                    {% for i in news.paginator.page_range %}
+                        {% if news.number == i %}
+                            <li class="page-item active"><span class="page-link" style="background-color: #7A0213; border-color: #7A0213;">{{ i }}</span></li>
+                        {% else %}
+                            <li class="page-item"><a class="page-link" href="?page={{ i }}{% if search_query %}&q={{ search_query }}{% endif %}" style="color: #7A0213;">{{ i }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                    
+                    {% if news.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ news.next_page_number }}{% if search_query %}&q={{ search_query }}{% endif %}" aria-label="Next">
+                            »
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </nav>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<style>
+    body {
+        overflow-x: hidden;
+        background-color: #f8f9fa;
+    }
+
+    /* Updated Search Bar Styles */
+    .search-bar-wrapper {
+        max-width: 600px;
+        margin: 0 auto;
+    }
+    
+    .search-bar-group {
+        display: flex;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        border: 1px solid #e0e0e0;
+        background: white;
+    }
+    
+    .search-input {
+        flex: 1;
+        border: none;
+        padding: 14px 20px;
+        font-size: 1rem;
+        color: #333;
+        outline: none;
+        height: auto;
+    }
+    
+    .search-input::placeholder {
+        color: #999;
+        font-weight: 400;
+    }
+    
+    .search-btn {
+        background: transparent;
+        border: none;
+        padding: 0 20px;
+        color: #7A0213;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+    
+    .search-btn:hover {
+        color: #5a0110;
+    }
+    
+    .search-btn i {
+        font-size: 1.1rem;
+    }
+    
+    /* Focus state */
+    .search-bar-group:focus-within {
+        box-shadow: 0 0 0 2px rgba(122, 2, 19, 0.2);
+        border-color: #7A0213;
+    }
+
+    /* Card Styles */
+    .card {
+        border-radius: 0.5rem;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    
+    .card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    
+    /* Mobile image container */
+    .mobile-img-container {
+        aspect-ratio: 16/9;
+        overflow: hidden;
+    }
+
+    /* Responsive Adjustments */
+    @media (min-width: 992px) {
+        .mobile-img-container {
+            max-height: 180px;
+        }
+    }
+
+    @media (max-width: 991px) {
+        .mobile-img-container {
+            max-height: 30vw;
+            min-height: 140px;
+        }
+        
+        .card-body {
+            padding: 1rem !important;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .search-bar-group {
+            border-radius: 25px;
+        }
+        
+        .search-input {
+            padding: 10px 12px;
+        }
+        
+        .search-btn {
+            padding: 10px 20px;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .mobile-img-container {
+            max-height: 35vw;
+            min-height: 120px;
+        }
+        
+        .card-title {
+            font-size: 0.85rem !important;
+        }
+        
+        .card-text {
+            font-size: 0.8rem !important;
+        }
+        
+        .card-body {
+            padding: 0.75rem !important;
+        }
+        
+        .col-sm-6, .col-12 {
+            padding-left: 6px;
+            padding-right: 6px;
+        }
+        
+        .row.mx-0 {
+            margin-left: -6px;
+            margin-right: -6px;
+        }
+        
+        .search-bar-group {
+            border-radius: 20px;
+        }
+        
+        .search-btn {
+            padding: 8px 15px;
+        }
+    }
+
+    @media (max-width: 400px) {
+        .mobile-img-container {
+            max-height: 40vw;
+            min-height: 100px;
+        }
+    }
+</style>
+{% endblock %}

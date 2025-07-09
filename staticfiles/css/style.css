@@ -1,0 +1,453 @@
+
+/* Base Styles */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: #000000;
+     padding-left: 0% !important;
+    padding-right: 0% !important;
+}
+
+.container {
+    max-width: 98% !important;
+    padding-left: 30px !important;
+    padding-right: 30px !important;
+}
+.navbar-nav {
+    gap: 2rem;  /* Adjust spacing between nav items */
+}
+@media (max-width: 992px) {
+    .navbar-nav {
+        margin: 0 !important;
+        text-align: center !important;
+    }
+    .d-flex.ms-auto {
+        margin: 1rem auto 0 auto !important;
+        width: 100%;
+    }
+}
+
+
+h1, h2 {
+    font-weight: 700;
+    color: rgb(0, 0, 0);
+    margin-top: 2rem;
+    text-align: center;
+}
+
+h3, h4, h5, h6 {
+    font-weight: 700;
+    color: white;
+}
+
+a {
+    color: #7A0213;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+a:hover {
+    color: #7A0213;
+}
+
+/* Masthead */
+.container-masthead .row {
+    padding: 10px 0;
+    margin: 0;
+}
+
+.container-masthead img {
+    object-fit: contain;
+}
+
+@media (max-width: 768px) {
+    .container-masthead .row {
+        flex-direction: column;
+        text-align: center;
+    }
+    .container-masthead .col-6 {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+
+.DepEdLaoagLogo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.DepEdLaoagLogo img {
+  max-width: 100px;
+  height: auto;
+}
+
+.DepEdLaoagLogo h3,
+.DepEdLaoagLogo h4 {
+  margin: 0;
+  line-height: 1.2;
+}
+
+.logo-aligned img {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+  display: flex;
+}
+
+.logo-centered {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+  .container-masthead .row{
+    flex-direction: column;
+    align-items: center;
+  }
+  .container-masthead .large-3.columns{
+    margin-top: 1rem;
+  }
+  .dropdown.menu {
+    flex-direction: column;
+  }
+  .top-bar-left,
+  .top-bar-right {
+    flex-direction: column;
+    align-items: space-around;
+  }
+  .ver {
+    flex-direction: column;
+  }
+}
+
+/* Card Styles */
+.card {
+    border: none;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+    margin-bottom: 1.5rem;
+    margin-top: 1rem;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.card .card-header {
+    font-weight: 600;
+    background-color: #7A0213 !important;
+    color: white !important;
+}
+
+/* Button Styles */
+.btn-primary {
+    background-color: #7A0213;
+    color: white;
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #7A0213;
+    color: white;
+    border: none;
+}
+
+.btn-outline-primary:hover {
+    background-color: #7A0213 !important;
+    border: none;
+}
+
+.form-control-me-2{
+    border: #000000;
+    
+}
+
+.search-result {
+    padding: 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+.search-result:hover {
+    background-color: #f8f9fa;
+}
+.bg-warning {
+    background-color: #ffc107;
+    padding: 0 2px;
+    border-radius: 3px;
+}
+
+/* Footer Styles */
+footer {
+    background-color: #343a40 !important;
+    padding: 2rem 0;
+}
+
+footer h5 {
+    color: #fff;
+    margin-bottom: 1rem;
+}
+
+footer a {
+    color: #adb5bd;
+}
+
+footer a:hover {
+    color: #fff;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .navbar-nav {
+        margin-top: 1rem;
+    }
+    
+    .search-form {
+        margin-top: 1rem;
+    }
+}
+
+
+
+
+
+/* Main navigation item styling */
+.nav-link{
+    color: #000000;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+.nav-link:hover{
+    color: #7A0213;
+}
+
+.nav-item.dropdown {
+    position: relative;
+    margin: 0 10px;
+}
+
+/* Dropdown toggle link styling */
+.nav-link.dropdown-toggle {
+    color: #000000;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: inline-block;
+    position: relative;
+}
+
+.nav-link.dropdown-toggle:hover {
+    color: #7A0213;
+}
+
+/* Dropdown arrow styling */
+.nav-link.dropdown-toggle::after {
+    display: inline-block;
+    margin-left: 0.255em;
+    vertical-align: 0.255em;
+    content: "";
+    border-top: 0.3em solid;
+    border-right: 0.3em solid transparent;
+    border-bottom: 0;
+    border-left: 0.3em solid transparent;
+    transition: transform 0.3s ease;
+}
+
+/* Dropdown menu styling */
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1000;
+    display: none;
+    float: left;
+    min-width: 250px;
+    padding: 0.5rem 0;
+    margin: 0.125rem 0 0;
+    font-size: 1rem;
+    color: #000000;
+    text-align: left;
+    list-style: none;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 0.25rem;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Show dropdown when active */
+.dropdown-menu.show {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Dropdown items styling */
+.dropdown-item {
+    display: block;
+    width: 100%;
+    padding: 0.5rem 1.5rem;
+    clear: both;
+    font-weight: 400;
+    color: #000000;
+    text-align: inherit;
+    text-decoration: none;
+    white-space: nowrap;
+    background-color: transparent;
+    border: 0;
+    transition: all 0.2s ease;
+}
+
+.dropdown-item:hover, .dropdown-item:focus {
+    color: #000000;
+    background-color: #f8f9fa;
+}
+
+/* Active/focused dropdown item */
+.dropdown-item.active, .dropdown-item:active {
+    color: #fff;
+    text-decoration: none;
+    background-color: #7A0213;
+}
+
+    /* Custom floating styles */
+    .float-left {
+        float: left;
+        clear: left;
+        margin-right: 2rem;
+    }
+    
+    .float-right {
+        float: right;
+        clear: right;
+        margin-left: 2rem;
+    }
+    
+    .clearfix {
+        clear: both;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .float-left, 
+        .float-right {
+            float: none;
+            width: 100% !important;
+            margin-left: 0;
+            margin-right: 0;
+        }
+    }
+
+    /* Main container adjustments */
+.main-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px 15px;
+}
+
+/* Main content area */
+.main-content {
+    padding-right: 30px;
+}
+
+/* Sidebar styling */
+.sidebar {
+    padding-left: 15px;
+}
+
+/* Card styling for sidebar */
+.sidebar .card {
+    margin-bottom: 20px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+    .main-content {
+        padding-right: 15px;
+    }
+    
+    .sidebar {
+        padding-left: 15px;
+        margin-top: 30px;
+    }
+}
+
+/* Card header styling */
+.card-header {
+    background-color: #7A0213 !important;
+    color: white !important;
+}
+
+/* Keep your existing float classes but add this for better spacing */
+.float-left, .float-right {
+    margin-bottom: 20px;
+}
+
+.search-results-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: 400px;
+    max-height: 500px;
+    overflow-y: auto;
+    z-index: 1000;
+    background: white;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    border-radius: 4px;
+}
+
+.search-category {
+    margin-bottom: 15px;
+}
+
+.category-title {
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: #666;
+    padding: 5px 15px;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 5px;
+}
+
+.search-item {
+    display: block;
+    padding: 8px 15px;
+    color: #333;
+    text-decoration: none;
+}
+
+.search-item:hover {
+    background-color: #f8f9fa;
+}
+
+.search-item-title {
+    font-weight: 500;
+    margin-bottom: 3px;
+}
+
+.search-item-excerpt {
+    font-size: 0.8rem;
+    color: #666;
+}
+
+.see-all-results {
+    display: block;
+    text-align: center;
+    padding: 10px;
+    background: #f8f9fa;
+    color: #7A0213;
+    font-weight: 500;
+}
+
+.no-results {
+    padding: 15px;
+    text-align: center;
+    color: #666;
+}

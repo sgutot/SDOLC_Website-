@@ -1,0 +1,84 @@
+{% if page_obj.has_other_pages %}
+<nav aria-label="Page navigation" class="mt-4">
+    <ul class="pagination justify-content-center flex-wrap">
+        {% comment %} First and Previous buttons {% endcomment %}
+        {% if page_obj.has_previous %}
+        <li class="page-item">
+            <a class="page-link" href="?page=1" aria-label="First" title="First page">
+                <span aria-hidden="true">&laquo;&laquo;</span>
+                <span class="visually-hidden">First</span>
+            </a>
+        </li>
+        <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous" title="Previous page">
+                <span aria-hidden="true">&laquo;</span>
+                <span class="visually-hidden">Previous</span>
+            </a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+            <span class="page-link">&laquo;&laquo;</span>
+        </li>
+        <li class="page-item disabled">
+            <span class="page-link">&laquo;</span>
+        </li>
+        {% endif %}
+        
+        {% comment %} Page numbers with ellipsis {% endcomment %}
+        {% for num in page_obj.paginator.page_range %}
+            {% if page_obj.number == num %}
+            <li class="page-item active" aria-current="page">
+                <span class="page-link">{{ num }}</span>
+            </li>
+            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ num }}" title="Page {{ num }}">{{ num }}</a>
+            </li>
+            {% elif forloop.first %}
+            <li class="page-item">
+                <a class="page-link" href="?page=1" title="Page 1">1</a>
+            </li>
+            {% if page_obj.number|add:'-3' > 1 %}
+            <li class="page-item disabled">
+                <span class="page-link">...</span>
+            </li>
+            {% endif %}
+            {% elif forloop.last %}
+            {% if page_obj.number|add:'3' < page_obj.paginator.num_pages %}
+            <li class="page-item disabled">
+                <span class="page-link">...</span>
+            </li>
+            {% endif %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" title="Page {{ page_obj.paginator.num_pages }}">
+                    {{ page_obj.paginator.num_pages }}
+                </a>
+            </li>
+            {% endif %}
+        {% endfor %}
+        
+        {% comment %} Next and Last buttons {% endcomment %}
+        {% if page_obj.has_next %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next" title="Next page">
+                <span aria-hidden="true">&raquo;</span>
+                <span class="visually-hidden">Next</span>
+            </a>
+        </li>
+        <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" aria-label="Last" title="Last page">
+                <span aria-hidden="true">&raquo;&raquo;</span>
+                <span class="visually-hidden">Last</span>
+            </a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+            <span class="page-link">&raquo;</span>
+        </li>
+        <li class="page-item disabled">
+            <span class="page-link">&raquo;&raquo;</span>
+        </li>
+        {% endif %}
+    </ul>
+</nav>
+{% endif %}

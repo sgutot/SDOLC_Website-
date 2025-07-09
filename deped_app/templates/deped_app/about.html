@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+        <h2 class="mb-4">About DepEd Laoag City</h2>
+        
+        {% if mission %}
+        <div class="card mb-4">
+            <div class="card-body">
+                <h3 class="card-title">Mission</h3>
+                <div class="mt-3">
+                    {{ mission.content|safe }}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        {% if vision %}
+        <div class="card mb-4">
+            <div class="card-body">
+                <h3 class="card-title">Vision</h3>
+                <div class="mt-3">
+                    {{ vision.content|safe }}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        {% if mandate %}
+        <div class="card mb-4">
+            <div class="card-body">
+                <h3 class="card-title">Mandate</h3>
+                <div class="mt-3">
+                    {{ mandate.content|safe }}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        {% if core_values %}
+        <div class="card mb-4">
+            <div class="card-body">
+                <h3 class="card-title">Core Values</h3>
+                <div class="mt-3">
+                    {{ core_values.content|safe }}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        
+        {% if org_chart %}
+        <div class="card mb-4">
+            <div class="card-body">
+                <h3 class="card-title">Organizational Chart</h3>
+                <div class="mt-3 text-center">
+                    <img src="{{ org_chart.image.url }}" alt="Organizational Chart" class="img-fluid">
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        
+        {% if charter %}
+        <div class="card mb-4">
+            <div class="card-body">
+                <h3 class="card-title">Citizen's Charter</h3>
+                <div class="mt-3">
+                    {{ charter.content|safe }}
+                </div>
+                {% if charter.file %}
+                <a href="{{ charter.file.url }}" class="btn btn-primary mt-3" download>
+                    Download Charter <i class="fas fa-download ms-2"></i>
+                </a>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+
+        {% if quality_policy %}
+        <div class="card mb-4">
+            <div class="card-body">
+                <h3 class="card-title">Quality Policy</h3>
+                <div class="mt-3">
+                    {{ quality_policy.content|safe }}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
