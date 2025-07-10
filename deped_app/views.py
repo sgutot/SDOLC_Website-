@@ -713,3 +713,10 @@ def survey_form(request):
 
 def survey_thank_you(request):
     return render(request, 'deped_app/survey_thank_you.html')
+
+
+from django.http import JsonResponse
+import os
+
+def debug_env(request):
+    return JsonResponse(dict(os.environ))

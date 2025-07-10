@@ -91,28 +91,22 @@ WSGI_APPLICATION = 'deped_clone.wsgi.application'
 DEBUG = False 
 ALLOWED_HOSTS = ['*'] 
 
-# Database
+
+# Default SQLite (for local development)
 DATABASES = {
-    'default': dj_database_url.config(
-        default=os.environ.get('DATABASE_URL'),
-        conn_max_age=600,
-        ssl_require=True
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
 }
 
-# Fallback to PG* variables if DATABASE_URL isn't set
-if not DATABASES['default']:
-    DATABASES['default'] = {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('PGDATABASE'),
-        'USER': os.environ.get('PGUSER'),
-        'PASSWORD': os.environ.get('PGPASSWORD'),
-        'HOST': os.environ.get('PGHOST'),
-        'PORT': os.environ.get('PGPORT'),
-        'OPTIONS': {
-            'sslmode': 'require',
-        },
-    }
+# Override with Railway PostgreSQL if DATABASE_URL exists
+if 'DATABASE_URL' in os.environ:
+    DATABASES['default'] = dj_database_url.parse(
+        os.environ['DATABASE_URL'], 
+        conn_max_age=600,
+        ssl_require=True  # Enable for Railway's PostgreSQL
+    )
 
 
 # Password validation
