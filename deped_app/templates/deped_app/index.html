@@ -214,23 +214,136 @@
 </div>
 
 <style>
-  body { background-color: #f8f9fa; overflow-x: hidden; }
-  .carousel-caption { padding: 1rem; }
-  .card { border-radius: 0.5rem; }
-  .card-header { border-radius: 0.5rem 0.5rem 0 0 !important; }
+  body { 
+    background-color: #f8f9fa; 
+    overflow-x: hidden; 
+  }
+  .carousel-caption { 
+    padding: 1rem; 
+  }
+  .card { 
+    border-radius: 0.5rem; 
+  }
+  .card-header { 
+    border-radius: 0.5rem 0.5rem 0 0 !important; 
+  }
 
-  @media (max-width: 992px) {
+  /* Large devices (desktops, 992px and up) */
+  @media (min-width: 992px) {
+    .col-lg-8 {
+      padding-right: 1.5rem !important;
+    }
+    .col-lg-4 {
+      padding-left: 1.5rem !important;
+    }
+  }
+
+  /* Medium devices (tablets, 768px to 991.98px) */
+  @media (max-width: 991.98px) {
     .col-12, .col-lg-8, .col-lg-4 {
       padding-left: 15px !important;
       padding-right: 15px !important;
     }
+    .px-3 {
+      padding-left: 1rem !important;
+      padding-right: 1rem !important;
+    }
+    .py-3 {
+      padding-top: 1rem !important;
+      padding-bottom: 1rem !important;
+    }
+    h1 {
+      font-size: 1.5rem !important;
+      margin-top: 0 !important;
+    }
+    .lead {
+      font-size: 1.1rem !important;
+    }
   }
-  @media (max-width: 768px) {
-    .carousel-caption h5 { font-size: 1rem; }
-    .carousel-caption p { display: none; }
+
+  /* Small devices (landscape phones, 576px to 767.98px) */
+  @media (max-width: 767.98px) {
+    .carousel-caption {
+      position: relative;
+      right: auto;
+      left: auto;
+      padding: 0.5rem;
+      background: rgba(0,0,0,0.7) !important;
+    }
+    .carousel-caption h5 { 
+      font-size: 0.9rem !important; 
+      margin-bottom: 0.25rem;
+    }
+    .carousel-caption p { 
+      display: none; 
+    }
+    .carousel-caption .btn {
+      padding: 0.25rem 0.5rem;
+      font-size: 0.8rem !important;
+    }
+    .card-body {
+      padding: 1rem;
+    }
+    .card-header h3 {
+      font-size: 1.1rem !important;
+    }
+    .news-section .col-md-6 {
+      margin-bottom: 1rem;
+    }
   }
-  @media (max-width: 576px) {
-    .ratio-16x9 { --bs-aspect-ratio: 56.25%; }
+
+  /* Extra small devices (portrait phones, less than 576px) */
+  @media (max-width: 575.98px) {
+    .ratio-16x9 { 
+      --bs-aspect-ratio: 56.25%; 
+    }
+    h1 {
+      font-size: 1.3rem !important;
+      margin-bottom: 0.5rem !important;
+    }
+    .lead {
+      font-size: 1rem !important;
+    }
+    .card-header h3 {
+      font-size: 1rem !important;
+    }
+    .card-body p, .card-body h5, .list-group-item {
+      font-size: 0.85rem !important;
+    }
+    .btn {
+      font-size: 0.8rem !important;
+      padding: 0.25rem 0.5rem;
+    }
+    .p-4 {
+      padding: 1rem !important;
+    }
+    .mb-4 {
+      margin-bottom: 1rem !important;
+    }
+    .contact-info p {
+      font-size: 0.85rem !important;
+      margin-bottom: 0.75rem !important;
+    }
+  }
+
+  /* Very small devices (less than 400px) */
+  @media (max-width: 399.98px) {
+    h1 {
+      font-size: 1.2rem !important;
+    }
+    .lead {
+      font-size: 0.9rem !important;
+    }
+    .carousel-caption h5 {
+      font-size: 0.8rem !important;
+    }
+    .card-header h3 {
+      font-size: 0.95rem !important;
+    }
+    .btn-sm {
+      padding: 0.2rem 0.4rem !important;
+      font-size: 0.75rem !important;
+    }
   }
 </style>
 {% endblock %}
