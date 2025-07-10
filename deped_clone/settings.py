@@ -15,24 +15,34 @@ import dj_database_url
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-om9hxx*qb&0uqjlgbde7wf%7mef7rr*obny+9%&0aamo@ldwa9')
 
 # Security settings
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
+# Host settings
+ALLOWED_HOSTS = [
+    'web-production-a0a3.up.railway.app',
+    'localhost',
+    '127.0.0.1',
+    '0.0.0.0',
+    '.railway.app'
+]
+
+# CSRF settings
+CSRF_TRUSTED_ORIGINS = [
+    'https://web-production-a0a3.up.railway.app',
+    'https://*.railway.app'
+]
 
 # Security headers
-SECURE_HSTS_SECONDS = 3600 if not DEBUG else 0
-SECURE_HSTS_INCLUDE_SUBDOMAINS = not DEBUG
-SECURE_HSTS_PRELOAD = not DEBUG
-SECURE_SSL_REDIRECT = not DEBUG
-SESSION_COOKIE_SECURE = not DEBUG
-CSRF_COOKIE_SECURE = not DEBUG
-X_FRAME_OPTIONS = 'DENY'
-
+if DEBUG:
+    CSRF_COOKIE_SECURE = False
+    SESSION_COOKIE_SECURE = False
+else:
+    CSRF_COOKIE_SECURE = True
+    SESSION_COOKIE_SECURE = True
 
 # Application definition
 INSTALLED_APPS = [
@@ -42,12 +52,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django.contrib.humanize',  # For human-readable formats
+    'django.contrib.humanize',
     
     # Third-party apps
     'crispy_forms',
     'crispy_bootstrap5',
-    'django_cleanup.apps.CleanupConfig',  # Auto-delete old files
+    'django_cleanup.apps.CleanupConfig',
     
     # Local apps
     'deped_app',
@@ -55,9 +65,9 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',  # For static files
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.locale.LocaleMiddleware',  # For i18n
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -80,7 +90,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.media',
                 'django.template.context_processors.static',
-                'deped_app.context_processors.site_settings',  # Custom context processor
+                'deped_app.context_processors.site_settings',
             ],
         },
     },
@@ -88,11 +98,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'deped_clone.wsgi.application'
 
-DEBUG = False 
-ALLOWED_HOSTS = ['*'] 
-
-
-# Default SQLite (for local development)
+# Database
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -100,14 +106,12 @@ DATABASES = {
     }
 }
 
-# Override with Railway PostgreSQL if DATABASE_URL exists
+# Railway PostgreSQL configuration
 if 'DATABASE_URL' in os.environ:
-    DATABASES['default'] = dj_database_url.parse(
-        os.environ['DATABASE_URL'], 
+    DATABASES['default'] = dj_database_url.config(
         conn_max_age=600,
-        ssl_require=True  # Enable for Railway's PostgreSQL
+        ssl_require=True
     )
-
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
@@ -128,16 +132,11 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 LANGUAGE_CODE = 'en'
-
-TIME_ZONE = 'Asia/Manila'  # Changed to Philippines timezone
-
+TIME_ZONE = 'Asia/Manila'
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
 
 LANGUAGES = [
@@ -149,13 +148,14 @@ LOCALE_PATHS = [
     os.path.join(BASE_DIR, 'locale'),
 ]
 
-
-# settings.py (optimized version)
+# Static files (CSS, JavaScript, Images)
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # For production collection
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'deped_app/static'),  # Your app-specific static files
+    os.path.join(BASE_DIR, 'deped_app/static'),
 ]
+
 # Media files
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
@@ -178,6 +178,12 @@ EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', '')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', '')
 DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', 'webmaster@depedclone.ph')
 
+
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')
+
 # Crispy forms
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
@@ -195,27 +201,27 @@ SESSION_SAVE_EVERY_REQUEST = True
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
-        'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
         'LOCATION': 'unique-snowflake',
     }
-}
-
-# Logging
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
-        },
-    },
-    'root': {
-        'handlers': ['console'],
-        'level': 'WARNING',
-    },
 }
 
 # Custom settings
 SITE_NAME = "DepEd Clone"
 SITE_DESCRIPTION = "Department of Education Philippines - Clone Website"
 ITEMS_PER_PAGE = 100
+
+# Debug logging
+if DEBUG:
+    LOGGING = {
+        'version': 1,
+        'disable_existing_loggers': False,
+        'handlers': {
+            'console': {
+                'class': 'logging.StreamHandler',
+            },
+        },
+        'root': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+        },
+    }
