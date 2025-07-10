@@ -15,7 +15,7 @@
             </div>
         </form>
     </div>
-    
+
     {% if bids %}
     <div class="table-responsive">
         <table class="memo-table">
@@ -53,7 +53,6 @@
         </table>
     </div>
 
-    <!-- Pagination -->
     {% if bids.has_other_pages %}
     <div class="pagination-container">
         <nav aria-label="Page navigation">
@@ -114,7 +113,6 @@
 </div>
 
 <style>
-/* Main Container */
 .memo-container {
     max-width: 1200px;
     margin: 0 auto;
@@ -122,7 +120,6 @@
     font-family: 'Segoe UI', Roboto, sans-serif;
 }
 
-/* Header Styles */
 .memo-header {
     display: flex;
     justify-content: space-between;
@@ -141,7 +138,6 @@
     margin: 0;
 }
 
-/* Search Form Styles */
 .memo-search-form {
     width: 300px;
 }
@@ -182,7 +178,6 @@
     color: #5a0113;
 }
 
-/* Table Styles */
 .memo-table {
     width: 100%;
     border-collapse: collapse;
@@ -215,7 +210,6 @@
     background-color: #f9f9f9;
 }
 
-/* Title Link */
 .memo-table a {
     color: #7A0213;
     font-weight: 500;
@@ -226,9 +220,6 @@
     text-decoration: underline;
 }
 
-
-
-/* Pagination Styles */
 .pagination-container {
     display: flex;
     flex-direction: column;
@@ -280,7 +271,6 @@
     font-size: 0.9rem;
 }
 
-/* Empty State */
 .no-memos {
     margin: 3rem 0;
 }
@@ -310,28 +300,26 @@
     margin: 0;
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
     .memo-header {
         flex-direction: column;
-        align-items: flex-start;
-        gap: 1rem;
+        align-items: center;
+        text-align: center;
     }
-    
+
     .memo-title {
         font-size: 1.75rem;
     }
-    
+
     .memo-search-form {
         width: 100%;
+        display: flex;
+        justify-content: center;
     }
-    
-    .table-responsive {
-        overflow-x: auto;
-    }
-    
-    .memo-table {
-        min-width: 600px;
+
+    .search-container {
+        width: 100%;
+        max-width: 400px;
     }
 }
 </style>
@@ -339,13 +327,11 @@
 {% block extra_js %}
 <script>
 $(document).ready(function(){
-    // Initialize tooltips
     $('[title]').tooltip({
         trigger: 'hover',
         placement: 'top'
     });
-    
-    // Add animation to table rows
+
     $('tbody tr').hover(
         function() {
             $(this).css('transform', 'translateX(5px)');
@@ -354,8 +340,7 @@ $(document).ready(function(){
             $(this).css('transform', 'translateX(0)');
         }
     );
-    
-    // Add smooth transition
+
     $('a').on('click', function(event) {
         if (this.hash !== "") {
             event.preventDefault();
@@ -364,8 +349,7 @@ $(document).ready(function(){
             }, 800);
         }
     });
-    
-    // Focus search input on icon click
+
     $('.search-button').on('click', function(e) {
         e.preventDefault();
         $(this).closest('form').submit();

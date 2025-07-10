@@ -54,6 +54,7 @@
         
         .logo-row {
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: space-between;
             flex-wrap: wrap;
@@ -61,8 +62,10 @@
         
         .logo-group {
             display: flex;
+            flex-direction: column;
             align-items: center;
             margin: 10px 0;
+            text-align: center;
         }
         
         .logo-text {
@@ -88,7 +91,25 @@
         .right-logos {
             display: flex;
             gap: 20px;
+            flex-direction: column;
+            align-items: center;
         }
+
+        @media (min-width: 768px) {
+        .logo-row {
+            flex-direction: row;
+        }
+        
+        .logo-group {
+            flex-direction: row;
+            text-align: left;
+        }
+        
+        .right-logos {
+            flex-direction: row;
+            align-items: flex-start;
+        }
+    }
         
         /* Form elements */
         .form-control, .form-select {
@@ -532,33 +553,40 @@
         </div>
     </div>
 
-    <!-- Header with Logos - Improved Mobile Layout -->
-    <header class="container-masthead">
-        <div class="container-fluid">
-            <div class="logo-row">
-                <!-- Left Logo Group -->
-                <div class="logo-group">
-                    <img src="https://sdolaoagcity.wordpress.com/wp-content/uploads/2018/08/cropped-deped-laoag-seal_2-1.png?w=240"
-                         alt="DepEd Logo"
-                         style="width: 80px; height: auto;">
-                    <div class="logo-text">
-                        <h5>REPUBLIC OF THE PHILIPPINES</h5>
-                        <h5>DEPARTMENT OF EDUCATION</h5>
+    <!-- Header with Logos - Improved Official Branding -->
+<header class="container-masthead">
+    <div class="container-fluid">
+        <div class="logo-row">
+            <!-- Left Logo Group - DepEd -->
+            <div class="logo-group">
+                <img src="https://sdolaoagcity.wordpress.com/wp-content/uploads/2018/08/cropped-deped-laoag-seal_2-1.png?w=240"
+                     alt="DepEd Logo"
+                     style="width: 80px; height: auto;">
+                <div class="logo-text">
+                    <h6 style="font-weight: bold; font-size: 1.1rem;">REPUBLIC OF THE PHILIPPINES</h6>
+                    <h4 style="font-weight: bold; font-size: 1.1rem;">DEPARTMENT OF EDUCATION</h>
+                </div>
+            </div>
+            
+            <!-- Right Logos - CSC and Transparency Seal -->
+            <div class="right-logos">
+                <div class="logo-group" style="flex-direction: column; align-items: center;">
+                    <img src="https://ncca.gov.ph/wp-content/uploads/2022/03/csc-logo-new-1024x768px.png"
+                         alt="CSC Logo"
+                         style="width: 70px; height: auto;">
+                    <div class="logo-text" style="text-align: center; margin-left: 0;">
+                        <h6 style="font-size: 0.85rem; margin: 5px 0 0;">Republic of the Philippines</h6>
+                        <h6 style="font-size: 0.85rem; font-weight: bold;">CIVIL SERVICE COMMISSION</h6>
                     </div>
                 </div>
                 
-                <!-- Right Logos -->
-                <div class="right-logos">
-                    <img src="https://ncca.gov.ph/wp-content/uploads/2022/03/csc-logo-new-1024x768px.png"
-                         alt="CSC Logo"
-                         style="width: 80px; height: auto;">
-                    <img src="https://ched.gov.ph/wp-content/themes/gwt-wordpress-25.1/images/transparency-seal-160x160.png"
-                         alt="Transparency Seal"
-                         style="width: 80px; height: auto;">
-                </div>
+                <img src="https://ched.gov.ph/wp-content/themes/gwt-wordpress-25.1/images/transparency-seal-160x160.png"
+                     alt="Transparency Seal"
+                     style="width: 70px; height: auto;">
             </div>
         </div>
-    </header>
+    </div>
+</header>
 
     <!-- Main Content Wrapper -->
     <div class="content-wrapper">

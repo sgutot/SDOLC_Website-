@@ -3,338 +3,235 @@
 
 {% block content %}
 <div class="container-fluid px-3" style="max-width: 1200px;">
-    <div class="row g-0">
-        <!-- Main Content Column -->
-        <div class="col-12 col-lg-8 px-3 py-3">
-            <!-- Hero Section -->
-            <h1 class="fw-bold text-center mb-3" style="color:rgb(0, 0, 0); margin-top: -20px; font-size: 1rem;"><br><br>OUR EDUCATIONAL PROGRAMS</h1>
-            <p class="text-center lead mb-0" style="font-size: 0.9rem;">Discover the initiatives that shape our community's future</p><br>
+  <div class="row g-0">
+    <!-- Main Content Column -->
+    <div class="col-12 col-lg-8 px-3 py-3">
+      <h1 class="fw-bold text-center mb-3" style="color: #000; margin-top: -20px; font-size: 1rem;">
+        <br><br>OUR EDUCATIONAL PROGRAMS
+      </h1>
+      <p class="text-center lead mb-0" style="font-size: 0.9rem;">
+        Discover the initiatives that shape our community's future
+      </p><br>
 
-            <!-- Featured Programs -->
-            <div class="bg-white p-4 mb-4 rounded">
-                <h2 class="text-center mb-4 text-white p-2" style="background-color: #7A0213; border-radius: 5px; font-size: 1rem;">Featured Programs</h2>
-                <div id="programCarousel" class="carousel slide mb-4" data-bs-ride="carousel">
-                    <div class="carousel-inner rounded">
-                        {% for program in programs %}
-                        <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                            {% if program.image %}
-                            <a href="{% url 'program_detail' program.pk %}">
-                                <div class="position-relative" style="aspect-ratio: 16/9; overflow: hidden;">
-                                    <img src="{{ program.image.url }}" class="d-block w-100 h-100 position-absolute top-0 start-0" alt="{{ program.name }}" style="object-fit: cover;">
-                                </div>
-                            </a>
-                            {% else %}
-                            <div class="bg-light d-flex align-items-center justify-content-center" style="aspect-ratio: 16/9;">
-                                <div class="text-center p-4">
-                                    <i class="fas fa-graduation-cap fa-3x text-muted mb-2"></i>
-                                    <h4 class="text-muted" style="font-size: 0.9rem;">{{ program.name }}</h4>
-                                </div>
-                            </div>
-                            {% endif %}
-                            <div class="carousel-caption bg-dark bg-opacity-75 p-3">
-                                <h5 style="font-size: 0.9rem;">{{ program.name }}</h5>
-                                <p class="small d-none d-md-block" style="font-size: 0.9rem;">{{ program.description|truncatewords:20 }}</p>
-                                {% if program.link %}
-                                <a href="{{ program.link }}" class="btn btn-sm btn-light" target="_blank" style="font-size: 0.9rem;">
-                                    Learn More
-                                </a>
-                                {% endif %}
-                            </div>
-                        </div>
-                        {% empty %}
-                        <div class="carousel-item active">
-                            <div class="bg-light d-flex align-items-center justify-content-center" style="aspect-ratio: 16/9;">
-                                <div class="text-center">
-                                    <i class="fas fa-graduation-cap fa-3x text-muted mb-2"></i>
-                                    <h5 class="text-muted" style="font-size: 0.9rem;">No programs available</h5>
-                                </div>
-                            </div>
-                        </div>
-                        {% endfor %}
-                    </div>
-                    <button class="carousel-control-prev" type="button" data-bs-target="#programCarousel" data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Previous</span>
-                    </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#programCarousel" data-bs-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Next</span>
-                    </button>
+      <!-- Featured Programs -->
+      <div class="bg-white p-4 mb-4 rounded">
+        <h2 class="text-center mb-4 text-white p-2" 
+            style="background-color: #7A0213; border-radius: 5px; font-size: 1rem;">
+          Featured Programs
+        </h2>
+        <div id="programCarousel" class="carousel slide mb-4" data-bs-ride="carousel">
+          <div class="carousel-inner rounded">
+            {% for program in programs %}
+            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+              {% if program.image %}
+              <a href="{% url 'program_detail' program.pk %}">
+                <div class="position-relative ratio ratio-16x9">
+                  <img src="{{ program.image.url }}" class="d-block w-100 h-100" 
+                       alt="{{ program.name }}" style="object-fit: cover;">
                 </div>
-            </div>
-
-            <!-- News Section -->
-            <div class="bg-white p-4 rounded">
-                <h3 class="mb-4" style="color:rgb(0, 0, 0); font-size: 1rem;">Latest News</h3>
-                <div class="row g-4">
-                    {% for item in news %}
-                    <div class="col-md-6">
-                        <div class="card h-100 border-0 shadow-sm">
-                            {% if item.image %}
-                            <div class="position-relative" style="aspect-ratio: 16/9; overflow: hidden;">
-                                <img src="{{ item.image.url }}" class="card-img-top w-100 h-100 position-absolute top-0 start-0" alt="{{ item.title }}" style="object-fit: cover;">
-                            </div>
-                            {% endif %}
-                            <div class="card-body">
-                                <h5 class="card-title" style="font-size: 0.9rem;">
-                                    <a href="{% url 'news_detail' item.slug %}" class="text-decoration-none" style="color: #0d1c36;">{{ item.title }}</a>
-                                </h5>
-                                <p class="card-text text-muted small" style="font-size: 0.9rem;">
-                                    {{ item.date_posted|date:"F j, Y" }}
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    {% empty %}
-                    <div class="col-12">
-                        <div class="alert alert-info" style="font-size: 0.9rem;">
-                            No news articles available.
-                        </div>
-                    </div>
-                    {% endfor %}
+              </a>
+              {% else %}
+              <div class="bg-light d-flex align-items-center justify-content-center ratio ratio-16x9">
+                <div class="text-center p-4">
+                  <i class="fas fa-graduation-cap fa-3x text-muted mb-2"></i>
+                  <h4 class="text-muted" style="font-size: 0.9rem;">{{ program.name }}</h4>
                 </div>
+              </div>
+              {% endif %}
+              <div class="carousel-caption bg-dark bg-opacity-75 p-3">
+                <h5 style="font-size: 0.9rem;">{{ program.name }}</h5>
+                <p class="small d-none d-md-block" style="font-size: 0.9rem;">
+                  {{ program.description|truncatewords:20 }}
+                </p>
+                {% if program.link %}
+                <a href="{{ program.link }}" class="btn btn-sm btn-light" target="_blank" style="font-size: 0.9rem;">
+                  Learn More
+                </a>
+                {% endif %}
+              </div>
             </div>
+            {% empty %}
+            <div class="carousel-item active">
+              <div class="bg-light d-flex align-items-center justify-content-center ratio ratio-16x9">
+                <div class="text-center">
+                  <i class="fas fa-graduation-cap fa-3x text-muted mb-2"></i>
+                  <h5 class="text-muted" style="font-size: 0.9rem;">No programs available</h5>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#programCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#programCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
         </div>
+      </div>
 
-        <!-- Sidebar Column -->
-        <div class="col-12 col-lg-4 px-3 py-3">
-            <!-- Videos Section -->
-            <div class="card mb-4 border-0 shadow-sm">
-                <div class="card-header text-white" style="background-color: #7A0213;">
-                    <h3 class="mb-0" style="font-size: 1rem;">Featured Videos</h3>
-                </div>
-                <div class="card-body">
-                    {% for video in videos %}
-                    <div class="mb-4">
-                        <h5 class="text-dark" style="font-size: 0.9rem;">{{ video.caption }}</h5>
-                        <p class="text-muted small mb-2" style="font-size: 0.9rem;">Posted: {{ video.date_posted|date:"F d, Y" }}</p>
-                        <div class="ratio ratio-16x9 mb-3">
-                            <video controls autoplay muted playsinline class="w-100" style="background-color: #000;">
-                                <source src="{{ video.video.url }}" type="video/mp4">
-                                Your browser does not support the video tag.
-                            </video>
-                        </div>
-                        {% if not forloop.last %}<hr>{% endif %}
-                    </div>
-                    {% empty %}
-                    <div class="text-center py-3">
-                        <i class="fas fa-video-slash fa-2x text-muted mb-3"></i>
-                        <p class="text-muted" style="font-size: 0.9rem;">No videos available</p>
-                    </div>
-                    {% endfor %}
-                </div>
+      <!-- News Section -->
+      <div class="bg-white p-4 rounded">
+        <h3 class="mb-4" style="color: #000; font-size: 1rem;">Latest News</h3>
+        <div class="row g-4">
+          {% for item in news %}
+          <div class="col-md-6">
+            <div class="card h-100 border-0 shadow-sm">
+              {% if item.image %}
+              <div class="ratio ratio-16x9">
+                <img src="{{ item.image.url }}" class="card-img-top" alt="{{ item.title }}" style="object-fit: cover;">
+              </div>
+              {% endif %}
+              <div class="card-body">
+                <h5 class="card-title" style="font-size: 0.9rem;">
+                  <a href="{% url 'news_detail' item.slug %}" class="text-decoration-none text-dark">{{ item.title }}</a>
+                </h5>
+                <p class="card-text text-muted small" style="font-size: 0.9rem;">{{ item.date_posted|date:"F j, Y" }}</p>
+              </div>
             </div>
-
-            <!-- Announcements -->
-            <div class="card mb-4 border-0 shadow-sm">
-                <div class="card-header text-white" style="background-color: #7A0213;">
-                    <h3 class="mb-0" style="font-size: 1rem;">Announcements</h3>
-                </div>
-                <div class="card-body">
-                    {% for announcement in recent_announcements %}
-                    <div class="mb-3">
-                        <h5 style="color:rgb(0, 0, 0); font-size: 0.9rem;">{{ announcement.title }}</h5>
-                        <p class="text-muted small" style="font-size: 0.9rem;">{{ announcement.date_posted|date:"F d, Y" }}</p>
-                        <p style="font-size: 0.9rem;">{{ announcement.content|truncatewords:15 }}</p>
-                        <a href="{% url 'announcement_detail' announcement.pk %}" class="btn btn-sm btn-outline-dark" style="font-size: 0.9rem;">Read more →</a>
-                    </div>
-                    {% if not forloop.last %}<hr class="my-3">{% endif %}
-                    {% empty %}
-                    <div class="text-center py-3">
-                        <i class="fas fa-bullhorn fa-2x text-muted mb-3"></i>
-                        <p class="text-muted" style="font-size: 0.9rem;">No announcements</p>
-                    </div>
-                    {% endfor %}
-                </div>
-            </div>
-
-            <!-- Quick Links -->
-            <div class="card mb-4 border-0 shadow-sm">
-                <div class="card-header text-white" style="background-color: #7A0213;">
-                    <h3 class="mb-0 text-center" style="font-size: 1rem;"><i class="fas fa-link me-2"></i>Quick Links</h3>
-                </div>
-                <div class="card-body p-0">
-                    <ul class="list-group list-group-flush">
-                        {% for item in quick_links %}
-                        <li class="list-group-item border-0">
-                            <a href="{{ item.links }}" class="text-decoration-none d-block px-3 py-2">
-                                <h6 class="mb-0 text-dark" style="font-size: 0.9rem;">{{ item.name }}</h6>
-                            </a>
-                        </li>
-                        {% empty %}
-                        <li class="list-group-item border-0 px-3 py-3 text-center text-muted" style="font-size: 0.9rem;">
-                            <i class="fas fa-exclamation-circle me-2"></i>No quick links available
-                        </li>
-                        {% endfor %}
-                    </ul>
-                </div>
-            </div>
-
-            <!-- Survey Section - Improved -->
-            <div class="card mb-4 border-0 shadow-sm">
-                <div class="card-header text-white" style="background-color: #7A0213;">
-                    <h3 class="mb-0 text-center" style="font-size: 1rem;"><i class="fas fa-clipboard-check me-2"></i>Client Satisfaction Survey</h3>
-                </div>
-                <div class="card-body text-center">
-                    <div class="d-flex flex-column align-items-center">
-                        <p class="mb-3" style="font-size: 0.9rem;">
-                            Help us improve our services by completing our quick survey
-                        </p>
-                        <a href="https://forms.office.com/Pages/ResponsePage.aspx?id=gKvjQCQgo0W_dnoHYaJNKX8CfpxqjxtAryePx4R_VFRUNzBWRDEwOFJPOUFIQ1JVV0o3NFpHM0ZIMy4u" 
-                           target="_blank" 
-                           class="btn btn-sm mb-3" 
-                           style="color: black; font-size: 0.9rem;">
-                            <i class="fas fa-pencil-alt me-2"></i>Take Survey
-                        </a>
-                        <div class="qr-code-container">
-                            <p class="small mb-2" style="font-size: 0.8rem;">Scan QR Code</p>
-                            <img src="https://depedlaoagcity.com/sdolc/styles/csm_qr.png" 
-                                 alt="Survey QR Code" 
-                                 class="img-fluid" 
-                                 style="width: 120px; height: auto; border: 1px solid #ddd; padding: 5px; background: white;">
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Contact Info -->
-<div class="card border-0 shadow-sm mb-4">
-    <div class="card-header text-white" style="background-color: #7A0213;">
-        <h3 class="mb-0 text-center" style="font-size: 1rem;">
-            <i class="fas fa-address-card me-2"></i>Contact Information
-        </h3>
-    </div>
-    <div class="card-body">
-        {% if site_settings %}
-            <div class="contact-info">
-                <div class="d-flex align-items-start mb-3">
-                    <i class="fas fa-envelope mt-1 me-2" style="color: #7A0213; min-width: 20px;"></i>
-                    <div>
-                        <a href="mailto:{{ site_settings.contact_email }}" class="text-decoration-none" style="color: black;">
-                            {{ site_settings.contact_email }}
-                        </a>
-                    </div>
-                </div>
-                
-                <div class="d-flex align-items-start mb-3">
-                    <i class="fas fa-phone-alt mt-1 me-2" style="color: #7A0213; min-width: 20px;"></i>
-                    <div>
-                        <a href="tel:{{ site_settings.contact_phone }}" class="text-decoration-none" style="color: black;">
-                            {{ site_settings.contact_phone }}
-                        </a>
-                    </div>
-                </div>
-                
-                <div class="d-flex align-items-start">
-                    <i class="fas fa-map-marker-alt mt-1 me-2" style="color: #7A0213; min-width: 20px;"></i>
-                    <div>
-                        <p class="mb-0">{{ site_settings.address }}</p>
-                    </div>
-                </div>
-            </div>
-        {% endif %}
-    </div>
-</div>
+          </div>
+          {% empty %}
+          <div class="col-12">
+            <div class="alert alert-info" style="font-size: 0.9rem;">No news articles available.</div>
+          </div>
+          {% endfor %}
         </div>
+      </div>
     </div>
+
+    <!-- Sidebar Column -->
+    <div class="col-12 col-lg-4 px-3 py-3">
+      <!-- Featured Videos -->
+      <div class="card mb-4 border-0 shadow-sm">
+        <div class="card-header text-white" style="background-color: #7A0213;">
+          <h3 class="mb-0 text-center" style="font-size: 1rem;">Featured Videos</h3>
+        </div>
+        <div class="card-body">
+          {% for video in videos %}
+          <div class="mb-4">
+            <h5 class="text-dark" style="font-size: 0.9rem;">{{ video.caption }}</h5>
+            <p class="text-muted small mb-2" style="font-size: 0.9rem;">Posted: {{ video.date_posted|date:"F d, Y" }}</p>
+            <div class="ratio ratio-16x9 mb-3">
+              <video controls muted playsinline class="w-100">
+                <source src="{{ video.video.url }}" type="video/mp4">
+                Your browser does not support the video tag.
+              </video>
+            </div>
+            {% if not forloop.last %}<hr>{% endif %}
+          </div>
+          {% empty %}
+          <div class="text-center py-3">
+            <i class="fas fa-video-slash fa-2x text-muted mb-3"></i>
+            <p class="text-muted" style="font-size: 0.9rem;">No videos available</p>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- Announcements -->
+      <div class="card mb-4 border-0 shadow-sm">
+        <div class="card-header text-white" style="background-color: #7A0213;">
+          <h3 class="mb-0 text-center" style="font-size: 1rem;">Announcements</h3>
+        </div>
+        <div class="card-body">
+          {% for announcement in recent_announcements %}
+          <div class="mb-3">
+            <h5 style="color: #000; font-size: 0.9rem;">{{ announcement.title }}</h5>
+            <p class="text-muted small" style="font-size: 0.9rem;">{{ announcement.date_posted|date:"F d, Y" }}</p>
+            <p style="font-size: 0.9rem;">{{ announcement.content|truncatewords:20 }}</p>
+            <a href="{% url 'announcement_detail' announcement.pk %}" class="btn btn-sm btn-outline-dark" style="font-size: 0.9rem;">
+              Read more →
+            </a>
+          </div>
+          {% if not forloop.last %}<hr class="my-3">{% endif %}
+          {% empty %}
+          <div class="text-center py-3">
+            <i class="fas fa-bullhorn fa-2x text-muted mb-3"></i>
+            <p class="text-muted" style="font-size: 0.9rem;">No announcements</p>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- Quick Links -->
+      <div class="card mb-4 border-0 shadow-sm">
+        <div class="card-header text-white" style="background-color: #7A0213;">
+          <h3 class="mb-0 text-center" style="font-size: 1rem;"><i class="fas fa-link me-2"></i>Quick Links</h3>
+        </div>
+        <ul class="list-group list-group-flush">
+          {% for item in quick_links %}
+          <li class="list-group-item border-0">
+            <a href="{{ item.links }}" class="text-decoration-none d-block px-3 py-2">
+              <h6 class="mb-0 text-dark text-center" style="font-size: 0.9rem;">{{ item.name }}</h6>
+            </a>
+          </li>
+          {% empty %}
+          <li class="list-group-item border-0 px-3 py-3 text-center text-muted" style="font-size: 0.9rem;">
+            <i class="fas fa-exclamation-circle me-2"></i>No quick links available
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      <!-- Client Satisfaction Survey -->
+      <div class="card mb-4 border-0 shadow-sm">
+        <div class="card-header text-white" style="background-color: #7A0213;">
+          <h3 class="mb-0 text-center" style="font-size: 1rem;">
+            <i class="fas fa-clipboard-check me-2"></i>Client Satisfaction Survey
+          </h3>
+        </div>
+        <div class="card-body text-center">
+          <p class="mb-3" style="font-size: 0.9rem;">
+            Help us improve our services by completing our quick survey
+          </p>
+          <a style="color: #7A0213;" href="https://forms.office.com/Pages/ResponsePage.aspx?id=gKvjQCQgo0W_dnoHYaJNKX8CfpxqjxtAryePx4R_VFRUNzBWRDEwOFJPOUFIQ1JVV0o3NFpHM0ZIMy4u" target="_blank" class="btn btn-sm mb-3" style="color: black; font-size: 0.9rem;">
+            <i class="fas fa-pencil-alt me-2"></i>Take Survey
+          </a>
+          <p class="small mb-2" style="font-size: 0.8rem;">Scan QR Code</p>
+          <img src="https://depedlaoagcity.com/sdolc/styles/csm_qr.png" 
+               alt="Survey QR Code" class="img-fluid" style="width: 120px; border: 1px solid #ddd; padding: 5px;">
+        </div>
+      </div>
+
+      <!-- Contact Info -->
+      <div class="card border-0 shadow-sm">
+        <div class="card-header text-white" style="background-color: #7A0213;">
+          <h3 class="mb-0 text-center" style="font-size: 1rem;">Contact Information</h3>
+        </div>
+        <div class="card-body">
+            {% if site_settings %}
+                <div class="contact-info">
+                    <p class="mb-3"><i class="fas fa-envelope me-2" style="color: #7A0213;"></i> {{ site_settings.contact_email }}</p>
+                    <p class="mb-3"><i class="fas fa-phone me-2" style="color: #7A0213;"></i> {{ site_settings.contact_phone }}</p>
+                    <p class="mb-0"><i class="fas fa-map-marker-alt me-2" style="color: #7A0213;"></i> {{ site_settings.address }}</p>                    </div>
+                {% endif %}
+            </div>
+      </div>
+
+    </div>
+  </div>
 </div>
 
 <style>
-    body {
-        background-color: #f8f9fa;
-        overflow-x: hidden;
-    }
+  body { background-color: #f8f9fa; overflow-x: hidden; }
+  .carousel-caption { padding: 1rem; }
+  .card { border-radius: 0.5rem; }
+  .card-header { border-radius: 0.5rem 0.5rem 0 0 !important; }
 
-    .card {
-        border-radius: 0.5rem;
-        overflow: hidden;
+  @media (max-width: 992px) {
+    .col-12, .col-lg-8, .col-lg-4 {
+      padding-left: 15px !important;
+      padding-right: 15px !important;
     }
-    
-    .card-header {
-        border-radius: 0.5rem 0.5rem 0 0 !important;
-    }
-    
-    .carousel-item {
-        transition: transform 0.6s ease;
-    }
-    
-    .carousel-caption {
-        bottom: 0;
-        left: 0;
-        right: 0;
-        padding: 1rem;
-    }
-    
-    /* Flexible image styling for carousel */
-    .carousel-item .position-relative {
-        width: 100%;
-        overflow: hidden;
-    }
-    
-    .carousel-item img {
-        object-fit: cover; /* Fills the box, cropping if necessary */
-        width: 100%;
-        height: 100%;
-    }
-    
-    /* Flexible image styling for news */
-    .card-img-top {
-        object-fit: cover; /* Fills the box, cropping if necessary */
-        width: 100%;
-        height: 100%;
-    }
-
-    .contact-info {
-        font-size: 0.9rem;
-    }
-    
-    .contact-info a:hover {
-        color: #7A0213 !important;
-        text-decoration: underline;
-    }
-    
-    .office-hours {
-        background-color: #f8f9fa;
-        padding: 0.5rem;
-        border-radius: 0.25rem;
-    }
-    
-    @media (max-width: 768px) {
-        .contact-info {
-            font-size: 0.85rem;
-        }
-    }
-    
-    @media (max-width: 992px) {
-        .col-12, .col-lg-8, .col-lg-4 {
-            padding-left: 15px !important;
-            padding-right: 15px !important;
-        }
-    }
-    
-    @media (max-width: 768px) {
-        .container-fluid {
-            padding-left: 0.5rem !important; /* Reduced to px-2 for mobile */
-            padding-right: 0.5rem !important;
-        }
-        .carousel-item .position-relative,
-        .card-img-top {
-            aspect-ratio: 16/9; /* Ensures consistent aspect ratio on mobile */
-        }
-        
-        .carousel-caption h5 {
-            font-size: 1rem;
-        }
-        
-        .carousel-caption p {
-            display: none;
-        }
-    }
-    
-    @media (max-width: 576px) {
-        .ratio-16x9 {
-            --bs-aspect-ratio: 56.25%;
-        }
-    }
+  }
+  @media (max-width: 768px) {
+    .carousel-caption h5 { font-size: 1rem; }
+    .carousel-caption p { display: none; }
+  }
+  @media (max-width: 576px) {
+    .ratio-16x9 { --bs-aspect-ratio: 56.25%; }
+  }
 </style>
 {% endblock %}

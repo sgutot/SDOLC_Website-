@@ -31,7 +31,6 @@
                     <td>{{ forloop.counter }}</td>
                     <td>
                         <a href="{{ memo.file.url }}" class="text-decoration-none">{{ memo.title }}</a>
-                        
                     </td>
                     <td>
                         <small><i class="far fa-calendar-alt"></i> {{ memo.date_posted|date:"F j, Y" }}</small>
@@ -95,8 +94,8 @@
     <div class="no-memos">
         <div class="empty-state">
             <i class="fas fa-file-alt"></i>
-            <h3>No Memoranda Available</h3>
-            <p>There are currently no division memoranda to display.</p>
+            <h3>No Memorandom Available</h3>
+            <p>There are currently no division memorandom to display.</p>
         </div>
     </div>
     {% endif %}
@@ -365,25 +364,11 @@
 @media (max-width: 768px) {
     .memo-header {
         flex-direction: column;
-        align-items: flex-start;
-        gap: 1rem;
+        align-items: center;
+        text-align: center;
     }
-    
-    .memo-title {
-        font-size: 1.75rem;
-    }
-    
-    .table-responsive {
-        overflow-x: auto;
-    }
-    
-    .memo-table {
-        min-width: 400px;
-    }
-    
-    .memo-table th:nth-child(3),
-    .memo-table td:nth-child(3) {
-        width: 25%;
+    .memo-search-form {
+        width: 100%;
     }
 }
 </style>

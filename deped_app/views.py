@@ -694,20 +694,20 @@ def quick_links(request):
 
 
 
-def survey_form(request):
-    if request.method == 'POST':
-        form = OfficeFormSurveyForm(request.POST)
-        if form.is_valid():
-            try:
-                form.save()
-                messages.success(request, "Thank you for your feedback! Your survey has been submitted successfully.")
-                return redirect('survey_thank_you')
-            except Exception as e:
-                messages.error(request, f"There was an error submitting your survey: {str(e)}")
-        else:
-            messages.error(request, "Please correct the errors below.")
-    else:
-        form = OfficeFormSurveyForm()
+#def survey_form(request):
+#    if request.method == 'POST':
+#        form = OfficeFormSurveyForm(request.POST)
+#        if form.is_valid():
+#            try:
+#                form.save()
+#                messages.success(request, "Thank you for your feedback! Your survey has been submitted successfully.")
+#                return redirect('survey_thank_you')
+#            except Exception as e:
+#                messages.error(request, f"There was an error submitting your survey: {str(e)}")
+#        else:
+#            messages.error(request, "Please correct the errors below.")
+#    else:
+#        form = OfficeFormSurveyForm()
     
     return render(request, 'deped_app/office_survey.html', {'form': form})
 

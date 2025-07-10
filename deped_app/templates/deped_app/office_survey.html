@@ -1,3 +1,4 @@
+<!-- office_survey.html -->
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
 {% load static %}
@@ -27,7 +28,7 @@
                     <form method="POST" novalidate>
                         {% csrf_token %}
                         
-                        <!-- Personal Information -->
+                        <!-- Personal Information Section -->
                         <div class="mb-4 border-bottom pb-3">
                             <h5 class="mb-3" style="color: #7A0213;">
                                 <i class="fas fa-user me-2"></i>Personal Information
@@ -45,7 +46,7 @@
                             </div>
                         </div>
                         
-                        <!-- Transaction Details -->
+                        <!-- Transaction Details Section -->
                         <div class="mb-4 border-bottom pb-3">
                             <h5 class="mb-3" style="color: #7A0213;">
                                 <i class="fas fa-exchange-alt me-2"></i>Transaction Details
@@ -60,7 +61,7 @@
                             </div>
                         </div>
                         
-                        <!-- Survey Responses -->
+                        <!-- Survey Responses Section -->
                         <div class="mb-4">
                             <h5 class="mb-3" style="color: #7A0213;">
                                 <i class="fas fa-poll me-2"></i>Survey Responses
@@ -74,181 +75,98 @@
                                 </h6>
                                 
                                 <div class="table-responsive">
-                                    <table class="table table-bordered">
-                                        <thead class="table-light">
-                                            <tr>
-                                                <th width="40%">Question</th>
-                                                <th class="text-center">Rating (1-5)</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <!-- Rating Questions - Improved Structure -->
-                                            {% with questions=form.get_sqd_fields %}
-                                            {% for question in questions %}
-                                            <tr>
-                                                <td>{{ question.label }}</td>
-                                                <td>
-                                                    <div class="d-flex justify-content-between align-items-center px-3">
-                                                        {% for choice in question %}
-                                                        <div class="form-check form-check-inline mx-1">
-                                                            {{ choice.tag }}
-                                                            <label class="form-check-label small" for="{{ choice.id_for_label }}">
-                                                                {{ choice.choice_label }}
-                                                            </label>
-                                                        </div>
-                                                        {% endfor %}
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            {% endfor %}
-                                            {% endwith %}
-                                            
-                                            <!-- Alternative if get_sqd_fields method doesn't exist -->
-                                            {% if not form.get_sqd_fields %}
-                                            <!-- Time spent for transaction was acceptable -->
-                                            <tr>
-                                                <td>Time spent for transaction was acceptable</td>
-                                                <td>
-                                                    <div class="d-flex justify-content-between align-items-center px-3">
-                                                        {% for choice in form.sqd1 %}
-                                                        <div class="form-check form-check-inline mx-1">
-                                                            {{ choice.tag }}
-                                                            <label class="form-check-label small" for="{{ choice.id_for_label }}">
-                                                                {{ choice.choice_label }}
-                                                            </label>
-                                                        </div>
-                                                        {% endfor %}
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            
-                                            <!-- Requirements and steps were clear -->
-                                            <tr>
-                                                <td>Requirements and steps were clear</td>
-                                                <td>
-                                                    <div class="d-flex justify-content-between align-items-center px-3">
-                                                        {% for choice in form.sqd2 %}
-                                                        <div class="form-check form-check-inline mx-1">
-                                                            {{ choice.tag }}
-                                                            <label class="form-check-label small" for="{{ choice.id_for_label }}">
-                                                                {{ choice.choice_label }}
-                                                            </label>
-                                                        </div>
-                                                        {% endfor %}
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            
-                                            <!-- Staff were competent and knowledgeable -->
-                                            <tr>
-                                                <td>Staff were competent and knowledgeable</td>
-                                                <td>
-                                                    <div class="d-flex justify-content-between align-items-center px-3">
-                                                        {% for choice in form.sqd3 %}
-                                                        <div class="form-check form-check-inline mx-1">
-                                                            {{ choice.tag }}
-                                                            <label class="form-check-label small" for="{{ choice.id_for_label }}">
-                                                                {{ choice.choice_label }}
-                                                            </label>
-                                                        </div>
-                                                        {% endfor %}
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            
-                                            <!-- Staff were courteous and approachable -->
-                                            <tr>
-                                                <td>Staff were courteous and approachable</td>
-                                                <td>
-                                                    <div class="d-flex justify-content-between align-items-center px-3">
-                                                        {% for choice in form.sqd4 %}
-                                                        <div class="form-check form-check-inline mx-1">
-                                                            {{ choice.tag }}
-                                                            <label class="form-check-label small" for="{{ choice.id_for_label }}">
-                                                                {{ choice.choice_label }}
-                                                            </label>
-                                                        </div>
-                                                        {% endfor %}
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            
-                                            <!-- Facilities were adequate and comfortable -->
-                                            <tr>
-                                                <td>Facilities were adequate and comfortable</td>
-                                                <td>
-                                                    <div class="d-flex justify-content-between align-items-center px-3">
-                                                        {% for choice in form.sqd5 %}
-                                                        <div class="form-check form-check-inline mx-1">
-                                                            {{ choice.tag }}
-                                                            <label class="form-check-label small" for="{{ choice.id_for_label }}">
-                                                                {{ choice.choice_label }}
-                                                            </label>
-                                                        </div>
-                                                        {% endfor %}
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            
-                                            <!-- Overall satisfaction with the service -->
-                                            <tr>
-                                                <td>Overall satisfaction with the service</td>
-                                                <td>
-                                                    <div class="d-flex justify-content-between align-items-center px-3">
-                                                        {% for choice in form.sqd6 %}
-                                                        <div class="form-check form-check-inline mx-1">
-                                                            {{ choice.tag }}
-                                                            <label class="form-check-label small" for="{{ choice.id_for_label }}">
-                                                                {{ choice.choice_label }}
-                                                            </label>
-                                                        </div>
-                                                        {% endfor %}
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            
-                                            <!-- Would recommend this office to others -->
-                                            <tr>
-                                                <td>Would recommend this office to others</td>
-                                                <td>
-                                                    <div class="d-flex justify-content-between align-items-center px-3">
-                                                        {% for choice in form.sqd7 %}
-                                                        <div class="form-check form-check-inline mx-1">
-                                                            {{ choice.tag }}
-                                                            <label class="form-check-label small" for="{{ choice.id_for_label }}">
-                                                                {{ choice.choice_label }}
-                                                            </label>
-                                                        </div>
-                                                        {% endfor %}
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            
-                                            <!-- The service met my expectations -->
-                                            <tr>
-                                                <td>The service met my expectations</td>
-                                                <td>
-                                                    <div class="d-flex justify-content-between align-items-center px-3">
-                                                        {% for choice in form.sqd8 %}
-                                                        <div class="form-check form-check-inline mx-1">
-                                                            {{ choice.tag }}
-                                                            <label class="form-check-label small" for="{{ choice.id_for_label }}">
-                                                                {{ choice.choice_label }}
-                                                            </label>
-                                                        </div>
-                                                        {% endfor %}
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            {% endif %}
-                                        </tbody>
-                                    </table>
-                                </div>
+                                <table class="table table-bordered survey-table">
+                                    <thead>
+                                        <tr>
+                                            <th width="40%">Question</th>
+                                            <th class="text-center">Strongly Agree (5)</th>
+                                            <th class="text-center">Agree (4)</th>
+                                            <th class="text-center">Neither Agree nor Disagree (3)</th>
+                                            <th class="text-center">Disagree (2)</th>
+                                            <th class="text-center">Strongly Disagree (1)</th>
+                                            <th class="text-center">Not applicable</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>SQD1 - I spent an acceptable amount of time to complete my transaction (Responsiveness)</td>
+                                            <td class="text-center"><input type="radio" name="sqd1" value="5"></td>
+                                            <td class="text-center"><input type="radio" name="sqd1" value="4"></td>
+                                            <td class="text-center"><input type="radio" name="sqd1" value="3"></td>
+                                            <td class="text-center"><input type="radio" name="sqd1" value="2"></td>
+                                            <td class="text-center"><input type="radio" name="sqd1" value="1"></td>
+                                            <td class="text-center"><input type="radio" name="sqd1" value="0"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>SQD2 - The office accurately informed and followed the transaction's requirements and steps (Reliability)</td>
+                                            <td class="text-center"><input type="radio" name="sqd2" value="5"></td>
+                                            <td class="text-center"><input type="radio" name="sqd2" value="4"></td>
+                                            <td class="text-center"><input type="radio" name="sqd2" value="3"></td>
+                                            <td class="text-center"><input type="radio" name="sqd2" value="2"></td>
+                                            <td class="text-center"><input type="radio" name="sqd2" value="1"></td>
+                                            <td class="text-center"><input type="radio" name="sqd2" value="0"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>SQD3 - My transaction (including steps and payment) was simple and convenient (Access and Facilities)</td>
+                                            <td class="text-center"><input type="radio" name="sqd3" value="5"></td>
+                                            <td class="text-center"><input type="radio" name="sqd3" value="4"></td>
+                                            <td class="text-center"><input type="radio" name="sqd3" value="3"></td>
+                                            <td class="text-center"><input type="radio" name="sqd3" value="2"></td>
+                                            <td class="text-center"><input type="radio" name="sqd3" value="1"></td>
+                                            <td class="text-center"><input type="radio" name="sqd3" value="0"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>SQD4 - I easily found information about my transaction from the office or its website (Communication)</td>
+                                            <td class="text-center"><input type="radio" name="sqd4" value="5"></td>
+                                            <td class="text-center"><input type="radio" name="sqd4" value="4"></td>
+                                            <td class="text-center"><input type="radio" name="sqd4" value="3"></td>
+                                            <td class="text-center"><input type="radio" name="sqd4" value="2"></td>
+                                            <td class="text-center"><input type="radio" name="sqd4" value="1"></td>
+                                            <td class="text-center"><input type="radio" name="sqd4" value="0"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>SQD5 - I paid an acceptable amount of fees for my transaction (Costs)</td>
+                                            <td class="text-center"><input type="radio" name="sqd5" value="5"></td>
+                                            <td class="text-center"><input type="radio" name="sqd5" value="4"></td>
+                                            <td class="text-center"><input type="radio" name="sqd5" value="3"></td>
+                                            <td class="text-center"><input type="radio" name="sqd5" value="2"></td>
+                                            <td class="text-center"><input type="radio" name="sqd5" value="1"></td>
+                                            <td class="text-center"><input type="radio" name="sqd5" value="0"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>SQD6 - I am confident my transaction was secure (Integrity)</td>
+                                            <td class="text-center"><input type="radio" name="sqd6" value="5"></td>
+                                            <td class="text-center"><input type="radio" name="sqd6" value="4"></td>
+                                            <td class="text-center"><input type="radio" name="sqd6" value="3"></td>
+                                            <td class="text-center"><input type="radio" name="sqd6" value="2"></td>
+                                            <td class="text-center"><input type="radio" name="sqd6" value="1"></td>
+                                            <td class="text-center"><input type="radio" name="sqd6" value="0"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>SQD7 - The office's support was quick to respond (Assurance)</td>
+                                            <td class="text-center"><input type="radio" name="sqd7" value="5"></td>
+                                            <td class="text-center"><input type="radio" name="sqd7" value="4"></td>
+                                            <td class="text-center"><input type="radio" name="sqd7" value="3"></td>
+                                            <td class="text-center"><input type="radio" name="sqd7" value="2"></td>
+                                            <td class="text-center"><input type="radio" name="sqd7" value="1"></td>
+                                            <td class="text-center"><input type="radio" name="sqd7" value="0"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>SQD8 - I got what I needed from the government office (Outcome)</td>
+                                            <td class="text-center"><input type="radio" name="sqd8" value="5"></td>
+                                            <td class="text-center"><input type="radio" name="sqd8" value="4"></td>
+                                            <td class="text-center"><input type="radio" name="sqd8" value="3"></td>
+                                            <td class="text-center"><input type="radio" name="sqd8" value="2"></td>
+                                            <td class="text-center"><input type="radio" name="sqd8" value="1"></td>
+                                            <td class="text-center"><input type="radio" name="sqd8" value="0"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
-                            
-                            {{ form.remarks|as_crispy_field }}
-                        </div>
-                        
+                        </div>    
+                        {{ form.remarks|as_crispy_field }}
+                    </div>
+                        <!-- Form Actions -->
                         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                             <button type="submit" class="btn px-4" style="background-color: #7A0213; color: white;">
                                 <i class="fas fa-paper-plane me-2"></i>Submit Survey
@@ -269,7 +187,7 @@
 </div>
 
 <style>
-    /* Custom radio button styling */
+    /* Custom Styles */
     .radio-group {
         display: flex;
         justify-content: space-around;
@@ -287,12 +205,10 @@
         margin-right: 0.3em;
     }
     
-    /* Table styling */
     table td {
         vertical-align: middle;
     }
     
-    /* Primary color styling */
     .btn-primary {
         background-color: #7A0213;
         border-color: #7A0213;
@@ -303,21 +219,54 @@
         border-color: #5C0110;
     }
     
-    /* Focus styles */
     .form-control:focus, .form-select:focus {
         border-color: #7A0213;
         box-shadow: 0 0 0 0.25rem rgba(122, 2, 19, 0.25);
     }
     
-    /* Checked radio buttons */
     .form-check-input:checked {
         background-color: #7A0213;
         border-color: #7A0213;
     }
     
-    /* Improved rating layout */
     .form-check-label.small {
         font-size: 0.8rem;
+    }
+
+    .survey-table {
+        font-size: 0.9rem;
+        margin-bottom: 2rem;
+    }
+    
+    .survey-table th {
+        background-color: #f8f9fa;
+        text-align: center;
+        vertical-align: middle;
+        white-space: nowrap;
+    }
+    
+    .survey-table td {
+        vertical-align: middle;
+    }
+    
+    .survey-table tbody tr:hover {
+        background-color: rgba(122, 2, 19, 0.03);
+    }
+    
+    .survey-table input[type="radio"] {
+        transform: scale(1.2);
+    }
+    
+    @media (max-width: 992px) {
+        .survey-table {
+            display: block;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+        
+        .survey-table th {
+            min-width: 100px;
+        }
     }
 </style>
 {% endblock %}

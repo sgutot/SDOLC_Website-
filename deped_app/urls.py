@@ -74,6 +74,6 @@ urlpatterns = [
 
     path('contact/', views.contact, name='contact'),
 
-    path('survey/', views.survey_form, name='survey_form'),
-    path('survey/thank-you/', views.survey_thank_you, name='survey_thank_you'),
+#    path('survey/', views.survey_form, name='survey_form'),
+#    path('survey/thank-you/', views.survey_thank_you, name='survey_thank_you'),
 ]

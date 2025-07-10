@@ -2,90 +2,98 @@
 {% load static %}
 
 {% block content %}
-<div class="gallery-container" style="max-width: 90%; margin: 0 auto; padding: 20px 0; text-align: center;">
-  <h1 class="gallery-title" style="font-size: 1.5rem; color: #7A0213;"><br>AWARDS GALLERY</h1>
-  <hr style="margin: 10px auto 20px; width: 80%;">
-
-  <!-- HORIZONTAL SCROLL GALLERY (5 IMAGES) -->
-  <div class="scroll-container" style="width: 80%; margin: 0 auto; overflow-x: auto; padding-bottom: 15px; scrollbar-width: thin;">
-    <div class="scroll-wrapper" style="display: flex; gap: 20px; padding: 0 10px; width: max-content; margin: 0 auto;">
-      {% for award in awards %}
-      <div onclick="scrollToArticle('article-{{ award.id }}')" 
-           style="width: 180px; flex-shrink: 0; cursor: pointer; text-align: center; background: white; border-radius: 6px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
-        {% if award.image %}
-          <img src="{{ award.image.url }}" alt="{{ award.title }}" 
-               style="width:100%; height:120px; object-fit:cover;">
-        {% else %}
-          <div style="width:100%; height:120px; background:#f8f9fa; display:flex; 
-                     align-items:center; justify-content:center; color:#7A0213;">
-            <i class="fas fa-trophy"></i>
+<div class="container-fluid px-3" style="max-width: 1200px; margin: 0 auto;">
+  <!-- AWARDS GALLERY HEADER -->
+  <div class="gallery-container" style="padding: 20px 0; text-align: center;">
+    <h1 class="gallery-title" style="font-size: 1.5rem; color: #7A0213; font-weight: 900;"><br>AWARDS GALLERY</h1>
+    <hr style="margin: 10px auto 20px; width: 80%; max-width: 600px; border-color: #7A0213; opacity: 0.3;">
+    
+    <!-- HORIZONTAL SCROLL GALLERY -->
+    <div class="scroll-container" style="width: 90%; margin: 0 auto; overflow-x: auto; padding-bottom: 15px;">
+      <div class="scroll-wrapper" style="display: flex; gap: 15px; padding: 0 10px; width: max-content; margin: 0 auto;">
+        {% for award in awards %}
+        <div onclick="scrollToArticle('article-{{ award.id }}')" 
+             style="width: 160px; flex-shrink: 0; cursor: pointer; text-align: center; 
+                    background: white; border-radius: 6px; overflow: hidden; 
+                    box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: transform 0.2s;">
+          {% if award.image %}
+            <img src="{{ award.image.url }}" alt="{{ award.title }}" 
+                 style="width:100%; height:120px; object-fit:cover;">
+          {% else %}
+            <div style="width:100%; height:120px; background:#f8f9fa; display:flex; 
+                       align-items:center; justify-content:center; color:#7A0213;">
+              <i class="fas fa-trophy fa-2x"></i>
+            </div>
+          {% endif %}
+          <div style="padding: 8px; font-size: 0.8rem; white-space: nowrap; 
+                      overflow: hidden; text-overflow: ellipsis; background: white;">
+            {{ award.title }}
           </div>
-        {% endif %}
-        <div style="padding: 8px; font-size: 0.8rem; white-space: nowrap; 
-                    overflow: hidden; text-overflow: ellipsis;">
-          {{ award.title }}
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="gallery-footer" style="text-align: center; margin-top: 20px;">
+      <h2 class="articles-text" style="font-size: 1.5rem; color: #7A0213; font-weight: 900;"><br>ARTICLES</h2>
+    </div>
+  </div>
+
+  <!-- ARTICLE SECTION -->
+  <div class="articles-container" style="max-width: 1000px; margin: 0 auto; padding: 0 20px;">
+    {% for award in awards %}
+    <article id="article-{{ award.id }}" style="margin-bottom: 30px; background: white; 
+            border-radius: 8px; box-shadow: 0 2px 12px rgba(0,0,0,0.1); overflow: hidden;">
+      <div class="article-wrapper" style="display: flex; gap: 25px; padding: 20px; flex-wrap: wrap;">
+        <div style="flex: 0 0 200px; min-height: 180px;">
+          {% if award.image %}
+            <img src="{{ award.image.url }}" alt="{{ award.title }}" 
+                 style="width:100%; height:100%; max-height:220px; object-fit:cover; border-radius:5px;">
+          {% else %}
+            <div style="width:100%; height:180px; background:#f8f9fa; 
+                       display:flex; align-items:center; justify-content:center; 
+                       border-radius:5px; color:#7A0213;">
+              <i class="fas fa-trophy fa-3x"></i>
+            </div>
+          {% endif %}
+        </div>
+        
+        <!-- CONTENT COLUMN -->
+        <div style="flex: 1;">
+          <h3 style="font-size: 1.1rem; margin: 0 0 8px 0; color: white; 
+                     background: linear-gradient(90deg, #7A0213, #b03a4e); 
+                     padding: 10px; border-radius: 5px;">
+              {{ award.title }}
+          </h3>
+          <p style="font-size: 0.85rem; color: #666; margin: 0 0 12px 0;">
+            {{ award.date_posted|date:"F j, Y" }}
+          </p>
+          <p style="font-size: 0.9rem; color: #555; margin: 0 0 15px 0; line-height: 1.5;">
+              {{ award.content|striptags|truncatewords:100 }}
+          </p>
+          
+          <!-- DOWNLOAD BUTTON -->
+          {% if award.file %}
+          <div style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap;">
+              <a href="{{ award.file.url }}" download 
+                 style="display: inline-flex; align-items: center; padding: 8px 16px; 
+                        background: #7A0213; color: white; text-decoration: none; 
+                        border-radius: 4px; font-size: 0.8rem; transition: all 0.2s;">
+                  <i class="fas fa-download" style="margin-right: 6px;"></i> Download Certificate
+              </a>
+          </div>
+          {% endif %}
         </div>
       </div>
-      {% endfor %}
-    </div>
+    </article>
+    {% endfor %}
   </div>
-
-  <div class="gallery-footer" style="text-align: center; margin-top: 20px;">
-    <h2 class="articles-text" style="font-size: 1.5rem; color: #7A0213;"><br>ARTICLES</h2>
-  </div>
-</div>
-
-<!-- ARTICLE SECTION -->
-<div class="articles-container" style="max-width: 850px; margin: 0 auto; padding: 0 20px;">
-  {% for award in awards %}
-  <article id="article-{{ award.id }}" style="margin-bottom: 30px; background: white; 
-              border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); overflow: hidden;">
-    <div style="display: flex; gap: 25px; padding: 20px;">
-      <div style="flex: 0 0 200px; min-height: 180px;">
-        {% if award.image %}
-          <img src="{{ award.image.url }}" alt="{{ award.title }}" 
-               style="width:100%; height:100%; max-height:220px; object-fit:cover; border-radius:5px;">
-        {% else %}
-          <div style="width:100%; height:180px; background:#f8f9fa; 
-                     display:flex; align-items:center; justify-content:center; 
-                     border-radius:5px; color:#7A0213;">
-            <i class="fas fa-trophy"></i>
-          </div>
-        {% endif %}
-      </div>
-      
-      <!-- CONTENT COLUMN -->
-<div style="flex: 1;">
-    <h3 style="font-size: 1.2rem; margin: 0 0 8px 0; color: white; background: linear-gradient(90deg, #7A0213, #b03a4e); padding: 10px; border-radius: 5px;">
-        {{ award.title }}
-    </h3>
-    <p style="font-size: 0.85rem; color: #666; margin: 0 0 12px 0;">{{ award.date_posted|date:"F j, Y" }}</p>
-    <p style="font-size: 0.9rem; color: #555; margin: 0 0 15px 0; line-height: 1.5;">
-        {{ award.content|striptags|truncatewords:100 }}
-    </p>
-    
-    <!-- DOWNLOAD BUTTON -->
-    {% if award.file %}
-    <div style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap;">
-        <a href="{{ award.file.url }}" download 
-           style="display: inline-flex; align-items: center; padding: 8px 16px; 
-                  background: #7A0213; color: white; text-decoration: none; 
-                  border-radius: 4px; font-size: 0.6rem; transition: all 0.2s;">
-            <i class="fas fa-download" style="margin-right: 6px;"></i> Download Certificate
-        </a>
-    </div>
-    {% endif %}
-</div>
-
-    </div>
-  </article>
-  {% endfor %}
 </div>
 
 <style>
 /* SCROLLBAR STYLING */
 .scroll-container::-webkit-scrollbar {
-  height: 8px;
+  height: 6px;
 }
 .scroll-container::-webkit-scrollbar-track {
   background: #f1f1f1;
@@ -99,46 +107,73 @@
   background: #5a000d;
 }
 
+/* HOVER EFFECTS */
+.scroll-wrapper > div:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
 /* RESPONSIVE ADJUSTMENTS */
-@media (max-width: 768px) {
+@media (max-width: 992px) {
   .scroll-container {
-    width: 90%;
+    width: 100%;
   }
-  
-  .articles-container {
-    max-width: 95%;
+
+  .scroll-wrapper > div {
+    width: 140px !important;
   }
-  
-  article > div {
+
+  .article-wrapper {
     flex-direction: column;
+    padding: 15px !important;
+    gap: 15px !important;
   }
-  
-  article > div > div:first-child {
+
+  .article-wrapper > div:first-child {
     width: 100% !important;
+    flex: 1 1 auto !important;
     margin-bottom: 15px;
   }
-  
-  article > div > div:first-child img,
-  article > div > div:first-child div {
+
+  .article-wrapper > div:first-child img,
+  .article-wrapper > div:first-child div {
     height: 200px !important;
     max-height: none !important;
   }
 }
 
-@media (max-width: 480px) {
-  .scroll-container {
-    width: 100%;
+@media (max-width: 768px) {
+  .gallery-container {
+    padding: 15px 0 !important;
   }
-  
+
+  .scroll-wrapper > div {
+    width: 130px !important;
+  }
+
   .articles-container {
-    padding: 0 15px;
+    padding: 0 10px !important;
   }
-  
-  article > div {
-    padding: 15px;
-    gap: 15px;
+
+  h3 {
+    font-size: 1rem !important;
+    padding: 8px !important;
   }
-  
+}
+
+@media (max-width: 576px) {
+  .scroll-wrapper > div {
+    width: 120px !important;
+  }
+
+  .scroll-wrapper > div > div {
+    font-size: 0.75rem !important;
+  }
+
+  .article-wrapper {
+    padding: 12px !important;
+  }
+
   .download-btn {
     padding: 6px 12px !important;
     font-size: 0.8rem !important;
@@ -154,6 +189,12 @@ function scrollToArticle(id) {
       behavior: "smooth",
       block: "start"
     });
+
+    // Add temporary highlight
+    article.style.boxShadow = "0 0 0 3px rgba(122,2,19,0.3)";
+    setTimeout(() => {
+      article.style.boxShadow = "";
+    }, 2000);
   }
 }
 </script>

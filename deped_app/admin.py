@@ -337,26 +337,26 @@ class QuickLinksAdmin(admin.ModelAdmin):
     
 
 
-@admin.register(OfficeFormSurvey)
-class OfficeFormSurveyAdmin(admin.ModelAdmin):
-    list_display = ('id', 'customer_type', 'office_transacted', 'service_availed_sds', 'submission_date')
-    list_filter = ('customer_type', 'office_transacted', 'submission_date')
-    search_fields = ('remarks', 'customer_type')
-    readonly_fields = ('submission_date',)
+#@admin.register(OfficeFormSurvey)
+#class OfficeFormSurveyAdmin(admin.ModelAdmin):
+#    list_display = ('id', 'customer_type', 'office_transacted', 'service_availed_sds', 'submission_date')
+#    list_filter = ('customer_type', 'office_transacted', 'submission_date')
+#    search_fields = ('remarks', 'customer_type')
+#    readonly_fields = ('submission_date',)
     
-    fieldsets = (
-        ('Personal Information', {
-            'fields': ('age', 'sex', 'customer_type')
-        }),
-        ('Transaction Details', {
-            'fields': ('office_transacted', 'service_availed_sds')
-        }),
-        ('Survey Responses', {
-            'fields': ('citizens_charter', 'remarks', 'submission_date')
-        }),
-        ('Service Quality Dimensions', {
-            'fields': (('sqd1', 'sqd2', 'sqd3', 'sqd4'), 
-                      ('sqd5', 'sqd6', 'sqd7', 'sqd8')),
-            'classes': ('collapse',)
-        }),
-    )
+#    fieldsets = (
+#        ('Personal Information', {
+#            'fields': ('age', 'sex', 'customer_type')
+#        }),
+#        ('Transaction Details', {
+#            'fields': ('office_transacted', 'service_availed_sds')
+#        }),
+#        ('Survey Responses', {
+#            'fields': ('citizens_charter', 'remarks', 'submission_date')
+#        }),
+#        ('Service Quality Dimensions', {
+#            'fields': (('sqd1', 'sqd2', 'sqd3', 'sqd4'), 
+#                      ('sqd5', 'sqd6', 'sqd7', 'sqd8')),
+#            'classes': ('collapse',)
+#        }),
+#    )

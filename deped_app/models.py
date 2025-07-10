@@ -518,90 +518,90 @@ class QuickLinks(models.Model):
 
 
 
-from django.core.validators import MinValueValidator, MaxValueValidator
+#from django.core.validators import MinValueValidator, MaxValueValidator
 
 
-class OfficeFormSurvey(models.Model):
-    SEX_CHOICES = [
-        ('F', 'Female'),
-        ('M', 'Male'),
-    ]
+#class OfficeFormSurvey(models.Model):
+#    SEX_CHOICES = [
+#        ('F', 'Female'),
+#        ('M', 'Male'),
+#    ]
 
-    CUSTOMER_TYPE = [
-        ('Business', 'Business (private school, corporations, etc.)'),
-        ('Citizen', 'Citizen (general public, learners, parents, former DepEd employees, researchers, NGOs etc.)'),
-        ('Government Government', 'Government Government (current DepEd employees or employees of other government agencies & LGUs)')
-    ]
+#    CUSTOMER_TYPE = [
+#        ('Business', 'Business (private school, corporations, etc.)'),
+#        ('Citizen', 'Citizen (general public, learners, parents, former DepEd employees, researchers, NGOs etc.)'),
+#        ('Government Government', 'Government Government (current DepEd employees or employees of other government agencies & LGUs)')
+#    ]
 
-    SDS = [
-        ('SDS', 'Schools Division Superintendent'),
-        ('ASDS', 'Assistant Schools Division Superintendent'),
-        ('Admin', 'Cash, Personnel, Records, Supply, General Services, Procurement'),
-        ('CID', 'Curriculum Implementation Division'),
-        ('Finance', 'Accounting, Budget'),
-        ('ICT', 'ICT'),
-        ('Legal', 'Legal'),
-        ('SGOD', 'School Governance and Operations Division'),
-    ]
+#    SDS = [
+#        ('SDS', 'Schools Division Superintendent'),
+#        ('ASDS', 'Assistant Schools Division Superintendent'),
+#        ('Admin', 'Cash, Personnel, Records, Supply, General Services, Procurement'),
+#        ('CID', 'Curriculum Implementation Division'),
+#        ('Finance', 'Accounting, Budget'),
+#        ('ICT', 'ICT'),
+#        ('Legal', 'Legal'),
+#        ('SGOD', 'School Governance and Operations Division'),
+#    ]
 
-    SERVICE_AVAILED_SDS = [
-        ('Travel Authority', 'Travel Authority'),
-        ('Other requests/inquiries', 'Other requests/inquiries'),
-        ('Feedback/Complaint', 'Feedback/Complaint'),
-    ]
+#    SERVICE_AVAILED_SDS = [
+#        ('Travel Authority', 'Travel Authority'),
+#        ('Other requests/inquiries', 'Other requests/inquiries'),
+#        ('Feedback/Complaint', 'Feedback/Complaint'),
+#    ]
 
-    CITIZENS_CHARTER = [
-        ('Yes', 'Yes'),
-        ('No', 'No'),
-    ]
+#    CITIZENS_CHARTER = [
+#        ('Yes', 'Yes'),
+#        ('No', 'No'),
+#    ]
 
-    SQD_CHOICES = [
-        (5, '5 (Strongly Agree)'),
-        (4, '4 (Agree)'),
-        (3, '3 (Neutral)'),
-        (2, '2 (Disagree)'),
-        (1, '1 (Strongly Disagree)'),
-    ]
+#    SQD_CHOICES = [
+#        (5, '5 (Strongly Agree)'),
+#        (4, '4 (Agree)'),
+#        (3, '3 (Neutral)'),
+#        (2, '2 (Disagree)'),
+#        (1, '1 (Strongly Disagree)'),
+#    ]
 
-    age = models.IntegerField(
-        validators=[MinValueValidator(1), MaxValueValidator(120)]
-    )
-    sex = models.CharField(choices=SEX_CHOICES)
-    customer_type = models.CharField(choices=CUSTOMER_TYPE)
-    office_transacted = models.CharField(choices=SDS)
-    service_availed_sds = models.CharField(choices=SERVICE_AVAILED_SDS)
-    citizens_charter = models.CharField(choices=CITIZENS_CHARTER)
+#    age = models.IntegerField(
+#        validators=[MinValueValidator(1), MaxValueValidator(120)]
+##    )
+#    sex = models.CharField(choices=SEX_CHOICES)
+#    customer_type = models.CharField(choices=CUSTOMER_TYPE)
+#    office_transacted = models.CharField(choices=SDS)
+#    service_availed_sds = models.CharField(choices=SERVICE_AVAILED_SDS)
+#    citizens_charter = models.CharField(choices=CITIZENS_CHARTER)
     
     # Service Quality Dimensions (SQD)
-    sqd1 = models.IntegerField(choices=SQD_CHOICES, default=3, verbose_name="Time spent for transaction was acceptable")
-    sqd2 = models.IntegerField(choices=SQD_CHOICES, default=3, verbose_name="Requirements and steps were clear")
-    sqd3 = models.IntegerField(choices=SQD_CHOICES, default=3, verbose_name="Staff were competent and knowledgeable")
-    sqd4 = models.IntegerField(choices=SQD_CHOICES, default=3, verbose_name="Staff were courteous and approachable")
-    sqd5 = models.IntegerField(choices=SQD_CHOICES, default=3, verbose_name="Facilities were adequate and comfortable")
-    sqd6 = models.IntegerField(choices=SQD_CHOICES, default=3, verbose_name="Overall satisfaction with the service")
-    sqd7 = models.IntegerField(choices=SQD_CHOICES, default=3, verbose_name="Would recommend this office to others")
-    sqd8 = models.IntegerField(choices=SQD_CHOICES, default=3, verbose_name="The service met my expectations")
+#    sqd1 = models.IntegerField(choices=SQD_CHOICES, default=3, verbose_name="Time spent for transaction was acceptable")
+#    sqd2 = models.IntegerField(choices=SQD_CHOICES, default=3, verbose_name="Requirements and steps were clear")
+#    sqd3 = models.IntegerField(choices=SQD_CHOICES, default=3, verbose_name="Staff were competent and knowledgeable")
+#    sqd4 = models.IntegerField(choices=SQD_CHOICES, default=3, verbose_name="Staff were courteous and approachable")
+#    sqd5 = models.IntegerField(choices=SQD_CHOICES, default=3, verbose_name="Facilities were adequate and comfortable")
+#    sqd6 = models.IntegerField(choices=SQD_CHOICES, default=3, verbose_name="Overall satisfaction with the service")
+#    sqd7 = models.IntegerField(choices=SQD_CHOICES, default=3, verbose_name="Would recommend this office to others")
+#    sqd8 = models.IntegerField(choices=SQD_CHOICES, default=3, verbose_name="The service met my expectations")
 
-    remarks = models.TextField(blank=True)
-    submission_date = models.DateTimeField(auto_now_add=True)
+#    remarks = models.TextField(blank=True)
+#    submission_date = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self):
-        return f"Survey #{self.id} - {self.get_customer_type_display()} (Submitted: {self.submission_date.strftime('%Y-%m-%d')})"
+#    def __str__(self):
+#        return f"Survey #{self.id} - {self.get_customer_type_display()} (Submitted: {self.submission_date.strftime('%Y-%m-%d')})"
 
-    def get_average_rating(self):
-        """Calculate average of all SQD ratings"""
-        ratings = [
-            self.sqd1, self.sqd2, self.sqd3, self.sqd4,
-            self.sqd5, self.sqd6, self.sqd7, self.sqd8
-        ]
-        return round(sum(ratings) / len(ratings), 2)
+#    def get_average_rating(self):
+#        """Calculate average of all SQD ratings"""
+#        ratings = [
+#            self.sqd1, self.sqd2, self.sqd3, self.sqd4,
+#            self.sqd5, self.sqd6, self.sqd7, self.sqd8
+#        ]
+#        return round(sum(ratings) / len(ratings), 2)
 
-    class Meta:
-        verbose_name = "Office Form Survey"
-        verbose_name_plural = "Office Form Surveys"
-        ordering = ['-submission_date']
-        indexes = [
-            models.Index(fields=['submission_date']),
-            models.Index(fields=['office_transacted']),
-            models.Index(fields=['customer_type']),
-        ]
+#    class Meta:
+#        verbose_name = "Office Form Survey"
+#        verbose_name_plural = "Office Form Surveys"
+#        ordering = ['-submission_date']
+#        indexes = [
+#            models.Index(fields=['submission_date']),
+#            models.Index(fields=['office_transacted']),
+#            models.Index(fields=['customer_type']),
+#        ]

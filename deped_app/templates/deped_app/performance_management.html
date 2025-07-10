@@ -31,7 +31,6 @@
                     <td>{{ forloop.counter }}</td>
                     <td>
                         <a href="{{ memo.file.url }}" class="text-decoration-none">{{ memo.title }}</a>
-                        
                     </td>
                     <td>
                         <small><i class="far fa-calendar-alt"></i> {{ memo.date_posted|date:"F j, Y" }}</small>
@@ -42,7 +41,6 @@
         </table>
     </div>
 
-    <!-- Pagination -->
     {% if performance_management.has_other_pages %}
     <div class="pagination-container">
         <nav aria-label="Page navigation">
@@ -125,8 +123,8 @@
 
 .memo-title {
     color: #7A0213;
-    font-size: 1.5rem; /* Reduced from 2rem */
-    font-weight: 600; /* Changed from 700 */
+    font-size: 1.5rem;
+    font-weight: 600;
     margin: 0;
 }
 
@@ -204,7 +202,7 @@
     background-color: #f9f9f9;
 }
 
-/* Title Link */
+/* Table Link */
 .memo-table a {
     color: #7A0213;
     font-weight: 500;
@@ -215,60 +213,7 @@
     text-decoration: underline;
 }
 
-/* Action Buttons */
-.memo-actions {
-    display: inline-flex;
-    gap: 0.5rem;
-    margin-top: 0.5rem;
-}
-
-.action-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    text-decoration: none;
-    transition: all 0.2s ease;
-}
-
-.action-btn i {
-    font-size: 0.8em;
-}
-
-.view {
-    background-color: #7A0213;
-    color: white;
-}
-
-.view:hover {
-    background-color: #5a0110;
-    transform: translateY(-2px);
-}
-
-.download {
-    background-color: white;
-    color: #7A0213;
-    border: 1px solid #7A0213;
-}
-
-.download:hover {
-    background-color: #f8f8f8;
-    transform: translateY(-2px);
-}
-
-.online {
-    background-color: #333;
-    color: white;
-}
-
-.online:hover {
-    background-color: #222;
-    transform: translateY(-2px);
-}
-
-/* Date Styles */
+/* Small Date Text */
 .memo-table small {
     color: #666;
     font-size: 0.85rem;
@@ -321,11 +266,6 @@
     border-color: #7A0213;
 }
 
-.page-item.disabled .page-link {
-    color: #aaa;
-    pointer-events: none;
-}
-
 .page-info {
     color: #666;
     font-size: 0.9rem;
@@ -365,25 +305,34 @@
 @media (max-width: 768px) {
     .memo-header {
         flex-direction: column;
-        align-items: flex-start;
+        align-items: center;
+        text-align: center;
         gap: 1rem;
     }
-    
+
+    .memo-search-form {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+
+    .search-container {
+        width: 100%;
+        max-width: 300px;
+    }
+
     .memo-title {
         font-size: 1.75rem;
+        text-align: center;
     }
-    
+
     .table-responsive {
-        overflow-x: auto;
+        overflow-x: unset !important;
     }
-    
+
     .memo-table {
-        min-width: 400px;
-    }
-    
-    .memo-table th:nth-child(3),
-    .memo-table td:nth-child(3) {
-        width: 25%;
+        width: 100%;
+        min-width: unset;
     }
 }
 </style>

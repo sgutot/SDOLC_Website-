@@ -317,25 +317,25 @@ class QuickLinksForm(forms.ModelForm):
 
 
 
-class OfficeFormSurveyForm(forms.ModelForm):
-    class Meta:
-        model = OfficeFormSurvey
-        fields = '__all__'
-        widgets = {
-            'age': forms.NumberInput(attrs={'min': 1, 'max': 120}),
-            'remarks': forms.Textarea(attrs={'rows': 3}),
-            'submission_date': forms.HiddenInput(),
-            'sex': forms.RadioSelect(),
-            'customer_type': forms.RadioSelect(),
-            'office_transacted': forms.RadioSelect(),
-            'service_availed_sds': forms.RadioSelect(),
-            'citizens_charter': forms.RadioSelect(),
-            'sqd1': forms.Select(attrs={'class': 'form-select rating-select'}),
-            'sqd2': forms.Select(attrs={'class': 'form-select rating-select'}),
-            'sqd3': forms.Select(attrs={'class': 'form-select rating-select'}),
-            'sqd4': forms.Select(attrs={'class': 'form-select rating-select'}),
-            'sqd5': forms.Select(attrs={'class': 'form-select rating-select'}),
-            'sqd6': forms.Select(attrs={'class': 'form-select rating-select'}),
-            'sqd7': forms.Select(attrs={'class': 'form-select rating-select'}),
-            'sqd8': forms.Select(attrs={'class': 'form-select rating-select'}),
-        }
+#class OfficeFormSurveyForm(forms.ModelForm):
+#    class Meta:
+#        model = OfficeFormSurvey
+#        fields = '__all__'
+#        widgets = {
+#            'age': forms.NumberInput(attrs={'min': 1, 'max': 120}),
+#            'remarks': forms.Textarea(attrs={'rows': 3}),
+#            'submission_date': forms.HiddenInput(),
+#            'sex': forms.RadioSelect(),
+#            'customer_type': forms.RadioSelect(),
+#            'office_transacted': forms.RadioSelect(),
+#            'service_availed_sds': forms.RadioSelect(),
+#            'citizens_charter': forms.RadioSelect(),
+#            'sqd1': forms.Select(attrs={'class': 'form-select rating-select'}),
+#            'sqd2': forms.Select(attrs={'class': 'form-select rating-select'}),
+#            'sqd3': forms.Select(attrs={'class': 'form-select rating-select'}),
+#            'sqd4': forms.Select(attrs={'class': 'form-select rating-select'}),
+#            'sqd5': forms.Select(attrs={'class': 'form-select rating-select'}),
+#            'sqd6': forms.Select(attrs={'class': 'form-select rating-select'}),
+#            'sqd7': forms.Select(attrs={'class': 'form-select rating-select'}),
+#            'sqd8': forms.Select(attrs={'class': 'form-select rating-select'}),
+#        }
