@@ -186,6 +186,34 @@
         .footer-text, .footer-link {
             font-size: 0.8rem;
         }
+
+        /* Fix for offcanvas search bar */
+        .offcanvas-body .input-group {
+            width: 100%;
+        }
+        
+        .offcanvas-body .form-control {
+            padding: 0.5rem 0.75rem;
+            font-size: 0.9rem;
+            flex: 1;
+            min-width: 0; /* Fix for flexbox overflow */
+        }
+        
+        .offcanvas-body .btn {
+            padding: 0.5rem 1rem;
+        }
+        
+        /* Ensure the search form doesn't get cut off */
+        .offcanvas-body {
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Push search to bottom if needed */
+        .offcanvas-nav {
+            flex: 1;
+        }
+  
     }
 
     @media (max-width: 767.98px) {
@@ -540,16 +568,25 @@
                 </li>
                 <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">Contact</a></li>
             </ul>
-            
-            <!-- Mobile Search Form -->
-            <form class="p-3" id="mobileSearchForm" action="{% url 'search' %}" method="get">
-                <div class="input-group">
-                    <input class="form-control" type="search" placeholder="Search..." aria-label="Search" name="search_query">
-                    <button class="btn btn-outline-primary" type="submit">
-                        <i class="fas fa-search"></i>
-                    </button>
-                </div>
-            </form>
+
+    <div class="px-3 pb-3">  
+        <form id="mobileSearchForm" action="{% url 'search' %}" method="get">
+            <div class="input-group">
+                <input class="form-control rounded-start" 
+                       type="search" 
+                       placeholder="Search..." 
+                       aria-label="Search" 
+                       name="search_query"
+                       style="border-right: none;">  <!-- Remove right border for cleaner look -->
+                <button class="btn btn-outline-primary rounded-end" 
+                        type="submit"
+                        style="border-left: none;">  <!-- Remove left border for cleaner look -->
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+        </form>
+    </div>
+
         </div>
     </div>
 
