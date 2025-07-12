@@ -3,6 +3,7 @@ from django.contrib import admin
 # Register your models here.
 from django.contrib import admin
 from .models import *
+from .forms import *
 
 
 @admin.register(SiteSettings)
@@ -29,21 +30,21 @@ class SiteSettingsAdmin(admin.ModelAdmin):
 class VideosCitizensCharterAdmin(admin.ModelAdmin):
     list_display = ('caption', 'content')
     list_filter = ('date_posted',)
-    search_fields =('caption', 'content')
+    search_fields =('caption', 'content', 'date_posted')
     fields = ('caption', 'video', 'date_posted', 'content')
 
 @admin.register(Videos)
 class VideosAdmin(admin.ModelAdmin):
     list_display = ('caption',)
     list_filter = ('date_posted',)
-    search_fields =('caption',)
+    search_fields =('caption', 'date_posted')
     fields = ('caption', 'video', 'date_posted',)
 
 
 @admin.register(Awards)
 class AwardsAdmin(admin.ModelAdmin):
     list_display = ('title', 'content', 'image', 'date_posted', 'file')
-    search_fields = ('title', 'content')
+    search_fields = ('title', 'content', 'date_posted')
     list_filter = ('date_posted',)
     readonly_fields = ('date_posted',)
     fields = ('title', 'content', 'image', 'date_posted', 'file')
@@ -53,7 +54,7 @@ class AwardsAdmin(admin.ModelAdmin):
 class NewsAdmin(admin.ModelAdmin):
     list_display = ('title', 'date_posted', 'updated_at')
     list_filter = ('date_posted',) 
-    search_fields = ('title', 'content')
+    search_fields = ('title', 'content', 'date_posted')
     prepopulated_fields = {'slug': ('title',)}
     
     fieldsets = (
@@ -73,7 +74,7 @@ class NewsAdmin(admin.ModelAdmin):
 @admin.register(Program)
 class ProgramAdmin(admin.ModelAdmin):
     list_display = ('name',)
-    search_fields = ('name', 'description')
+    search_fields = ('name', 'description', 'date_posted')
     list_filter = ('name', 'date_posted')
     fields = ('name', 'image', 'description', 'link', 'file','date_posted')
 
@@ -83,7 +84,7 @@ class ProgramAdmin(admin.ModelAdmin):
 @admin.register(Announcement)
 class AnnouncementAdmin(admin.ModelAdmin):
     list_display = ('title', 'date_posted', 'content', 'file')
-    search_fields = ('title', 'content')
+    search_fields = ('title', 'content', 'date_posted')
     list_filter = ('date_posted',)
     readonly_fields = ('date_posted',)
     fields = ('title', 'content', 'link', 'file', 'date_posted')
@@ -95,7 +96,7 @@ class AnnouncementAdmin(admin.ModelAdmin):
 class OrganizationalChartAdmin(admin.ModelAdmin):
     list_display = ('management', 'positions', 'name', 'contact', 'date_posted')
     list_filter = ('management',)  # Adds filter sidebar by category
-    search_fields = ('positions', 'name', 'management')
+    search_fields = ('positions', 'name', 'management', 'date_posted')
     list_per_page = 20  # Shows 20 items per page instead of default 100
     
     fieldsets = (
@@ -122,7 +123,7 @@ class OrganizationalChartAdmin(admin.ModelAdmin):
 class CitizensCharterAdmin(admin.ModelAdmin):
     list_display = ('title', 'truncated_content', 'date_posted', 'has_file', 'has_link')
     list_filter = ('date_posted',)
-    search_fields = ('title', 'content')
+    search_fields = ('title', 'content', 'date_posted')
     fields = ('title', 'content', 'file', 'link', 'date_posted')
     
     def truncated_content(self, obj):
@@ -140,25 +141,25 @@ class CitizensCharterAdmin(admin.ModelAdmin):
 @admin.register(Mission)
 class MissionAdmin(admin.ModelAdmin):
     list_display = ('title', 'content', 'file', 'link',)
-    search_fields = ('title', 'content')
+    search_fields = ('title', 'content', 'date_posted')
     fields = ('title', 'content', 'file', 'link', 'date_posted')
 
 @admin.register(Vision)
 class VisionAdmin(admin.ModelAdmin):
     list_display = ('title', 'content', 'file', 'link',)
-    search_fields = ('title', 'content')
+    search_fields = ('title', 'content', 'date_posted')
     fields = ('title', 'content', 'file', 'link', 'date_posted')
 
 @admin.register(Mandate)
 class MandateAdmin(admin.ModelAdmin):
     list_display = ('title', 'content', 'file', 'link',)
-    search_fields = ('title', 'content')
+    search_fields = ('title', 'content', 'date_posted')
     fields = ('title', 'content', 'file', 'link', 'date_posted')
 
 @admin.register(CoreValues)
 class CoreValuesAdmin(admin.ModelAdmin):
     list_display = ('title', 'date_posted', 'file', 'link')
-    search_fields = ('title', 'content')
+    search_fields = ('title', 'content', 'date_posted')
     list_filter = ('date_posted',)
     date_hierarchy = 'date_posted'
     
@@ -171,35 +172,104 @@ class QualityPolicyAdmin(admin.ModelAdmin):
 
 
 
+#ISSUANCES
+
 #@admin.register(RegionalMemo)
 #class RegionalMemoAdmin(admin.ModelAdmin):
 #    list_display = ('title', 'content', 'file', 'link',)
 #    search_fields = ('title',)
  #   fields = ('title', 'file', 'link', 'content', 'date_posted')
 
+
+
 @admin.register(DivisionMemo)
 class DivisionMemoAdmin(admin.ModelAdmin):
-    list_display = ('title', 'content', 'file', 'link',)
-    search_fields = ('title',)
-    fields = ('title', 'file', 'link', 'content', 'date_posted')
+    list_display = ('title', 'year', 'get_month_name', 'date_published')
+    list_filter = ('year', 'month')  # Add this to enable filtering by year and month
+    form = DivisionMemoForm
+    
+    def get_form(self, request, obj=None, **kwargs):
+        form = super().get_form(request, obj, **kwargs)
+        form.base_fields['date_published'].widget = forms.DateTimeInput(
+            attrs={
+                'type': 'date',
+                'class': 'form-control'
+            },
+            format='%Y-%m-%dT%H:%M'
+        )
+        return form
+
+#@admin.register(OfficeMemo)
+#class OfficeMemoAdmin(admin.ModelAdmin):
+#    list_display = ('title', 'content', 'file', 'link',)
+#    search_fields = ('title', 'date_posted')
+#    fields = ('title', 'file', 'link', 'content', 'date_posted')
 
 @admin.register(OfficeMemo)
 class OfficeMemoAdmin(admin.ModelAdmin):
-    list_display = ('title', 'content', 'file', 'link',)
-    search_fields = ('title',)
-    fields = ('title', 'file', 'link', 'content', 'date_posted')
+    list_display = ('title', 'year', 'get_month_name', 'date_published')
+    list_filter = ('year', 'month') 
+    form = OfficeMemoForm
+    
+    def get_form(self, request, obj=None, **kwargs):
+        form = super().get_form(request, obj, **kwargs)
+        form.base_fields['date_published'].widget = forms.DateTimeInput(
+            attrs={
+                'type': 'date',
+                'class': 'form-control'
+            },
+            format='%Y-%m-%dT%H:%M'
+        )
+        return form
+
+#@admin.register(DepedOrder)
+#class DepedOrderAdmin(admin.ModelAdmin):
+#    list_display = ('title', 'content', 'file', 'link',)
+#    search_fields = ('title', 'date_posted')
+#    fields = ('title', 'file', 'link', 'content', 'date_posted')
 
 @admin.register(DepedOrder)
 class DepedOrderAdmin(admin.ModelAdmin):
-    list_display = ('title', 'content', 'file', 'link',)
-    search_fields = ('title',)
-    fields = ('title', 'file', 'link', 'content', 'date_posted')
+    list_display = ('title', 'year', 'get_month_name', 'date_published')
+    list_filter = ('year', 'month') 
+    form = DepedOrderForm
+    
+    def get_form(self, request, obj=None, **kwargs):
+        form = super().get_form(request, obj, **kwargs)
+        form.base_fields['date_published'].widget = forms.DateTimeInput(
+            attrs={
+                'type': 'date',
+                'class': 'form-control'
+            },
+            format='%Y-%m-%dT%H:%M'
+        )
+        return form
+
+
+#@admin.register(DepedAdvisories)
+#class DepedAdvisoriesAdmin(admin.ModelAdmin):
+#    list_display = ('title', 'file', 'link', 'content',)
+#    search_fields = ('title', 'date_posted')
+#    fields = ('title', 'file', 'link', 'content', 'date_posted')
 
 @admin.register(DepedAdvisories)
 class DepedAdvisoriesAdmin(admin.ModelAdmin):
-    list_display = ('title', 'file', 'link', 'content',)
-    search_fields = ('title',)
-    fields = ('title', 'file', 'link', 'content', 'date_posted')
+    list_display = ('title', 'year', 'get_month_name', 'date_published')
+    list_filter = ('year', 'month') 
+    form = DepedAdvisoriesForm
+    
+    def get_form(self, request, obj=None, **kwargs):
+        form = super().get_form(request, obj, **kwargs)
+        form.base_fields['date_published'].widget = forms.DateInput(
+            attrs={
+                'type': 'date',
+                'class': 'form-control'
+            },
+            format='%Y-%m-%dT%H:%M'
+        )
+        return form
+
+
 
 
 
@@ -207,7 +277,7 @@ class DepedAdvisoriesAdmin(admin.ModelAdmin):
 @admin.register(AwardsNotice)
 class AwardsNoticeAdmin(admin.ModelAdmin):
     list_display = ('projectname', 'awardee', 'abc', 'contractamount', 'dateawarded', 'has_link', 'has_file')
-    search_fields = ('projectname', 'awardee')
+    search_fields = ('projectname', 'awardee', 'date_published')
     list_filter = ('dateawarded',)
     fields = ('projectname', 'abc', 'awardee', 'contractamount', 'dateawarded', 'abstract', 'link', 'file', 'date_posted')
     
@@ -223,12 +293,13 @@ class AwardsNoticeAdmin(admin.ModelAdmin):
 @admin.register(BidOpportunities)
 class BidOpportunitiesAdmin(admin.ModelAdmin):
     list_display = ('projectname', 'ref', 'abc', 'link', 'file')
-    search_fields = ('projectname', 'ref')
-    fields = ('projectname', 'ref', 'abc', 'date_posted', 'link', 'file')
+    search_fields = ('projectname', 'ref', 'date_published')
+    fields = ('projectname', 'ref', 'abc', 'date_published', 'link', 'file')
     
     def has_link(self, obj):
         return bool(obj.link)
     has_link.boolean = True
+    has_link.short_description = 'Has Link?'
     
     def has_file(self, obj):
         return bool(obj.file)
@@ -240,14 +311,10 @@ class BidOpportunitiesAdmin(admin.ModelAdmin):
 
 @admin.register(RewardsRecognitions)
 class RewardsRecognitionsAdmin(admin.ModelAdmin):
-    list_display = ('title', 'description_short', 'has_file', 'has_link')
-    search_fields = ('title', 'description')
+    list_display = ('title', 'has_file', 'has_link')
+    search_fields = ('title', 'date_published')
     list_filter = ('title',)
-    fields = ('title', 'description', 'file', 'link', 'date_posted')
-    
-    def description_short(self, obj):
-        return obj.description[:50] + '...' if obj.description else ''
-    description_short.short_description = 'Description'
+    fields = ('title', 'file', 'link', 'date_published')
     
     def has_file(self, obj):
         return bool(obj.file)
@@ -261,14 +328,10 @@ class RewardsRecognitionsAdmin(admin.ModelAdmin):
 
 @admin.register(RecruitmentSelectionPlacement)
 class RecruitmentSelectionPlacementAdmin(admin.ModelAdmin):
-    list_display = ('title', 'description_short', 'has_file', 'has_link')
-    search_fields = ('title', 'description')
+    list_display = ('title', 'has_file', 'has_link')
+    search_fields = ('title',  'date_published')
     list_filter = ('title',)
-    fields = ('title', 'description', 'file', 'link', 'date_posted')
-    
-    def description_short(self, obj):
-        return obj.description[:50] + '...' if obj.description else ''
-    description_short.short_description = 'Description'
+    fields = ('title',  'file', 'link', 'date_published')
     
     def has_file(self, obj):
         return bool(obj.file)
@@ -281,14 +344,11 @@ class RecruitmentSelectionPlacementAdmin(admin.ModelAdmin):
 
 @admin.register(PerformanceManagement)
 class PerformanceManagementAdmin(admin.ModelAdmin):
-    list_display = ('title', 'description_short', 'has_file', 'has_link')
-    search_fields = ('title', 'description')
+    list_display = ('title', 'has_file', 'has_link')
+    search_fields = ('title',  'date_published')
     list_filter = ('title',)
-    fields = ('title', 'description', 'file', 'link', 'date_posted')
+    fields = ('title',  'file', 'link', 'date_published')
     
-    def description_short(self, obj):
-        return obj.description[:50] + '...' if obj.description else ''
-    description_short.short_description = 'Description'
     
     def has_file(self, obj):
         return bool(obj.file)
@@ -298,18 +358,15 @@ class PerformanceManagementAdmin(admin.ModelAdmin):
     def has_link(self, obj):
         return bool(obj.link)
     has_link.boolean = True
+    has_link.short_description = 'Has Link?'
 
 @admin.register(LearningDevelopment)
 class LearningDevelopmentAdmin(admin.ModelAdmin):
-    list_display = ('title', 'description_short', 'has_file', 'has_link')
-    search_fields = ('title', 'description')
+    list_display = ('title', 'has_file', 'has_link')
+    search_fields = ('title', 'date_published')
     list_filter = ('title',)
-    fields = ('title', 'description', 'file', 'link', 'date_posted')
-    
-    def description_short(self, obj):
-        return obj.description[:50] + '...' if obj.description else ''
-    description_short.short_description = 'Description'
-    
+    fields = ('title',  'file', 'link', 'date_published')
+
     def has_file(self, obj):
         return bool(obj.file)
     has_file.boolean = True
@@ -318,6 +375,7 @@ class LearningDevelopmentAdmin(admin.ModelAdmin):
     def has_link(self, obj):
         return bool(obj.link)
     has_link.boolean = True
+    has_link.short_description = 'Has Link?'
 
 
 @admin.register(Contact)

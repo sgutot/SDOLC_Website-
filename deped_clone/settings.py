@@ -228,3 +228,14 @@ if DEBUG:
             'level': 'DEBUG',
         },
     }
+
+# Ensure datetime format compatibility
+USE_TZ = True
+TIME_ZONE = 'Asia/Manila'  # Or your preferred timezone
+
+DATETIME_INPUT_FORMATS = [
+    '%Y-%m-%dT%H:%M',      # '2006-10-25T14:30'
+    '%Y-%m-%d %H:%M:%S',   # '2006-10-25 14:30:59'
+    '%Y-%m-%d %H:%M',      # '2006-10-25 14:30'
+    '%Y-%m-%d',            # '2006-10-25'
+]

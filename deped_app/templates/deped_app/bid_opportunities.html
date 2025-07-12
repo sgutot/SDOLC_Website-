@@ -39,7 +39,7 @@
                         </a>
                     </td>
                     <td>₱{{ bid.abc|floatformat:2|intcomma|default:"-" }}</td>
-                    <td>{{ bid.date_posted|date:"M d, Y"|default:"-" }}</td>
+                    <td>{{ bid.date_published|date:"M d, Y"|default:"-" }}</td>
                 </tr>
                 {% empty %}
                 <tr>

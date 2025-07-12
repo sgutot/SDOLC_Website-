@@ -312,11 +312,6 @@
                         <small class="text-muted">
                             <i class="far fa-calendar-alt me-1"></i>{{ item.date_posted|date:"F d, Y" }}
                         </small>
-                        {% if item.link %}
-                        <a href="{{ item.link }}" class="btn btn-sm btn-outline-secondary float-end" target="_blank">
-                            <i class="fas fa-external-link-alt"></i>
-                        </a>
-                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -350,11 +345,6 @@
                         {% if item.about %}
                         <p class="search-excerpt card-text">{{ item.about|truncatewords:20 }}</p>
                         {% endif %}
-                    </div>
-                    <div class="card-footer bg-transparent">
-                        <small class="search-meta">
-                            <i class="far fa-calendar-alt me-1"></i>Posted on {{ item.date_posted|date:"F d, Y" }}
-                        </small>
                     </div>
                 </div>
             </div>
@@ -558,7 +548,7 @@
                     </div>
                     <div class="card-footer bg-transparent">
                         <small class="search-meta">
-                            <i class="far fa-calendar-alt me-1"></i>{{ item.date_posted|date:"F d, Y" }}
+                            <i class="far fa-calendar-alt me-1"></i>{{ item.date_published|date:"F d, Y" }}
                         </small>
                     </div>
                 </div>
@@ -586,7 +576,7 @@
                     </div>
                     <div class="card-footer bg-transparent">
                         <small class="search-meta">
-                            <i class="far fa-calendar-alt me-1"></i>{{ item.date_posted|date:"F d, Y" }}
+                            <i class="far fa-calendar-alt me-1"></i>{{ item.date_published|date:"F d, Y" }}
                         </small>
                     </div>
                 </div>
@@ -614,7 +604,7 @@
                     </div>
                     <div class="card-footer bg-transparent">
                         <small class="search-meta">
-                            <i class="far fa-calendar-alt me-1"></i>{{ item.date_posted|date:"F d, Y" }}
+                            <i class="far fa-calendar-alt me-1"></i>{{ item.date_published|date:"F d, Y" }}
                         </small>
                     </div>
                 </div>
@@ -642,7 +632,7 @@
                     </div>
                     <div class="card-footer bg-transparent">
                         <small class="search-meta">
-                            <i class="far fa-calendar-alt me-1"></i>{{ item.date_posted|date:"F d, Y" }}
+                            <i class="far fa-calendar-alt me-1"></i>{{ item.date_published|date:"F d, Y" }}
                         </small>
                     </div>
                 </div>
@@ -683,7 +673,7 @@
                 <div class="card-footer bg-transparent">
                     <div class="d-flex">
                         <span class="text-muted small">
-                            <i class="far fa-calendar-alt me-1"></i>{{ item.date_posted|date:"M d, Y" }}
+                            <i class="far fa-calendar-alt me-1"></i>{{ item.date_published|date:"M d, Y" }}
                         </span>
                     </div>
                 </div>
@@ -712,7 +702,7 @@
                     </div>
                     <div class="card-footer bg-transparent">
                         <small class="search-meta">
-                            <i class="far fa-calendar-alt me-1"></i>{{ item.date_posted|date:"F d, Y" }}
+                            <i class="far fa-calendar-alt me-1"></i>{{ item.date_published|date:"F d, Y" }}
                         </small>
                     </div>
                 </div>
@@ -740,7 +730,7 @@
                     </div>
                     <div class="card-footer bg-transparent">
                         <small class="search-meta">
-                            <i class="far fa-calendar-alt me-1"></i>{{ item.date_posted|date:"F d, Y" }}
+                            <i class="far fa-calendar-alt me-1"></i>{{ item.date_published|date:"F d, Y" }}
                         </small>
                     </div>
                 </div>
@@ -768,7 +758,7 @@
                     </div>
                     <div class="card-footer bg-transparent">
                         <small class="search-meta">
-                            <i class="far fa-calendar-alt me-1"></i>{{ item.date_posted|date:"F d, Y" }}
+                            <i class="far fa-calendar-alt me-1"></i>{{ item.date_published|date:"F d, Y" }}
                         </small>
                     </div>
                 </div>
@@ -796,7 +786,7 @@
                     </div>
                     <div class="card-footer bg-transparent">
                         <small class="search-meta">
-                            <i class="far fa-calendar-alt me-1"></i>{{ item.date_posted|date:"F d, Y" }}
+                            <i class="far fa-calendar-alt me-1"></i>{{ item.date_published|date:"F d, Y" }}
                         </small>
                     </div>
                 </div>
@@ -824,7 +814,7 @@
                     </div>
                     <div class="card-footer bg-transparent">
                         <small class="search-meta">
-                            <i class="far fa-calendar-alt me-1"></i>{{ item.date_posted|date:"F d, Y" }}
+                            <i class="far fa-calendar-alt me-1"></i>{{ item.date_published|date:"F d, Y" }}
                         </small>
                     </div>
                 </div>

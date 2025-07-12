@@ -2,24 +2,25 @@
 {% load static %}
 
 {% block content %}
-<div class="container my-3 px-2" style="max-width: 1000px;">
-    <h1 class="text-center mb-3 py-2 rounded" style="color: white; font-size: clamp(1.1rem, 4vw, 1.3rem); background: linear-gradient(135deg, #7A0213, #A93226); box-shadow: 0 4px 8px rgba(0,0,0,0.2);">CITIZENS CHARTER</h1>
-    
+<div class="charter-container">
+    <div class="charter-header">
+        <h2 class="charter-title">Citizens Charter</h2>
+    </div>
+
     {% if videos_citizens_charter %}
     <div class="row justify-content-center mb-4 gx-0">
         <div class="col-12 col-md-10 col-lg-8 px-0">
             <div class="card shadow-sm border-0">
                 {% for video in videos_citizens_charter %}
                 <div class="card-body p-1">
-                    <div class="ratio ratio-16x9 mb-1 mx-auto" style="max-width: 400px;">
+                    <div class="ratio ratio-16x9 mb-1 mx-auto" style="max-width: 600px;">
                         <video controls autoplay muted playsinline class="w-100 h-100">
                             <source src="{{ video.video.url }}" type="video/mp4">
                             Your browser does not support the video tag.
-                        </video>
+                        </video><br><br>
                     </div>
                     <div class="text-center mt-1 px-2">
-                        <h5 class="h6 mb-0" style="font-size: clamp(0.8rem, 3vw, 0.9rem);"><br>{{ video.caption }}</h5>
-                        <small class="text-muted" style="font-size: 0.75rem;">Posted: {{ video.date_posted|date:"M d, Y" }}</small>
+                        <h5 class="h6 mb-0" style="font-size: clamp(0.8rem, 3vw, 0.9rem);">{{ video.caption }}</h5>
                     </div>
                 </div>
                 {% if not forloop.last %}<hr class="my-1" style="margin: 0 1rem;">{% endif %}
@@ -28,94 +29,337 @@
         </div>
     </div>
     {% endif %}
-    
-    <!-- Charter Files Section -->
-    <div class="charter-container bg-white rounded shadow-sm p-0 mt-4" style="border: 1px solid rgba(0,0,0,0.1);">
-        <div class="charter-header d-flex justify-content-center align-items-center p-3 text-center" style="background: #7A0213; border-bottom: 1px solid #eee;">
-            <h2 class="mb-0 text-white" style="font-size: 1rem;">
-                <i class="fas fa-file-alt me-2"></i>Charter Files
-            </h2>
-        </div>
 
-        {% if charters %}
-        <div class="list-container">
-            <!-- Column Headers -->
-            <div class="d-none d-md-flex py-2 px-3" style="background: #f1f1f1; font-weight: 500; font-size: 0.8rem;">
-                <div class="col-no" style="flex: 0 0 50px;">No.</div>
-                <div class="col-title" style="flex: 1;">Title</div>
-            </div>
-            
-            <!-- Charter List Items -->
-            {% for charter in charters %}
-            <div class="charter-item d-flex flex-column flex-md-row align-items-md-center py-2 px-3 border-bottom">
-                <div class="col-no d-flex d-md-block align-items-center mb-1 mb-md-0" style="flex: 0 0 50px; font-weight: 500; color: #7A0213;">
-                    <span class="d-md-none me-2">No:</span>
-                    {{ forloop.counter }}
-                </div>
-                <div class="col-title flex-grow-1 pe-2">
-                    <div style="font-size: 0.9rem; color: #7A0213;">{{ charter.title }}</div>
-                    <small class="text-muted" style="font-size: 0.7rem;">
-                        <i class="far fa-calendar-alt me-1"></i>{{ charter.date_posted|date:"M d, Y" }}
-                    </small>
-                </div>
-                <div class="col-action mt-2 mt-md-0" style="flex: 0 0 100px;">
-                    <a href="{% url 'citizens_charter_detail' charter.pk %}" 
-                       class="btn btn-sm btn-outline-maroon w-100 py-1">
-                        <span class="d-none d-md-inline">View</span>
-                        <span class="d-md-none"><i class="fas fa-eye"></i></span>
-                    </a>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-        {% else %}
-        <div class="text-center py-4 text-muted">
-            <i class="fas fa-info-circle me-1"></i> No charter files available
-        </div>
-        {% endif %}
+    {% if charters %}
+    <div class="table-responsive">
+        <table class="charter-table">
+            <thead>
+                <tr>
+                    <th width="10%">No.</th>
+                    <th>Title</th>
+                    <th width="20%">Date Posted</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for charter in charters %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>
+                        <a href="{% url 'citizens_charter_detail' charter.pk %}" class="text-decoration-none">{{ charter.title }}</a>
+                    </td>
+                    <td>
+                        <small><i class="far fa-calendar-alt"></i> {{ charter.date_posted|date:"F j, Y" }}</small>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
+
+    <!-- Pagination -->
+    {% if charters.has_other_pages %}
+    <div class="pagination-container">
+        <nav aria-label="Page navigation">
+            <ul class="pagination">
+                {% if charters.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page=1{% if search_query %}&q={{ search_query }}{% endif %}" aria-label="First">
+                        <span aria-hidden="true">««</span>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ charters.previous_page_number }}{% if search_query %}&q={{ search_query }}{% endif %}" aria-label="Previous">
+                        <span aria-hidden="true">«</span>
+                    </a>
+                </li>
+                {% endif %}
+
+                {% for num in page_range|default:charters.paginator.get_elided_page_range %}
+                    {% if charters.number == num %}
+                    <li class="page-item active">
+                        <a class="page-link" href="?page={{ num }}{% if search_query %}&q={{ search_query }}{% endif %}">{{ num }}</a>
+                    </li>
+                    {% else %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ num }}{% if search_query %}&q={{ search_query }}{% endif %}">{{ num }}</a>
+                    </li>
+                    {% endif %}
+                {% endfor %}
+
+                {% if charters.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ charters.next_page_number }}{% if search_query %}&q={{ search_query }}{% endif %}" aria-label="Next">
+                        <span aria-hidden="true">»</span>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ charters.paginator.num_pages }}{% if search_query %}&q={{ search_query }}{% endif %}" aria-label="Last">
+                        <span aria-hidden="true">»»</span>
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+        <div class="page-info">
+            Page {{ charters.number }} of {{ charters.paginator.num_pages }}
+        </div>
+    </div>
+    {% endif %}
+    {% else %}
+    <div class="no-charters">
+        <div class="empty-state">
+            <i class="fas fa-file-alt"></i>
+            <h3>No Charter Files Available</h3>
+            <p>There are currently no citizens charter files to display.</p>
+        </div>
+    </div>
+    {% endif %}
 </div>
 
-<!-- Styles -->
 <style>
-    .charter-container {
-        max-width: 800px;
-        margin: 0 auto;
+/* Main Container */
+.charter-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+    font-family: 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Header Styles */
+.charter-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding: 1rem;
+    border-radius: 8px;
+    color: white;
+    border-bottom: 1px solid #eaeaea;
+}
+
+.charter-title {
+    color: #7A0213;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0;
+    text-align: center;
+}
+
+/* Search Form Styles */
+.charter-search-form {
+    width: 300px;
+}
+
+.search-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.search-input {
+    width: 100%;
+    padding: 0.5rem 1rem;
+    padding-right: 2.5rem;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: #7A0213;
+    box-shadow: 0 0 0 2px rgba(122, 2, 19, 0.1);
+}
+
+.search-button {
+    position: absolute;
+    right: 0.5rem;
+    background: transparent;
+    border: none;
+    color: #7A0213;
+    cursor: pointer;
+    padding: 0.25rem;
+}
+
+.search-button:hover {
+    color: #5a0113;
+}
+
+/* Table Styles */
+.charter-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 2rem;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+}
+
+.charter-table th {
+    background-color: #7A0213;
+    color: white;
+    padding: 1rem;
+    text-align: left;
+    font-weight: 600;
+}
+
+.charter-table td {
+    padding: 1rem;
+    border-bottom: 1px solid #eee;
+    vertical-align: middle;
+}
+
+.charter-table tr:last-child td {
+    border-bottom: none;
+}
+
+.charter-table tr:hover {
+    background-color: #f9f9f9;
+}
+
+/* Title Link */
+.charter-table a {
+    color: #7A0213;
+    font-weight: 500;
+    margin-right: 0.5rem;
+}
+
+.charter-table a:hover {
+    text-decoration: underline;
+}
+
+/* Date Styles */
+.charter-table small {
+    color: #666;
+    font-size: 0.85rem;
+}
+
+.charter-table i.far {
+    margin-right: 0.5rem;
+    color: #7A0213;
+}
+
+/* Pagination Styles */
+.pagination-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 2rem;
+    gap: 1rem;
+}
+
+.pagination {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    gap: 0.5rem;
+}
+
+.page-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.page-link {
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    color: #7A0213;
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+.page-link:hover {
+    background-color: #f0f0f0;
+}
+
+.page-item.active .page-link {
+    background-color: #7A0213;
+    color: white;
+    border-color: #7A0213;
+}
+
+.page-item.disabled .page-link {
+    color: #aaa;
+    pointer-events: none;
+}
+
+.page-info {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+/* Empty State */
+.no-charters {
+    margin: 3rem 0;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 2rem;
+    background: #f9f9f9;
+    border-radius: 10px;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.empty-state i {
+    font-size: 3rem;
+    color: #7A0213;
+    margin-bottom: 1rem;
+}
+
+.empty-state h3 {
+    color: #333;
+    margin-bottom: 0.5rem;
+}
+
+.empty-state p {
+    color: #666;
+    margin: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .charter-header {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
     }
 
-    .charter-item {
-        transition: background-color 0.2s ease;
+    .charter-title {
+        font-size: 1.75rem;
+        text-align: center;
+        width: 100%;
     }
 
-    .charter-item:hover {
-        background-color: #f8f9fa;
+    .charter-search-form {
+        width: 100%;
+        display: flex;
+        justify-content: center;
     }
 
-    .btn-outline-maroon {
-        color: #7A0213;
-        border-color: #7A0213;
-        font-size: 0.75rem;
+    .search-container {
+        width: 100%;
+        max-width: 350px;
     }
 
-    .btn-outline-maroon:hover {
-        color: white;
-        background-color: #7A0213;
+    .table-responsive {
+        overflow-x: auto;
     }
 
-    /* Responsive adjustments */
-    @media (max-width: 767px) {
-        .charter-item {
-            padding: 0.75rem 1rem;
-        }
-
-        .col-no, .col-title {
-            font-size: 0.85rem;
-        }
-
-        .charter-header {
-            text-align: center;
-            justify-content: center;
-        }
+    .charter-table {
+        min-width: 400px;
     }
+
+    .charter-table th:nth-child(3),
+    .charter-table td:nth-child(3) {
+        width: 25%;
+    }
+}
 </style>
 {% endblock %}

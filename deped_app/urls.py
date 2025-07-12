@@ -48,6 +48,13 @@ urlpatterns = [
     path('issuances/deped-advisories/', views.deped_advisories_list, name='deped_advisories_list'),
     path('issuances/deped-advisories/<int:pk>/', views.deped_advisories_detail, name='deped_advisories_detail'),
 
+
+    path('issuances/division-memo/archive/', views.document_archive, {'doc_type': 'division-memo'}, name='division_memo_archive'),
+    path('issuances/office-memo/archive/', views.document_archive, {'doc_type': 'office-memo'}, name='office_memo_archive'),
+    path('issuances/deped-order/archive/', views.document_archive, {'doc_type': 'deped-order'}, name='deped_order_archive'),
+    path('issuances/deped-advisories/archive/', views.document_archive, {'doc_type': 'deped-advisories'}, name='deped_advisories_archive'),
+
+
     #Bid Opportunities
     path('procurements/bid-opportunities/', views.bid_opportunities, name='bid_opportunities'),
     path('procurements/bid-opportunities/<int:pk>/', views.bid_opportunity_detail, name='bid_opportunity_detail'),

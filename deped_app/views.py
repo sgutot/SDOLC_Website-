@@ -21,38 +21,46 @@ def search(request):
     results = {
         'awards': Awards.objects.filter(
             Q(title__icontains=search_query)|
-            Q(content__icontains=search_query) 
+            Q(content__icontains=search_query) |
+            Q(date_posted__icontains=search_query) 
         ).order_by('-id'),
 
         'news': News.objects.filter(
             Q(title__icontains=search_query) | 
             Q(content__icontains=search_query) |
-            Q(slug__icontains=search_query)  
+            Q(slug__icontains=search_query) |
+            Q(date_posted__icontains=search_query) 
         ).order_by('-date_posted').distinct(),
 
         'programs': Program.objects.filter(
             Q(name__icontains=search_query) | 
-            Q(description__icontains=search_query)
+            Q(description__icontains=search_query) |
+            Q(date_posted__icontains=search_query) 
         ).order_by('-date_posted'),
         
         'announcements': Announcement.objects.filter(  
             Q(title__icontains=search_query) | 
-            Q(content__icontains=search_query)
+            Q(content__icontains=search_query) |
+            Q(date_posted__icontains=search_query) 
         ).order_by('-date_posted'),
 
         'organizational_chart': OrganizationalChart.objects.filter(
             Q(positions__icontains=search_query) | 
-            Q(name__icontains=search_query)
+            Q(name__icontains=search_query) |
+            Q(management__icontains=search_query) |
+            Q(positions__icontains=search_query) |
+            Q(date_posted__icontains=search_query) 
         ).order_by('-date_posted'),
         
         'citizens_charter': CitizensCharter.objects.filter(
             Q(title__icontains=search_query) | 
-            Q(content__icontains=search_query)
+            Q(content__icontains=search_query) |
+            Q(date_posted__icontains=search_query) 
         ).order_by('-date_posted'),
 
         'mission': Mission.objects.filter(
             Q(title__icontains=search_query) | 
-            Q(content__icontains=search_query)
+            Q(content__icontains=search_query) 
         ).order_by('-date_posted'),
 
         'vision': Vision.objects.filter(
@@ -82,52 +90,54 @@ def search(request):
 
         'division_memo': DivisionMemo.objects.filter(
             Q(title__icontains=search_query) | 
-            Q(content__icontains=search_query)
-        ).order_by('-date_posted'),
+            Q(date_published__icontains=search_query) 
+        ).order_by('-date_published'),
 
         'office_memo': OfficeMemo.objects.filter(
             Q(title__icontains=search_query) | 
-            Q(content__icontains=search_query)
-        ).order_by('-date_posted'),
+            Q(date_published__icontains=search_query) 
+        ).order_by('-date_published'),
 
         'deped_order': DepedOrder.objects.filter(
             Q(title__icontains=search_query) | 
-            Q(content__icontains=search_query)
-        ).order_by('-date_posted'),
+            Q(date_published__icontains=search_query) 
+        ).order_by('-date_published'),
 
         'deped_advisories': DepedAdvisories.objects.filter(
             Q(title__icontains=search_query) | 
-            Q(content__icontains=search_query)
-        ).order_by('-date_posted'),
+            Q(date_published__icontains=search_query) 
+        ).order_by('-date_published'),
 
         'bid_opportunities': BidOpportunities.objects.filter(
             Q(projectname__icontains=search_query) | 
-             Q(ref__icontains=search_query)
-        ).order_by('-date_posted'),
+             Q(ref__icontains=search_query) |
+             Q(date_published__icontains=search_query) 
+        ).order_by('-date_published'),
 
         'awards_notices': AwardsNotice.objects.filter(
             Q(projectname__icontains=search_query) | 
-            Q(abc__icontains=search_query)
-        ).order_by('-date_posted'), 
+            Q(abc__icontains=search_query) |
+            Q(date_published__icontains=search_query) 
+        ).order_by('-date_published'), 
 
         'rewards_recognitions': RewardsRecognitions.objects.filter(
             Q(title__icontains=search_query) | 
-            Q(description__icontains=search_query)
+            Q(date_published__icontains=search_query) 
         ).order_by('-id'), 
 
         'recruitment_selection_placement': RecruitmentSelectionPlacement.objects.filter(
             Q(title__icontains=search_query) | 
-            Q(description__icontains=search_query)
+            Q(date_published__icontains=search_query) 
         ).order_by('-id'), 
 
         'performance_management': PerformanceManagement.objects.filter(
             Q(title__icontains=search_query) | 
-            Q(description__icontains=search_query)
+            Q(date_published__icontains=search_query) 
         ).order_by('-id'), 
 
         'learning_development': LearningDevelopment.objects.filter(
             Q(title__icontains=search_query) | 
-            Q(description__icontains=search_query)
+            Q(date_published__icontains=search_query) 
         ).order_by('-id'),         
     }
 
@@ -374,25 +384,54 @@ def quality_policy(request):
 #        'memo': memo
 #    })
 
+from django.db.models.functions import ExtractYear, ExtractMonth
+from django.db.models import Count, Q
+from django.core.paginator import Paginator
+
 def division_memo_list(request):
     search_query = request.GET.get('q', '')
-    division_memo = DivisionMemo.objects.all().order_by('-date_posted')
+    selected_year = request.GET.get('year')
+    selected_month = request.GET.get('month')
     
+    memos = DivisionMemo.objects.all().order_by('-date_published')
+    
+    available_years = memos.values_list('year', flat=True).distinct().order_by('-year')
+    available_months = memos.values_list('month', flat=True).distinct().order_by('-month')
+    
+    # Apply search filter
     if search_query:
-        division_memo = division_memo.filter(
-            Q(
-                title__icontains=search_query) | 
+        memos = memos.filter(
+            Q(title__icontains=search_query) | 
             Q(content__icontains=search_query)
         )
     
-    # Add pagination
-    paginator = Paginator(division_memo, 10)  # Show 10 bids per page
+    # Apply year filter
+    if selected_year:
+        selected_year = int(selected_year)
+        memos = memos.filter(year=selected_year)
+        
+        # Get distinct months for selected year as simple numbers
+        available_months = memos.values_list('month', flat=True).distinct().order_by('month')
+        
+        # Apply month filter
+        if selected_month:
+            selected_month = int(selected_month)
+            memos = memos.filter(month=selected_month)
+    else:
+        available_months = []
+    
+    # Pagination
+    paginator = Paginator(memos, 5)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     
     return render(request, 'deped_app/division_memo.html', {
         'division_memo': page_obj,
-        'search_query': search_query
+        'search_query': search_query,
+        'available_years': available_years,
+        'available_months': available_months,
+        'selected_year': selected_year,
+        'selected_month': selected_month,
     })
 
 def division_memo_detail(request, pk):
@@ -401,25 +440,79 @@ def division_memo_detail(request, pk):
         'memo': memo
     })
 
+
+
+
+#Office Memo
+
+#def office_memo_list(request):
+#    search_query = request.GET.get('q', '')
+#    office_memo = OfficeMemo.objects.all().order_by('-date_posted')
+    
+#    if search_query:
+#        office_memo = office_memo.filter(
+#            Q(title__icontains=search_query) | 
+#            Q(content__icontains=search_query) |
+#            Q(date_posted__icontains=search_query)
+#        )
+    
+    # Add pagination
+#    paginator = Paginator(office_memo, 10)  # Show 10 bids per page
+#    page_number = request.GET.get('page')
+#    page_obj = paginator.get_page(page_number)
+    
+#    return render(request, 'deped_app/office_memo.html', {
+#        'office_memo': page_obj,
+#        'search_query': search_query
+#    })
+
+
+
+#OFFICE MEMO
 def office_memo_list(request):
     search_query = request.GET.get('q', '')
-    office_memo = OfficeMemo.objects.all().order_by('-date_posted')
+    selected_year = request.GET.get('year')
+    selected_month = request.GET.get('month')
     
+    memos = OfficeMemo.objects.all().order_by('-date_published')
+    
+    available_years = memos.values_list('year', flat=True).distinct().order_by('-year')
+    available_months = memos.values_list('month', flat=True).distinct().order_by('-month')
+    
+    # Apply search filter
     if search_query:
-        office_memo = office_memo.filter(
-            Q(
-                title__icontains=search_query) | 
+        memos = memos.filter(
+            Q(title__icontains=search_query) | 
             Q(content__icontains=search_query)
         )
     
-    # Add pagination
-    paginator = Paginator(office_memo, 10)  # Show 10 bids per page
+    # Apply year filter
+    if selected_year:
+        selected_year = int(selected_year)
+        memos = memos.filter(year=selected_year)
+        
+        # Get distinct months for selected year as simple numbers
+        available_months = memos.values_list('month', flat=True).distinct().order_by('month')
+        
+        # Apply month filter
+        if selected_month:
+            selected_month = int(selected_month)
+            memos = memos.filter(month=selected_month)
+    else:
+        available_months = []
+    
+    # Pagination
+    paginator = Paginator(memos, 20)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     
     return render(request, 'deped_app/office_memo.html', {
         'office_memo': page_obj,
-        'search_query': search_query
+        'search_query': search_query,
+        'available_years': available_years,
+        'available_months': available_months,
+        'selected_year': selected_year,
+        'selected_month': selected_month,
     })
 
 def office_memo_detail(request, pk):
@@ -428,26 +521,77 @@ def office_memo_detail(request, pk):
         'memo': memo
     })
 
+
+
+#DEPED ORDER
+#def deped_order_list(request):
+#    search_query = request.GET.get('q', '')
+#    deped_order = DepedOrder.objects.all().order_by('-date_posted')
+    
+#    if search_query:
+#        deped_order = deped_order.filter(
+#            Q(title__icontains=search_query) | 
+#            Q(content__icontains=search_query) |
+#            Q(date_posted__icontains=search_query)
+#        )
+    
+    # Add pagination
+#    paginator = Paginator(deped_order, 10)  # Show 10 bids per page
+#    page_number = request.GET.get('page')
+#    page_obj = paginator.get_page(page_number)
+    
+#    return render(request, 'deped_app/deped_order.html', {
+#        'deped_order': page_obj,
+#        'search_query': search_query
+#    })
+
+
 def deped_order_list(request):
     search_query = request.GET.get('q', '')
-    deped_order = DepedOrder.objects.all().order_by('-date_posted')
+    selected_year = request.GET.get('year')
+    selected_month = request.GET.get('month')
     
+    memos = DepedOrder.objects.all().order_by('-date_published')
+    
+    available_years = memos.values_list('year', flat=True).distinct().order_by('-year')
+    available_months = memos.values_list('month', flat=True).distinct().order_by('-month')
+    
+    # Apply search filter
     if search_query:
-        deped_order = deped_order.filter(
-            Q(
-                title__icontains=search_query) | 
+        memos = memos.filter(
+            Q(title__icontains=search_query) | 
             Q(content__icontains=search_query)
         )
     
-    # Add pagination
-    paginator = Paginator(deped_order, 10)  # Show 10 bids per page
+    # Apply year filter
+    if selected_year:
+        selected_year = int(selected_year)
+        memos = memos.filter(year=selected_year)
+        
+        # Get distinct months for selected year as simple numbers
+        available_months = memos.values_list('month', flat=True).distinct().order_by('month')
+        
+        # Apply month filter
+        if selected_month:
+            selected_month = int(selected_month)
+            memos = memos.filter(month=selected_month)
+    else:
+        available_months = []
+    
+    # Pagination
+    paginator = Paginator(memos, 20)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     
     return render(request, 'deped_app/deped_order.html', {
         'deped_order': page_obj,
-        'search_query': search_query
+        'search_query': search_query,
+        'available_years': available_years,
+        'available_months': available_months,
+        'selected_year': selected_year,
+        'selected_month': selected_month,
     })
+
 
 def deped_order_detail(request, pk):
     order = get_object_or_404(DepedOrder, pk=pk)
@@ -455,25 +599,76 @@ def deped_order_detail(request, pk):
         'order': order
     })
 
+
+#DEPED ADVISORIES
+#def deped_advisories_list(request):
+#    search_query = request.GET.get('q', '')
+#    deped_advisories = DepedAdvisories.objects.all().order_by('-date_posted')
+    
+#    if search_query:
+#        deped_advisories = deped_advisories.filter(
+#            Q(title__icontains=search_query) | 
+#            Q(content__icontains=search_query) |
+#            Q(date_posted__icontains=search_query)
+#        )
+    
+    # Add pagination
+#    paginator = Paginator(deped_advisories, 10)  # Show 10 bids per page
+#    page_number = request.GET.get('page')
+#    page_obj = paginator.get_page(page_number)
+    
+#    return render(request, 'deped_app/deped_advisories.html', {
+#        'deped_advisories': page_obj,
+#        'search_query': search_query
+#    })
+
+
+
+#DEPED ADVISORIES
 def deped_advisories_list(request):
     search_query = request.GET.get('q', '')
-    deped_advisories = DepedAdvisories.objects.all().order_by('-date_posted')
+    selected_year = request.GET.get('year')
+    selected_month = request.GET.get('month')
     
+    memos = DepedAdvisories.objects.all().order_by('-date_published')
+    
+    available_years = memos.values_list('year', flat=True).distinct().order_by('-year')
+    available_months = memos.values_list('month', flat=True).distinct().order_by('-month')
+    
+    # Apply search filter
     if search_query:
-        deped_advisories = deped_advisories.filter(
-            Q(
-                title__icontains=search_query) | 
+        memos = memos.filter(
+            Q(title__icontains=search_query) | 
             Q(content__icontains=search_query)
         )
     
-    # Add pagination
-    paginator = Paginator(deped_advisories, 10)  # Show 10 bids per page
+    # Apply year filter
+    if selected_year:
+        selected_year = int(selected_year)
+        memos = memos.filter(year=selected_year)
+        
+        # Get distinct months for selected year as simple numbers
+        available_months = memos.values_list('month', flat=True).distinct().order_by('month')
+        
+        # Apply month filter
+        if selected_month:
+            selected_month = int(selected_month)
+            memos = memos.filter(month=selected_month)
+    else:
+        available_months = []
+    
+    # Pagination
+    paginator = Paginator(memos, 20)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     
     return render(request, 'deped_app/deped_advisories.html', {
         'deped_advisories': page_obj,
-        'search_query': search_query
+        'search_query': search_query,
+        'available_years': available_years,
+        'available_months': available_months,
+        'selected_year': selected_year,
+        'selected_month': selected_month,
     })
 
     
@@ -486,6 +681,47 @@ def deped_advisories_detail(request, pk):
 
 
 
+def document_archive(request, doc_type):
+    year = request.GET.get('year')
+    month = request.GET.get('month')
+    
+    # Determine which model to use based on doc_type
+    if doc_type == 'division-memo':
+        model = DivisionMemo
+        template = 'deped_app/division_memo_archive.html'
+    elif doc_type == 'office-memo':
+        model = OfficeMemo
+        template = 'deped_app/office_memo_archive.html'
+    elif doc_type == 'deped-order':
+        model = DepedOrder
+        template = 'deped_app/deped_order_archive.html'
+    elif doc_type == 'deped-advisories':
+        model = DepedAdvisories
+        template = 'deped_app/deped_advisories_archive.html'
+    else:
+        raise Http404("Document type not found")
+    
+    # Get available years and months
+    years = model.objects.dates('date_published', 'year').order_by('-year')
+    months_available = model.objects.dates('date_published', 'month').order_by('-date_published')
+    
+    documents = model.objects.all().order_by('-date_published')
+    
+    if year:
+        documents = documents.filter(year=year)
+        if month:
+            documents = documents.filter(month=month)
+    
+    return render(request, template, {
+        'documents': documents,
+        'years': years,
+        'months_available': months_available,
+        'selected_year': int(year) if year else None,
+        'selected_month': int(month) if month else None,
+        'doc_type': doc_type,
+    })
+
+
 
 #def bid_opportunities(request):
 #    return render(request, 'deped_app/bid_opportunities.html', {
@@ -495,7 +731,7 @@ def deped_advisories_detail(request, pk):
 
 def bid_opportunities(request):
     search_query = request.GET.get('q', '')
-    bids = BidOpportunities.objects.all().order_by('-date_posted')
+    bids = BidOpportunities.objects.all().order_by('-date_published')
     
     if search_query:
         bids = bids.filter(
@@ -525,7 +761,7 @@ def bid_opportunity_detail(request, pk):
 
 def awards_notices(request):
     search_query = request.GET.get('q', '')
-    awards_notices = AwardsNotice.objects.all().order_by('-date_posted')
+    awards_notices = AwardsNotice.objects.all().order_by('-date_published')
     
     if search_query:
         awards_notices = awards_notices.filter(
@@ -556,13 +792,12 @@ def awards_notices_detail(request, pk):
 
 def rewards_recognitions(request):
     search_query = request.GET.get('q', '')
-    rewards_recognitions = RewardsRecognitions.objects.all().order_by('-date_posted')
+    rewards_recognitions = RewardsRecognitions.objects.all().order_by('-date_published')
     
     if search_query:
         rewards_recognitions = rewards_recognitions.filter(
             Q(
-                title__icontains=search_query) | 
-            Q(description__icontains=search_query)
+                title__icontains=search_query)
         )
     
     # Add pagination
@@ -583,13 +818,12 @@ def rewards_recognitions_detail(request, pk):
 
 def recruitment_selection_placement(request):
     search_query = request.GET.get('q', '')
-    recruitment_selection_placement = RecruitmentSelectionPlacement.objects.all().order_by('-date_posted')
+    recruitment_selection_placement = RecruitmentSelectionPlacement.objects.all().order_by('-date_published')
     
     if search_query:
         recruitment_selection_placement = recruitment_selection_placement.filter(
             Q(
-                title__icontains=search_query) | 
-            Q(description__icontains=search_query)
+                title__icontains=search_query)
         )
     
     # Add pagination
@@ -612,13 +846,12 @@ def recruitment_selection_placement_detail(request, pk):
 #Performance Management
 def performance_management(request):
     search_query = request.GET.get('q', '')
-    performance_management = PerformanceManagement.objects.all().order_by('-date_posted')
+    performance_management = PerformanceManagement.objects.all().order_by('-date_published')
     
     if search_query:
         performance_management = performance_management.filter(
             Q(
-                title__icontains=search_query) | 
-            Q(description__icontains=search_query)
+                title__icontains=search_query)
         )
     
     # Add pagination
@@ -641,13 +874,12 @@ def performance_management_detail(request, pk):
 #Learning Development
 def learning_development(request):
     search_query = request.GET.get('q', '')
-    learning_development = LearningDevelopment.objects.all().order_by('-date_posted')
+    learning_development = LearningDevelopment.objects.all().order_by('-date_published')
     
     if search_query:
         learning_development = learning_development.filter(
             Q(
-                title__icontains=search_query) | 
-            Q(description__icontains=search_query)
+                title__icontains=search_query) 
         )
     
     # Add pagination

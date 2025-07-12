@@ -1,0 +1,28 @@
+{% extends "admin/change_form.html" %}
+
+{% block extrahead %}
+{{ block.super }}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const yearField = document.getElementById('id_year');
+    const monthField = document.getElementById('id_month');
+    const fileField = document.getElementById('id_file');
+    
+    function toggleFileField() {
+        if (yearField.value && monthField.value) {
+            fileField.disabled = false;
+            fileField.required = true;
+        } else {
+            fileField.disabled = true;
+            fileField.required = false;
+        }
+    }
+    
+    yearField.addEventListener('change', toggleFileField);
+    monthField.addEventListener('change', toggleFileField);
+    
+    // Initial state
+    toggleFileField();
+});
+</script>
+{% endblock %}

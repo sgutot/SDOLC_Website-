@@ -36,7 +36,7 @@
             <!-- Action Buttons with posted date -->
             <div class="d-flex flex-column flex-md-row justify-content-between align-items-center">
                 <div class="text-muted small mb-2 mb-md-0">
-                    <i class="far fa-calendar-alt me-1"></i>Published Date: {{ memo.date_posted|date:"M d, Y" }}
+                    <i class="far fa-calendar-alt me-1"></i>Published Date: {{ memo.date_published|date:"M d, Y" }}
                 </div>
                 <div class="d-flex flex-column flex-md-row gap-3">
                     {% if memo.file %}

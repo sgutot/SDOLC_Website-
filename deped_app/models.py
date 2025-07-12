@@ -198,6 +198,7 @@ class OrganizationalChart(models.Model):
     positions = models.CharField(blank=True, null=True)
     name = models.CharField(blank=True, null=True)
     image = models.ImageField(upload_to='orgchart_images/', blank=True, null=True)
+    org_chart_image = models.ImageField(upload_to='orgchart_images/', blank=True, null=True)
     contact = models.CharField(blank=True, null=True)
     about = models.TextField(blank=True, null=True)
     link = models.URLField(blank=True, null=True)
@@ -318,7 +319,7 @@ class QualityPolicy(models.Model):
 #    content = models.CharField(null=True, blank=True)
 #    link = models.URLField(null=True, blank=True)
 #    file = models.FileField(upload_to='regionalmemo/', null=True, blank=True)
-#    date_posted = models.DateTimeField(default=timezone.now)
+#    date_posted = models.DateInput(default=timezone.now)
 
 #    def __str__(self):
 #       return self.title  if self.title else "Untitled"
@@ -328,65 +329,231 @@ class QualityPolicy(models.Model):
 #        verbose_name_plural = "Regional Memo"
 #        ordering = ['-date_posted']
 
-class DivisionMemo(models.Model):
-    title = models.CharField(null=True, blank=True)
-    content = models.TextField(null=True, blank=True)
-    link = models.URLField(null=True, blank=True)
-    file = models.FileField(help_text="PDF file only", upload_to='divisionmemo/', null=True, blank=True)
-    date_posted = models.DateTimeField(default=timezone.now)
+from django.core.exceptions import ValidationError
 
-    def __str__(self):
-        return self.title  if self.title else "Untitled"
+class BaseDocumentModel(models.Model):
+    YEAR_CHOICES = [(y, y) for y in range(2000, 2050)]
+    MONTH_CHOICES = [
+        (1, 'January'), (2, 'February'), (3, 'March'), (4, 'April'),
+        (5, 'May'), (6, 'June'), (7, 'July'), (8, 'August'),
+        (9, 'September'), (10, 'October'), (11, 'November'), (12, 'December')
+    ]
+    
+    year = models.IntegerField(choices=YEAR_CHOICES, default=timezone.now().year)
+    month = models.IntegerField(choices=MONTH_CHOICES, default=1)
     
     class Meta:
-        verbose_name = "Division Memo"
-        verbose_name_plural = "Division Memo"
-        ordering = ['-date_posted']
-    
-class OfficeMemo(models.Model):
-    title = models.CharField(null=True, blank=True)
-    content = models.TextField(null=True, blank=True)
-    link = models.URLField(null=True, blank=True)
-    file = models.FileField(help_text="PDF file only", upload_to='officememo/', null=True, blank=True)
-    date_posted = models.DateTimeField(default=timezone.now)
+        abstract = True
 
-    def __str__(self):
-        return self.title  if self.title else "Untitled"
-    
-    class Meta:
-        verbose_name = "Office Memo"
-        verbose_name_plural = "Office Memo"
-        ordering = ['-date_posted']
-    
-class DepedOrder(models.Model):
-    title = models.CharField(null=True, blank=True)
-    content = models.TextField(null=True, blank=True)
-    link = models.URLField(null=True, blank=True)
-    file = models.FileField(help_text="PDF file only", upload_to='depedorder/', null=True, blank=True)
-    date_posted = models.DateTimeField(default=timezone.now)
+    def clean(self):
+        super().clean()
+        if not self.year:
+            raise ValidationError("Year is required")
+        if not self.month:
+            raise ValidationError("Month is required")
+        
+        
 
-    def __str__(self):
-       return self.title  if self.title else "Untitled"
-    
-    class Meta:
-        verbose_name = "Deped Order"
-        verbose_name_plural = "Deped Order"
-        ordering = ['-date_posted']
-    
-class DepedAdvisories(models.Model):
-    title = models.CharField(null=True, blank=True)
-    content = models.TextField(null=True, blank=True, help_text="Bold Text: <strong> content... </strong> or <b> content.. </b> | Italicize: <em> content... </em> | <big> content.. </big>]")
-    link = models.URLField(null=True, blank=True)
-    file = models.FileField(help_text="PDF file only", upload_to='depedadvisories/', null=True, blank=True)
-    date_posted = models.DateTimeField(default=timezone.now)
+#class YearMonthFileStorage(FileSystemStorage):
+#    def get_upload_path(self, instance, filename):
+#        if hasattr(instance, 'year') and hasattr(instance, 'month'):
+#            return os.path.join(
+#                super().get_upload_path(instance, filename),
+#                str(instance.year),
+#                str(instance.month),
+#                filename
+#            )
+#        return super().get_upload_path(instance, filename)
 
-    def __str__(self):
-        return self.title  if self.title else "Untitled"
+#file = models.FileField(help_text="PDF file only", upload_to='divisionmemo/', null=True, blank=True, storage=YearMonthFileStorage(),
+#file = models.FileField(help_text="PDF file only", upload_to='divisionmemo/', null=True, blank=True, storage=YearMonthFileStorage(),
+#file = models.FileField(help_text="PDF file only", upload_to='divisionmemo/', null=True, blank=True, storage=YearMonthFileStorage(),
+#file = models.FileField(help_text="PDF file only", upload_to='divisionmemo/', null=True, blank=True, storage=YearMonthFileStorage(),
+#)
+
+from django.core.files.storage import FileSystemStorage
+import os
+
+class YearMonthFileStorage(FileSystemStorage):
+    def get_valid_name(self, name):
+        return super().get_valid_name(name)
     
-    class Meta:
-        verbose_name = "Deped Advisories"
-        verbose_name_plural = "Deped Advisories"
-        ordering = ['-date_posted']
+    def get_available_name(self, name, max_length=None):
+        return super().get_available_name(name, max_length)
+    
+    def _save(self, name, content):
+        # Extract year and month from the model instance
+        if hasattr(content, 'instance'):
+            instance = content.instance
+            if hasattr(instance, 'year') and hasattr(instance, 'month'):
+                path_parts = name.split('/')
+                filename = path_parts[-1]
+                new_path = os.path.join(
+                    '/'.join(path_parts[:-1]),  # Original path
+                    str(instance.year),
+                    str(instance.month).zfill(2),  # Ensure 2-digit month
+                    filename
+                )
+                name = new_path
+        return super()._save(name, content)
+
+
+#class DivisionMemo(models.Model):
+#    title = models.CharField(null=True, blank=True)
+#    content = models.TextField(null=True, blank=True)
+#    link = models.URLField(null=True, blank=True)
+#    file = models.FileField(help_text="PDF file only", upload_to='divisionmemo/', null=True, blank=True)
+#    date_posted = models.DateField(default=timezone.now)
+
+#    def __str__(self):
+#        return self.title  if self.title else "Untitled"
+    
+#    class Meta:
+#        verbose_name = "Division Memo"
+#        verbose_name_plural = "Division Memo"
+#        ordering = ['-date_posted']
+
+
+class DivisionMemo(BaseDocumentModel):
+    title = models.CharField(null=True, blank=True)
+    link = models.URLField(null=True, blank=True)
+    file = models.FileField(help_text="PDF file only", upload_to='divisionmemo/', storage=YearMonthFileStorage())
+    date_published = models.DateField(default=timezone.now)
+
+    def get_month_name(self):
+        """Returns the full month name for the memo's month number."""
+        month_names = {
+            1: 'January', 2: 'February', 3: 'March', 4: 'April',
+            5: 'May', 6: 'June', 7: 'July', 8: 'August',
+            9: 'September', 10: 'October', 11: 'November', 12: 'December'
+        }
+        return month_names.get(self.month, '')
+    
+    def clean(self):
+        super().clean()
+        # Ensure date_published is a datetime object
+        if isinstance(self.date_published, str):
+            from django.utils.dateparse import parse_datetime
+            parsed = parse_datetime(self.date_published)
+            if parsed:
+                self.date_published = parsed
+    
+    
+#class OfficeMemo(models.Model):
+#    title = models.CharField(null=True, blank=True)
+#    content = models.TextField(null=True, blank=True)
+#    link = models.URLField(null=True, blank=True)
+#    file = models.FileField(help_text="PDF file only", upload_to='officememo/', null=True, blank=True)
+#    date_posted = models.DateField(default=timezone.now)
+
+#    def __str__(self):
+#        return self.title  if self.title else "Untitled"
+    
+#    class Meta:
+#        verbose_name = "Office Memo"
+#        verbose_name_plural = "Office Memo"
+#        ordering = ['-date_posted']
+
+
+class OfficeMemo(BaseDocumentModel):
+    title = models.CharField(null=True, blank=True)
+    link = models.URLField(null=True, blank=True)
+    file = models.FileField(help_text="PDF file only", upload_to='officememo/', storage=YearMonthFileStorage())
+    date_published = models.DateField(default=timezone.now)
+
+    def get_month_name(self):
+        """Returns the full month name for the memo's month number."""
+        month_names = {
+            1: 'January', 2: 'February', 3: 'March', 4: 'April',
+            5: 'May', 6: 'June', 7: 'July', 8: 'August',
+            9: 'September', 10: 'October', 11: 'November', 12: 'December'
+        }
+        return month_names.get(self.month, '')
+    
+    def clean(self):
+        super().clean()
+        if isinstance(self.date_published, str):
+            from django.utils.dateparse import parse_datetime
+            parsed = parse_datetime(self.date_published)
+            if parsed:
+                self.date_published = parsed
+    
+#class DepedOrder(models.Model):
+#    title = models.CharField(null=True, blank=True)
+#    content = models.TextField(null=True, blank=True)
+#    link = models.URLField(null=True, blank=True)
+#    file = models.FileField(help_text="PDF file only", upload_to='depedorder/', null=True, blank=True)
+#    date_posted = models.DateField(default=timezone.now)
+
+#    def __str__(self):
+#       return self.title  if self.title else "Untitled"
+    
+#    class Meta:
+#        verbose_name = "Deped Order"
+#        verbose_name_plural = "Deped Order"
+#        ordering = ['-date_posted']
+
+class DepedOrder(BaseDocumentModel):
+    title = models.CharField(null=True, blank=True)
+    link = models.URLField(null=True, blank=True)
+    file = models.FileField(help_text="PDF file only", upload_to='depedorder/', storage=YearMonthFileStorage())
+    date_published = models.DateField(default=timezone.now)
+
+    def get_month_name(self):
+        """Returns the full month name for the memo's month number."""
+        month_names = {
+            1: 'January', 2: 'February', 3: 'March', 4: 'April',
+            5: 'May', 6: 'June', 7: 'July', 8: 'August',
+            9: 'September', 10: 'October', 11: 'November', 12: 'December'
+        }
+        return month_names.get(self.month, '')
+    
+    def clean(self):
+        super().clean()
+        if isinstance(self.date_published, str):
+            from django.utils.dateparse import parse_datetime
+            parsed = parse_datetime(self.date_published)
+            if parsed:
+                self.date_published = parsed
+    
+#class DepedAdvisories(models.Model):
+#    title = models.CharField(null=True, blank=True)
+#    content = models.TextField(null=True, blank=True, help_text="Bold Text: <strong> content... </strong> or <b> content.. </b> | Italicize: <em> content... </em> | <big> content.. </big>]")
+#    link = models.URLField(null=True, blank=True)
+#    file = models.FileField(help_text="PDF file only", upload_to='depedadvisories/', null=True, blank=True)
+#    date_posted = models.DateField(default=timezone.now)
+
+#    def __str__(self):
+#        return self.title  if self.title else "Untitled"
+    
+#    class Meta:
+#        verbose_name = "Deped Advisories"
+#        verbose_name_plural = "Deped Advisories"
+#        ordering = ['-date_posted']
+
+
+class DepedAdvisories(BaseDocumentModel):
+    title = models.CharField(null=True, blank=True)
+    link = models.URLField(null=True, blank=True)
+    file = models.FileField(help_text="PDF file only", upload_to='depedadvisories/', storage=YearMonthFileStorage())
+    date_published = models.DateField(default=timezone.now)
+
+    def get_month_name(self):
+        """Returns the full month name for the memo's month number."""
+        month_names = {
+            1: 'January', 2: 'February', 3: 'March', 4: 'April',
+            5: 'May', 6: 'June', 7: 'July', 8: 'August',
+            9: 'September', 10: 'October', 11: 'November', 12: 'December'
+        }
+        return month_names.get(self.month, '')
+    
+    def clean(self):
+        super().clean()
+        if isinstance(self.date_published, str):
+            from django.utils.dateparse import parse_datetime
+            parsed = parse_datetime(self.date_published)
+            if parsed:
+                self.date_published = parsed
 
     
     
@@ -396,7 +563,7 @@ class BidOpportunities(models.Model):
     projectname = models.CharField(null=True, blank=True)
     ref = models.IntegerField(null=True, blank=True)  
     abc = models.CharField(null=True, blank=True)  
-    date_posted = models.DateTimeField(default=timezone.now)
+    date_published = models.DateField(default=timezone.now)
     link = models.URLField(null=True, blank=True, verbose_name="Online Link")
     file = models.FileField(help_text="PDF file only", upload_to='bid_opportunities/%Y/%m/%d/', null=True, blank=True)
 
@@ -406,7 +573,7 @@ class BidOpportunities(models.Model):
     class Meta:
         verbose_name = "Bid Opportunity"
         verbose_name_plural = "Bid Opportunities"
-        ordering = ['-date_posted']
+        ordering = ['-date_published']
     
 class AwardsNotice(models.Model):
     projectname = models.CharField(null=True, blank=True)
@@ -417,7 +584,7 @@ class AwardsNotice(models.Model):
     abstract = models.TextField(null=True, blank=True)
     link = models.URLField(null=True, blank=True)
     file = models.FileField(help_text="PDF file only", upload_to='awards_notices/%Y/%m/%d/', null=True, blank=True)  
-    date_posted = models.DateTimeField(default=timezone.now)
+    date_published = models.DateField(default=timezone.now)
 
     def __str__(self):
         return self.projectname if self.projectname else "Untitled"
@@ -425,17 +592,16 @@ class AwardsNotice(models.Model):
     class Meta:
         verbose_name = "Learning and Development"
         verbose_name_plural = "Learning and Development"
-        ordering = ['-date_posted']
+        ordering = ['-date_published']
     
 
 
 
 class RewardsRecognitions(models.Model):
-    title = models.CharField(null=True, blank=True, help_text="Title of the reward/recognition")
-    description = models.TextField(null=True, blank=True, help_text="Detailed description of the award")
-    file = models.FileField(upload_to='rewards_recognitions/%Y/%m/%d/', null=True, blank=True, help_text="PDF file only")
-    link = models.URLField(null=True, blank=True, help_text="External URL related to this recognition")
-    date_posted = models.DateTimeField(default=timezone.now)
+    title = models.CharField(null=True, blank=True)
+    file = models.FileField(upload_to='rewards_recognitions/%Y/%m/%d/')
+    link = models.URLField(null=True, blank=True)
+    date_published = models.DateField(default=timezone.now)
     
     def __str__(self):
          return self.title  if self.title else "Untitled"
@@ -443,15 +609,14 @@ class RewardsRecognitions(models.Model):
     class Meta:
         verbose_name = "Rewards & Recognition"
         verbose_name_plural = "Rewards & Recognitions"
-        ordering = ['-date_posted']
+        ordering = ['-date_published']
 
 
 class RecruitmentSelectionPlacement(models.Model):
     title = models.CharField(null=True, blank=True)
-    description = models.TextField(null=True, blank=True)
     file = models.FileField(help_text="PDF file only", upload_to='primehrm/%Y/%m/%d/', null=True, blank=True)
     link = models.URLField(null=True, blank=True)
-    date_posted = models.DateTimeField(default=timezone.now)
+    date_published = models.DateField(default=timezone.now)
     
     
     def __str__(self):
@@ -460,14 +625,13 @@ class RecruitmentSelectionPlacement(models.Model):
     class Meta:
         verbose_name = "Recruitment Selection Placement"
         verbose_name_plural = "Recruitment Selection Placement"
-        ordering = ['-date_posted']
+        ordering = ['-date_published']
 
 class PerformanceManagement(models.Model):
     title = models.CharField(null=True, blank=True)
-    description = models.TextField(blank=True, null=True)
     file = models.FileField(help_text="PDF file only", upload_to='performance_management/%Y/%m/%d/', blank=True, null=True)
     link = models.URLField(blank=True, null=True)
-    date_posted = models.DateTimeField(default=timezone.now)
+    date_published = models.DateField(default=timezone.now)
     
     def __str__(self):
          return self.title  if self.title else "Untitled"
@@ -475,14 +639,13 @@ class PerformanceManagement(models.Model):
     class Meta:
         verbose_name = "Performance Management"
         verbose_name_plural = "Performance Management"
-        ordering = ['-date_posted']
+        ordering = ['-date_published']
 
 class LearningDevelopment(models.Model):
     title = models.CharField(null=True, blank=True)
-    description = models.TextField(null=True, blank=True)
     file = models.FileField(help_text="PDF file only", upload_to='learning_development/%Y/%m/%d/', null=True, blank=True)
     link = models.URLField(null=True, blank=True)
-    date_posted = models.DateTimeField(default=timezone.now)
+    date_published = models.DateField(default=timezone.now)
     
     def __str__(self):
          return self.title  if self.title else "Untitled"
@@ -490,7 +653,7 @@ class LearningDevelopment(models.Model):
     class Meta:
         verbose_name = "Learning and Development"
         verbose_name_plural = "Learning and Development"
-        ordering = ['-date_posted']
+        ordering = ['-date_published']
 
 
     

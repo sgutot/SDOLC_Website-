@@ -33,7 +33,7 @@
                         <a href="{{ memo.file.url }}" class="text-decoration-none">{{ memo.title }}</a>
                     </td>
                     <td>
-                        <small><i class="far fa-calendar-alt"></i> {{ memo.date_posted|date:"F j, Y" }}</small>
+                        <small><i class="far fa-calendar-alt"></i> {{ memo.date_published|date:"F j, Y" }}</small>
                     </td>
                 </tr>
                 {% endfor %}
@@ -93,8 +93,8 @@
     <div class="no-memos">
         <div class="empty-state">
             <i class="fas fa-file-alt"></i>
-            <h3>No Memoranda Available</h3>
-            <p>There are currently no division memoranda to display.</p>
+            <h3>No Memoraudom Available</h3>
+            <p>There are currently no division memorandum to display.</p>
         </div>
     </div>
     {% endif %}
