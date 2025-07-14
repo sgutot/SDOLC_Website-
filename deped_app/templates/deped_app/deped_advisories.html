@@ -41,7 +41,7 @@
                 <div class="search-group">
                     <div class="search-input-container">
                         <input type="text" name="q" placeholder="Search memorandum..." value="{{ search_query|default:'' }}" class="form-control">
-                        <button type="submit" class="btn btn-primary search-btn">
+                        <button type="submit" class="btn btn-outline-secondary  search-btn">
                             <i class="fas fa-search"></i> Search
                         </button>
                     </div>
@@ -271,18 +271,9 @@ document.addEventListener('DOMContentLoaded', function() {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-}
-
-.btn-primary {
     background-color: #7A0213;
     color: white;
     border: none;
-}
-
-.btn-primary:hover {
-    background-color: #5a0010;
-    border-color: #5a0010;
-    color: white;
 }
 
 .btn-outline-secondary {
@@ -297,8 +288,17 @@ document.addEventListener('DOMContentLoaded', function() {
     color: white;
 }
 
+
 .search-btn {
     min-width: 100px;
+    background-color: #7A0213;
+    border-color: #7A0213;
+    color: white;
+}
+
+.search-btn:hover {
+    border-color: #5a0010;
+    color: white;
 }
 
 .reset-btn {

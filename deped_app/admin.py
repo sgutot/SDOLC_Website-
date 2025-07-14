@@ -286,7 +286,7 @@ class AwardsNoticeAdmin(admin.ModelAdmin):
     list_display = ('projectname', 'awardee', 'abc', 'contractamount', 'dateawarded', 'has_link', 'has_file')
     search_fields = ('projectname', 'awardee', 'date_published')
     list_filter = ('dateawarded',)
-    fields = ('projectname', 'abc', 'awardee', 'contractamount', 'dateawarded', 'abstract', 'link', 'file', 'date_posted')
+    fields = ('projectname', 'abc', 'awardee', 'contractamount', 'dateawarded', 'abstract', 'link', 'file', 'date_published')
     
     def has_link(self, obj):
         return bool(obj.link)

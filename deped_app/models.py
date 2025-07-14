@@ -13,10 +13,10 @@ from django.utils.text import slugify
 import json
 
 class SiteSettings(models.Model):
-    site_name = models.CharField(default='DEPED', null=True, blank=True)
+    site_name = models.CharField(max_length=1000, null=True, blank=True)
     site_logo = models.ImageField(upload_to='site/', null=True, blank=True)
     contact_email = models.EmailField(default='info@deped.gov.ph')
-    contact_phone = models.CharField(null=True, blank=True)
+    contact_phone = models.CharField(max_length=50, null=True, blank=True)
     address = models.TextField(null=True, blank=True)
     quick_links_json = models.TextField(null=True, blank=True,default='{}',help_text='JSON format for quick links. Example: {"Bid Opportunities": "/bid-opportunities"}')
     
@@ -35,7 +35,7 @@ class SiteSettings(models.Model):
         return self.site_name
     
 class VideosCitizensCharter(models.Model):
-    caption = models.CharField(null=True, blank=True)
+    caption = models.CharField(max_length=5000, null=True, blank=True)
     content = models.TextField(null=True, blank=True)
     video = models.FileField(upload_to='videos/%y', null=True, blank=True)
     date_posted = models.DateField(default=timezone.now)
@@ -44,7 +44,7 @@ class VideosCitizensCharter(models.Model):
         return self.caption
     
 class Videos(models.Model):
-    caption = models.CharField(null=True, blank=True)
+    caption = models.CharField(max_length=5000, null=True, blank=True)
     video = models.FileField(upload_to='videos/%y', null=True, blank=True)
     date_posted = models.DateField(default=timezone.now)
 
@@ -54,7 +54,7 @@ class Videos(models.Model):
     
 
 class Awards(models.Model):
-    title = models.CharField(null=True, blank=True)
+    title = models.CharField(max_length=1000, null=True, blank=True)
     image = models.ImageField(upload_to='awards_image', null=True, blank=True)
     content = models.TextField(null=True, blank=True)
     file = models.FileField(help_text="PDF file only", upload_to='awards_file', null=True, blank=True)
@@ -70,7 +70,7 @@ class Awards(models.Model):
 
 
 class News(models.Model):
-    title = models.CharField(null=True, blank=True)
+    title = models.CharField(max_length=1000, null=True, blank=True)
     slug = models.SlugField(max_length=200, unique=True, editable=True)  
     content = models.TextField(null=True, blank=True)
     link = models.URLField(null=True, blank=True)
@@ -95,7 +95,7 @@ class News(models.Model):
 
 
 class Program(models.Model):
-    name = models.CharField(null=True, blank=True)
+    name = models.CharField(max_length=1000, null=True, blank=True)
     image = models.ImageField(upload_to='program_image', null=True, blank=True)
     description = models.TextField(null=True, blank=True)
     link = models.URLField(null=True, blank=True)
@@ -112,7 +112,7 @@ class Program(models.Model):
 
 
 class Announcement(models.Model):
-    title = models.CharField(null=True, blank=True)
+    title = models.CharField(max_length=1000, null=True, blank=True)
     content = models.TextField(null=True, blank=True)
     link = models.URLField(null=True, blank=True)
     file = models.FileField(help_text="PDF file only", upload_to='announcement_files/', null=True, blank=True)
@@ -194,11 +194,11 @@ class OrganizationalChart(models.Model):
 
     'School Management, Monitoring & Evaluation Section (SMME)': 43,
 }
-    management = models.CharField(choices=MANAGEMENT_CHOICES, blank=True, null=True,verbose_name="Department")
-    positions = models.CharField(blank=True, null=True)
-    name = models.CharField(blank=True, null=True)
+    management = models.CharField(max_length=1000, choices=MANAGEMENT_CHOICES, blank=True, null=True,verbose_name="Department")
+    positions = models.CharField(max_length=1000, blank=True, null=True)
+    name = models.CharField(max_length=1000, blank=True, null=True)
     image = models.ImageField(upload_to='orgchart_images/', blank=True, null=True)
-    contact = models.CharField(blank=True, null=True)
+    contact = models.CharField(max_length=1000, blank=True, null=True)
     about = models.TextField(blank=True, null=True)
     link = models.URLField(blank=True, null=True)
     priority = models.IntegerField(blank=True, null=True, help_text="Automatically set based on position hierarchy")
@@ -226,7 +226,7 @@ class OrgChartWhole(models.Model):
     date_posted = models.DateField(default=timezone.now)
     
 class CitizensCharter(models.Model):
-    title = models.CharField(null=True, blank=True)
+    title = models.CharField(max_length=1000, null=True, blank=True)
     content = models.TextField(null=True, blank=True)
     link = models.URLField(null=True, blank=True)
     file = models.FileField(help_text="PDF file only", upload_to='', null=True, blank=True)
@@ -240,7 +240,7 @@ class CitizensCharter(models.Model):
         verbose_name_plural = "Citizens Charter"
 
 class Mission(models.Model):
-    title = models.CharField(null=True, blank=True)
+    title = models.CharField(max_length=1000, null=True, blank=True)
     content = models.TextField(null=True, blank=True)
     file = models.FileField(help_text="PDF file only", upload_to='mvmcv_files/', null=True, blank=True)
     link = models.URLField(null=True, blank=True)
@@ -255,7 +255,7 @@ class Mission(models.Model):
         ordering = ['-date_posted']
     
 class Vision(models.Model):
-    title = models.CharField(null=True, blank=True)
+    title = models.CharField(max_length=1000, null=True, blank=True)
     content = models.TextField(null=True, blank=True)
     file = models.FileField(help_text="PDF file only", upload_to='mvmcv_files/', null=True, blank=True)
     link = models.URLField(null=True, blank=True)
@@ -270,7 +270,7 @@ class Vision(models.Model):
         ordering = ['-date_posted']
     
 class Mandate(models.Model):
-    title = models.CharField(null=True, blank=True)
+    title = models.CharField(max_length=1000, null=True, blank=True)
     content = models.TextField(null=True, blank=True)
     file = models.FileField(help_text="PDF file only", upload_to='mvmcv_files/', null=True, blank=True)
     link = models.URLField(null=True, blank=True)
@@ -285,7 +285,7 @@ class Mandate(models.Model):
         ordering = ['-date_posted']
 
 class CoreValues(models.Model):
-    title = models.CharField(null=True, blank=True)
+    title = models.CharField(max_length=1000, null=True, blank=True)
     content = models.TextField(null=True, blank=True)
     file = models.FileField(help_text="PDF file only", upload_to='mvmcv_files/', null=True, blank=True)
     link = models.URLField(null=True, blank=True)
@@ -300,7 +300,7 @@ class CoreValues(models.Model):
         ordering = ['-date_posted']
     
 class QualityPolicy(models.Model):
-    title = models.CharField(null=True, blank=True)
+    title = models.CharField(max_length=1000, null=True, blank=True)
     content = models.TextField(null=True, blank=True)
     file = models.FileField(help_text="PDF file only", upload_to='qualitypolicy_files/', null=True, blank=True)
     link = models.URLField(null=True, blank=True)
@@ -380,7 +380,7 @@ class YearMonthFileStorage(FileSystemStorage):
     def get_valid_name(self, name):
         return super().get_valid_name(name)
     
-    def get_available_name(self, name, max_length=None):
+    def get_available_name(self, name, max_length=1000):
         return super().get_available_name(name, max_length)
     
     def _save(self, name, title):
@@ -416,7 +416,7 @@ class YearMonthFileStorage(FileSystemStorage):
 
 
 class DivisionMemo(BaseDocumentModel):
-    title = models.CharField(null=True, blank=True)
+    title = models.CharField(max_length=1000, null=True, blank=True)
     link = models.URLField(null=True, blank=True)
     file = models.FileField(help_text="PDF file only", upload_to='divisionmemo/', storage=YearMonthFileStorage())
     date_published = models.DateField(default=timezone.now)
@@ -457,7 +457,7 @@ class DivisionMemo(BaseDocumentModel):
 
 
 class OfficeMemo(BaseDocumentModel):
-    title = models.CharField(null=True, blank=True)
+    title = models.CharField(max_length=1000, null=True, blank=True)
     link = models.URLField(null=True, blank=True)
     file = models.FileField(help_text="PDF file only", upload_to='officememo/', storage=YearMonthFileStorage())
     date_published = models.DateField(default=timezone.now)
@@ -495,7 +495,7 @@ class OfficeMemo(BaseDocumentModel):
 #        ordering = ['-date_posted']
 
 class DepedOrder(BaseDocumentModel):
-    title = models.CharField(null=True, blank=True)
+    title = models.CharField(max_length=1000, null=True, blank=True)
     link = models.URLField(null=True, blank=True)
     file = models.FileField(help_text="PDF file only", upload_to='depedorder/', storage=YearMonthFileStorage())
     date_published = models.DateField(default=timezone.now)
@@ -534,7 +534,7 @@ class DepedOrder(BaseDocumentModel):
 
 
 class DepedAdvisories(BaseDocumentModel):
-    title = models.CharField(null=True, blank=True)
+    title = models.CharField(max_length=1000, null=True, blank=True)
     link = models.URLField(null=True, blank=True)
     file = models.FileField(help_text="PDF file only", upload_to='depedadvisories/', storage=YearMonthFileStorage())
     date_published = models.DateField(default=timezone.now)
@@ -561,9 +561,9 @@ class DepedAdvisories(BaseDocumentModel):
 
     
 class BidOpportunities(models.Model):
-    projectname = models.CharField(null=True, blank=True)
-    ref = models.IntegerField(null=True, blank=True)  
-    abc = models.CharField(null=True, blank=True)  
+    projectname = models.CharField(max_length=1000, null=True, blank=True)
+    ref = models.IntegerField(null=True, blank=True, default=0)  
+    abc = models.CharField(max_length=1000, null=True, blank=True)  
     date_published = models.DateField(default=timezone.now)
     link = models.URLField(null=True, blank=True, verbose_name="Online Link")
     file = models.FileField(help_text="PDF file only", upload_to='bid_opportunities/%Y/%m/%d/', null=True, blank=True)
@@ -577,10 +577,10 @@ class BidOpportunities(models.Model):
         ordering = ['-date_published']
     
 class AwardsNotice(models.Model):
-    projectname = models.CharField(null=True, blank=True)
-    abc = models.DecimalField(max_digits=100, decimal_places=2, null=True, blank=True)
-    awardee = models.CharField(null=True, blank=True)
-    contractamount = models.DecimalField(max_digits=100, decimal_places=2, null=True, blank=True)
+    projectname = models.CharField(max_length=1000, null=True, blank=True)
+    abc = models.DecimalField(max_digits=100, decimal_places=2, null=True, blank=True, default=0.00)
+    awardee = models.CharField(max_length=1000, null=True, blank=True)
+    contractamount = models.DecimalField(max_digits=100, decimal_places=2, null=True, blank=True, default=0.00)
     dateawarded = models.DateField(null=True, blank=True)
     abstract = models.TextField(null=True, blank=True)
     link = models.URLField(null=True, blank=True)
@@ -591,15 +591,15 @@ class AwardsNotice(models.Model):
         return self.projectname if self.projectname else "Untitled"
     
     class Meta:
-        verbose_name = "Learning and Development"
-        verbose_name_plural = "Learning and Development"
+        verbose_name = "Awards Notice"
+        verbose_name_plural = "Awards Notice"
         ordering = ['-date_published']
     
 
 
 
 class RewardsRecognitions(models.Model):
-    title = models.CharField(null=True, blank=True)
+    title = models.CharField(max_length=1000, null=True, blank=True)
     file = models.FileField(upload_to='rewards_recognitions/%Y/%m/%d/')
     link = models.URLField(null=True, blank=True)
     date_published = models.DateField(default=timezone.now)
@@ -614,7 +614,7 @@ class RewardsRecognitions(models.Model):
 
 
 class RecruitmentSelectionPlacement(models.Model):
-    title = models.CharField(null=True, blank=True)
+    title = models.CharField(max_length=1000, null=True, blank=True)
     file = models.FileField(help_text="PDF file only", upload_to='primehrm/%Y/%m/%d/', null=True, blank=True)
     link = models.URLField(null=True, blank=True)
     date_published = models.DateField(default=timezone.now)
@@ -629,7 +629,7 @@ class RecruitmentSelectionPlacement(models.Model):
         ordering = ['-date_published']
 
 class PerformanceManagement(models.Model):
-    title = models.CharField(null=True, blank=True)
+    title = models.CharField(max_length=1000, null=True, blank=True)
     file = models.FileField(help_text="PDF file only", upload_to='performance_management/%Y/%m/%d/', blank=True, null=True)
     link = models.URLField(blank=True, null=True)
     date_published = models.DateField(default=timezone.now)
@@ -643,7 +643,7 @@ class PerformanceManagement(models.Model):
         ordering = ['-date_published']
 
 class LearningDevelopment(models.Model):
-    title = models.CharField(null=True, blank=True)
+    title = models.CharField(max_length=1000, null=True, blank=True)
     file = models.FileField(help_text="PDF file only", upload_to='learning_development/%Y/%m/%d/', null=True, blank=True)
     link = models.URLField(null=True, blank=True)
     date_published = models.DateField(default=timezone.now)
@@ -659,9 +659,9 @@ class LearningDevelopment(models.Model):
 
     
 class Contact(models.Model):
-    fullname = models.CharField()
+    fullname = models.CharField(max_length=1000, )
     workemail = models.EmailField()
-    organization = models.CharField(help_text="School or company name")
+    organization = models.CharField(max_length=1000, help_text="School or company name")
     message = models.TextField(help_text="Tell us more about your needs and timeline")
     submitted_at = models.DateTimeField(auto_now_add=True)
 
@@ -669,7 +669,7 @@ class Contact(models.Model):
         return f"{self.fullname} - {self.workemail}" if f"{self.fullname} - {self.workemail}" else "Untitled"
 
 class QuickLinks(models.Model):
-    name = models.CharField(null=True, blank=True)
+    name = models.CharField(max_length=1000, null=True, blank=True)
     links = models.URLField(null=True, blank=True)
     date_posted = models.DateField(default=timezone.now)
 

@@ -56,13 +56,13 @@
                     
                     <div class="d-flex gap-2">
                         {% if news.file %}
-                        <a href="{{ news.file.url }}" class="btn btn-sm btn-outline-primary px-3 py-1" download>
+                        <a href="{{ news.file.url }}" class="btn btn-sm px-3 py-1" download>
                             <i class="fas fa-download me-1"></i> Download
                         </a>
                         {% endif %}
                         
                         {% if news.link %}
-                        <a href="{{ news.link }}" class="btn btn-sm btn-primary px-3 py-1" target="_blank">
+                        <a href="{{ news.link }}" class="btn btn-sm px-3 py-1" target="_blank">
                             <i class="fas fa-external-link-alt me-1"></i> View Link
                         </a>
                         {% endif %}
@@ -166,30 +166,15 @@
         border-radius: 4px;
         transition: all 0.2s;
         padding: 0.375rem 0.75rem;
+        background-color: #7A0213;
+        border-color: #7A0213;
+        color: white;
     }
     
     .btn:hover {
         transform: translateY(-1px);
-    }
-    
-    .btn-primary {
-        background-color: #7A0213;
         border-color: #7A0213;
-    }
-    
-    .btn-primary:hover {
-        background-color: #60010e;
-        border-color: #60010e;
-    }
-    
-    .btn-outline-primary {
         color: #7A0213;
-        border-color: #7A0213;
-    }
-    
-    .btn-outline-primary:hover {
-        background-color: #7A0213;
-        color: white;
     }
     
     .breadcrumb-item a {

@@ -119,6 +119,7 @@
     margin: 0 auto;
     padding: 2rem 1rem;
     font-family: 'Segoe UI', Roboto, sans-serif;
+    font-size: 1rem; /* Base font size for the container */
 }
 
 .memo-header {
@@ -134,7 +135,7 @@
 
 .memo-title {
     color: #7A0213;
-    font-size: 1.5rem; 
+    font-size: 1.75rem; /* Slightly increased for prominence */
     font-weight: 600;
     margin: 0;
 }
@@ -155,7 +156,7 @@
     padding-right: 2.5rem;
     border: 1px solid #ddd;
     border-radius: 20px;
-    font-size: 0.9rem;
+    font-size: 0.95rem; /* Slightly larger for readability */
     transition: all 0.3s ease;
 }
 
@@ -173,14 +174,25 @@
     color: #7A0213;
     cursor: pointer;
     padding: 0.25rem;
+    font-size: 1rem; /* Consistent with input */
+}
+
+.search-button i {
+    font-size: 1rem; /* Ensure icon scales with button */
 }
 
 .search-button:hover {
     color: #5a0113;
 }
 
-.memo-table {
+.table-responsive {
     width: 100%;
+    max-width: 1200px; /* Matches memo-container for consistency */
+    overflow-x: auto; /* Allows horizontal scrolling on small screens */
+}
+
+.memo-table {
+    width: 1200px; /* Fixed width to maintain table size */
     border-collapse: collapse;
     margin-bottom: 2rem;
     background: white;
@@ -195,12 +207,28 @@
     padding: 1rem;
     text-align: left;
     font-weight: 600;
+    font-size: 1rem; /* Standard size for headers */
 }
 
 .memo-table td {
     padding: 1rem;
     border-bottom: 1px solid #eee;
     vertical-align: middle;
+    font-size: 0.95rem; /* Slightly smaller for table content */
+}
+
+/* Fixed column widths to prevent resizing */
+.memo-table th:nth-child(1), .memo-table td:nth-child(1) { /* Reference No. */
+    width: 200px;
+}
+.memo-table th:nth-child(2), .memo-table td:nth-child(2) { /* Project Name */
+    width: 500px;
+}
+.memo-table th:nth-child(3), .memo-table td:nth-child(3) { /* Approved Budget */
+    width: 250px;
+}
+.memo-table th:nth-child(4), .memo-table td:nth-child(4) { /* Published Date */
+    width: 250px;
 }
 
 .memo-table tr:last-child td {
@@ -215,6 +243,7 @@
     color: #7A0213;
     font-weight: 500;
     margin-right: 0.5rem;
+    font-size: 0.95rem; /* Matches table cell */
 }
 
 .memo-table a:hover {
@@ -250,6 +279,7 @@
     color: #7A0213;
     text-decoration: none;
     transition: all 0.2s;
+    font-size: 0.95rem; /* Consistent with table */
 }
 
 .page-link:hover {
@@ -269,7 +299,7 @@
 
 .page-info {
     color: #666;
-    font-size: 0.9rem;
+    font-size: 0.9rem; /* Slightly smaller for secondary info */
 }
 
 .no-memos {
@@ -294,22 +324,69 @@
 .empty-state h3 {
     color: #333;
     margin-bottom: 0.5rem;
+    font-size: 1.25rem; /* Adjusted for hierarchy */
 }
 
 .empty-state p {
     color: #666;
     margin: 0;
+    font-size: 1rem; /* Standard size for text */
 }
 
 /* Tablet and Small Laptop (768px - 1024px) */
 @media (max-width: 1024px) {
     .memo-container {
         padding: 1.5rem;
+        font-size: 0.95rem; /* Slightly smaller base font */
     }
     
-    .memo-table th,
+    .memo-table th {
+        font-size: 0.95rem; /* Adjusted for smaller screens */
+    }
+
     .memo-table td {
-        padding: 0.8rem;
+        font-size: 0.9rem; /* Adjusted for readability */
+    }
+
+    .memo-title {
+        font-size: 1.5rem; /* Slightly reduced */
+    }
+
+    .search-input {
+        font-size: 0.9rem;
+    }
+
+    .search-button {
+        font-size: 0.95rem;
+    }
+
+    .search-button i {
+        font-size: 0.95rem;
+    }
+
+    .page-link {
+        font-size: 0.9rem;
+    }
+
+    .page-info {
+        font-size: 0.85rem;
+    }
+
+    .empty-state h3 {
+        font-size: 1.15rem;
+    }
+
+    .empty-state p {
+        font-size: 0.95rem;
+    }
+
+    /* Maintain table size */
+    .memo-table {
+        width: 1200px; /* Fixed width */
+    }
+
+    .memo-table th, .memo-table td {
+        padding: 1rem; /* Fixed padding */
     }
 }
 
@@ -317,6 +394,7 @@
 @media (max-width: 768px) {
     .memo-container {
         padding: 1rem 0.5rem;
+        font-size: 0.9rem; /* Smaller base font for mobile */
     }
 
     .memo-header {
@@ -328,8 +406,7 @@
     }
 
     .memo-title {
-        font-size: 1.5rem;
-        margin-bottom: 0.5rem;
+        font-size: 1.4rem; /* Adjusted for mobile */
     }
 
     .memo-search-form {
@@ -344,12 +421,21 @@
     }
 
     .search-input {
-        font-size: 1rem;
+        font-size: 0.95rem; /* Slightly larger for touch input */
         padding: 0.75rem 1rem;
         padding-right: 3rem;
     }
 
+    .search-button {
+        font-size: 0.95rem;
+    }
+
+    .search-button i {
+        font-size: 0.95rem;
+    }
+
     .memo-table {
+        width: 1200px; /* Fixed width */
         display: block;
         overflow-x: auto;
         white-space: nowrap;
@@ -357,23 +443,22 @@
         border-radius: 0;
     }
 
-    .memo-table th,
-    .memo-table td {
-        padding: 0.75rem 0.5rem;
-        font-size: 0.9rem;
-    }
-
     .memo-table th {
-        font-size: 0.85rem;
+        font-size: 0.85rem; /* Smaller for mobile */
     }
 
     .memo-table td {
+        font-size: 0.85rem; /* Smaller for mobile */
         white-space: normal;
         word-break: break-word;
     }
 
     .memo-table a {
-        font-size: 0.9rem;
+        font-size: 0.85rem; /* Matches table cell */
+    }
+
+    .memo-table th, .memo-table td {
+        padding: 1rem; /* Fixed padding */
     }
 
     .pagination {
@@ -383,11 +468,11 @@
 
     .page-link {
         padding: 0.4rem 0.6rem;
-        font-size: 0.85rem;
+        font-size: 0.85rem; /* Smaller for mobile */
     }
 
     .page-info {
-        font-size: 0.85rem;
+        font-size: 0.8rem; /* Smaller for mobile */
         text-align: center;
     }
 
@@ -400,24 +485,54 @@
     }
 
     .empty-state h3 {
-        font-size: 1.25rem;
+        font-size: 1.1rem; /* Adjusted for mobile */
+    }
+
+    .empty-state p {
+        font-size: 0.9rem; /* Adjusted for mobile */
     }
 }
 
 /* Small Mobile Devices (up to 480px) */
 @media (max-width: 480px) {
-    .memo-title {
-        font-size: 1.3rem;
+    .memo-container {
+        font-size: 0.85rem; /* Even smaller base font */
     }
 
-    .memo-table th,
-    .memo-table td {
-        padding: 0.5rem 0.3rem;
-        font-size: 0.8rem;
+    .memo-title {
+        font-size: 1.2rem; /* Further reduced */
+    }
+
+    .memo-table {
+        width: 1200px; /* Fixed width */
     }
 
     .memo-table th {
-        font-size: 0.8rem;
+        font-size: 0.8rem; /* Smaller for small screens */
+    }
+
+    .memo-table td {
+        font-size: 0.8rem; /* Smaller for small screens */
+    }
+
+    .memo-table a {
+        font-size: 0.8rem; /* Matches table cell */
+    }
+
+    .memo-table th, .memo-table td {
+        padding: 1rem; /* Fixed padding */
+    }
+
+    .search-input {
+        font-size: 0.9rem;
+    }
+
+    .search-button {
+        font-size: 0.9rem;
+    }
+
+    .search-button i {
+        font-size: 0.9rem;
     }
 
     .pagination {
@@ -426,7 +541,11 @@
 
     .page-link {
         padding: 0.3rem 0.5rem;
-        font-size: 0.8rem;
+        font-size: 0.8rem; /* Smaller for small screens */
+    }
+
+    .page-info {
+        font-size: 0.75rem; /* Smaller for small screens */
     }
 
     .empty-state {
@@ -438,11 +557,11 @@
     }
 
     .empty-state h3 {
-        font-size: 1.1rem;
+        font-size: 1rem; /* Smaller for small screens */
     }
 
     .empty-state p {
-        font-size: 0.9rem;
+        font-size: 0.85rem; /* Smaller for small screens */
     }
 }
 </style>
