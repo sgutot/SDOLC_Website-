@@ -54,7 +54,6 @@
                         <h6 class="mb-1">{{ doc.title }}</h6>
                         <small>{{ doc.date_published|date:"M d, Y" }}</small>
                     </div>
-                    <p class="mb-1">{{ doc.content|truncatechars:100 }}</p>
                 </a>
                 {% empty %}
                 <div class="alert alert-info">No documents found for this period.</div>

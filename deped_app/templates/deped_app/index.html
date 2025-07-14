@@ -44,11 +44,6 @@
                   <p class="small d-none d-md-block mb-2" style="font-size: 0.8rem;">
                     {{ program.description|truncatewords:20 }}
                   </p>
-                  {% if program.link %}
-                  <a href="{{ program.link }}" class="btn btn-sm btn-light mb-1" target="_blank" style="font-size: 0.8rem;">
-                    Learn More
-                  </a>
-                  {% endif %}
                 </div>
               </div>
             </div>
@@ -76,7 +71,7 @@
 
       <!-- News Section -->
       <div class="bg-white p-4 rounded">
-        <h3 class="mb-4" style="color: #000; font-size: 1rem;">Latest News</h3>
+        <h3 class="mb-4" style="color: #7A0213; font-size: 1rem;">Latest News</h3>
         <div class="row g-4 mx-0">
           {% for item in news %}
           <div class="col-md-6 col-sm-6 col-6 px-2">
@@ -229,33 +224,92 @@
   .card { border-radius: 0.5rem; }
   .card-header { border-radius: 0.5rem 0.5rem 0 0 !important; }
 
-  @media (max-width: 992px) {
-    .col-12, .col-lg-8, .col-lg-4 {}
-  }
-  @media (max-width: 768px) {
-    .carousel-caption h5 { font-size: 0.9rem !important; }
-    .carousel-caption p { display: none; }
-    .carousel-caption .btn { font-size: 0.7rem !important; }
-  }
-  @media (max-width: 576px) {
-    .ratio-16x9 { --bs-aspect-ratio: 56.25%; }
-
-    .col-sm-6, .col-6 {
-      padding-left: 6px;
-      padding-right: 6px;
+  /* Mobile styles */
+  @media (max-width: 767.98px) {
+    .container-fluid {
+      padding-left: 10px;
+      padding-right: 10px;
     }
-
+    
+    .col-12, .col-lg-8, .col-lg-4 {
+      padding-left: 8px;
+      padding-right: 8px;
+    }
+    
+    .px-3 {
+      padding-left: 12px !important;
+      padding-right: 12px !important;
+    }
+    
+    .py-3 {
+      padding-top: 12px !important;
+      padding-bottom: 12px !important;
+    }
+    
+    h1, h2, h3 {
+      font-size: 1.1rem !important;
+    }
+    
+    p, .lead, .card-text, .btn {
+      font-size: 0.85rem !important;
+    }
+    
+    .carousel-caption h5 {
+      font-size: 0.8rem !important;
+      margin-bottom: 0.3rem !important;
+    }
+    
+    .card-body {
+      padding: 0.8rem !important;
+    }
+    
+    .card-header h3 {
+      font-size: 0.95rem !important;
+    }
+    
+    .btn-sm {
+      padding: 0.25rem 0.5rem !important;
+      font-size: 0.8rem !important;
+    }
+    
+    .list-group-item {
+      padding: 0.6rem 1rem !important;
+    }
+    
+    .ratio-16x9 {
+      --bs-aspect-ratio: 56.25%;
+    }
+    
     .row.g-4 {
       margin-left: -6px;
       margin-right: -6px;
     }
-
-    .card-title, .card-text {
-      font-size: 0.85rem !important;
+    
+    .col-md-6, .col-sm-6, .col-6 {
+      padding-left: 6px;
+      padding-right: 6px;
     }
+    
+    .bg-white.p-4 {
+      padding: 1rem !important;
+    }
+    
+    address {
+      font-size: 0.8rem !important;
+    }
+    
+    .carousel-control-prev, .carousel-control-next {
+      width: 30px !important;
+    }
+  }
 
-    .card-body {
-      padding: 0.75rem !important;
+  /* Tablet styles */
+  @media (min-width: 768px) and (max-width: 991.98px) {
+    .carousel-caption h5 { 
+      font-size: 0.9rem !important; 
+    }
+    .carousel-caption p { 
+      font-size: 0.75rem !important;
     }
   }
 </style>

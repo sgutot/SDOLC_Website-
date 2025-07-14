@@ -269,6 +269,122 @@
             font-size: 0.7rem;
         }
     }
+
+    /* MOBILE-SPECIFIC STYLES (added without changing existing code) */
+    @media (max-width: 576px) {
+        .page-title {
+            font-size: 1rem;
+            padding-bottom: 0.5rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        .accordion-header {
+            padding: 0.5rem 0.75rem;
+        }
+        
+        .accordion-header h3 {
+            font-size: 0.85rem;
+        }
+        
+        .accordion-icon {
+            font-size: 0.8rem;
+        }
+        
+        .accordion-item.active .accordion-content {
+            padding: 0.75rem;
+        }
+        
+        .profile-grid {
+            gap: 0.75rem;
+        }
+        
+        .profile-container {
+            max-width: 130px;
+            padding: 0.25rem;
+        }
+        
+        .profile-image-container {
+            width: 100px;
+            height: 100px;
+            margin-bottom: 0.5rem;
+        }
+        
+        .profile-name h3 {
+            font-size: 0.8rem;
+        }
+        
+        .profile-position {
+            font-size: 0.65rem;
+            margin-bottom: 0.25rem;
+        }
+        
+        .profile-about {
+            font-size: 0.65rem;
+            display: none; /* Hide on smallest screens */
+        }
+        
+        .contact-info {
+            gap: 0.2rem;
+        }
+        
+        .contact-item {
+            font-size: 0.6rem;
+        }
+        
+        .contact-icon {
+            margin-right: 0.3rem;
+            font-size: 0.6rem;
+        }
+        
+        .pagination {
+            flex-wrap: wrap;
+        }
+        
+        .page-link {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.75rem;
+            margin: 0.1rem;
+        }
+    }
+
+    @media (max-width: 400px) {
+        .profile-container {
+            max-width: 120px;
+        }
+        
+        .profile-image-container {
+            width: 90px;
+            height: 90px;
+        }
+        
+        .profile-name h3 {
+            font-size: 0.75rem;
+        }
+        
+        .profile-position {
+            font-size: 0.6rem;
+        }
+        
+        .contact-item {
+            font-size: 0.55rem;
+        }
+    }
+
+    @media (max-width: 360px) {
+        .profile-grid {
+            justify-content: space-around;
+            gap: 0.5rem;
+        }
+        
+        .profile-container {
+            max-width: 110px;
+        }
+        
+        .profile-image-container {
+            width: 80px;
+            height: 80px;
+        }
+    }
 </style>
 
 <div class="container">
@@ -277,20 +393,18 @@
             <div class="org-chart-container">
                 <h1 class="page-title">ORGANIZATIONAL STRUCTURE</h1>
 
-                {% if chart.org_chart_image %}
-    <div class="org-chart-container position-relative">
-        <img src="{{ chart.org_chart_image.url }}" 
-             alt="Organization chart for {{ chart.title|default:'our organization' }}"
-             class="org-chart-img img-fluid w-100"
-             loading="lazy">
-        <div class="org-chart-overlay d-flex align-items-center justify-content-center">
-            <button class="btn btn-light btn-enlarge" data-bs-toggle="modal" data-bs-target="#orgChartModal">
-                <i class="fas fa-expand"></i> Enlarge
-            </button>
-        </div>
-    </div>
-                {% endif %}
                 
+                {% if org_chart_whole %}
+                    {% for chart in org_chart_whole %}
+                        <div class="org-chart-container position-relative mb-4">
+                            <img src="{{ chart.org_chart_image.url }}" 
+                                alt="Complete Organization Chart"
+                                class="org-chart-img img-fluid w-100"
+                                loading="lazy">
+                        </div>
+                    {% endfor %}
+                {% endif %}
+                                
                 <div class="accordion-container">
                     {% for department, position_groups in grouped_charts.items %}
                     <div class="accordion-item">

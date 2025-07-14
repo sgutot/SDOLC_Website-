@@ -66,9 +66,6 @@
                     <td class="memo-number">{{ forloop.counter }}</td>
                     <td class="memo-details">
                         <a href="{{ memo.file.url }}" class="memo-title-text" target="_blank">{{ memo.title }}</a>
-                        {% if memo.content %}
-                        <p class="memo-excerpt">{{ memo.content|truncatechars:20 }}</p>
-                        {% endif %}
                     </td>
                     <td class="memo-date">
                         <span class="date-badge">
@@ -478,6 +475,10 @@ document.addEventListener('DOMContentLoaded', function() {
     margin-bottom: 20px;
 }
 
+/* ==================== */
+/* Mobile Responsiveness */
+/* ==================== */
+
 /* Responsive Adjustments */
 @media (max-width: 768px) {
     .filter-form {
@@ -511,6 +512,292 @@ document.addEventListener('DOMContentLoaded', function() {
     .memo-actions {
         flex-direction: column;
         gap: 5px;
+    }
+}
+
+/* Large Mobile (425px - 576px) */
+@media (max-width: 576px) {
+    .memo-container {
+        padding: 15px;
+        padding-top: 30px;
+    }
+    
+    .memo-header {
+        margin-bottom: 15px;
+    }
+    
+    .memo-title {
+        font-size: 1.5rem;
+        text-align: center;
+        margin-bottom: 15px;
+    }
+    
+    .memo-title:after {
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80px;
+    }
+    
+    .filter-container {
+        padding: 12px 15px;
+    }
+    
+    .filter-form {
+        flex-direction: column;
+        gap: 12px;
+    }
+    
+    .filter-group {
+        width: 100%;
+        margin-bottom: 0;
+    }
+    
+    .filter-group label {
+        font-size: 0.9rem;
+        margin-bottom: 5px;
+    }
+    
+    .form-control {
+        padding: 8px 12px;
+        font-size: 0.9rem;
+    }
+    
+    .search-group {
+        width: 100%;
+    }
+    
+    .search-input-container {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .btn {
+        padding: 8px 12px;
+        font-size: 0.85rem;
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .memo-table {
+        font-size: 0.9rem;
+    }
+    
+    .memo-table th, 
+    .memo-table td {
+        padding: 10px 8px;
+    }
+    
+    .memo-number {
+        font-size: 0.85rem;
+    }
+    
+    .memo-title-text {
+        font-size: 0.9rem;
+    }
+    
+    .memo-excerpt {
+        display: none;
+    }
+    
+    .date-badge {
+        font-size: 0.8rem;
+        padding: 4px 8px;
+    }
+    
+    .pagination-container {
+        margin-top: 20px;
+    }
+    
+    .page-info {
+        font-size: 0.85rem;
+        text-align: center;
+        margin-bottom: 12px;
+    }
+    
+    .pagination {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 4px;
+    }
+    
+    .page-link {
+        padding: 6px 10px;
+        font-size: 0.85rem;
+        min-width: 36px;
+        text-align: center;
+    }
+    
+    .empty-state i {
+        font-size: 3rem;
+    }
+    
+    .empty-state h3 {
+        font-size: 1.25rem;
+    }
+    
+    .empty-state p {
+        font-size: 0.9rem;
+        margin-bottom: 15px;
+    }
+}
+
+@media (max-width: 424px) {
+    .memo-title {
+        font-size: 1.4rem;
+    }
+    
+    .filter-container {
+        padding: 10px 12px;
+    }
+    
+    .memo-table th {
+        font-size: 0.85rem;
+        padding: 8px 6px;
+    }
+    
+    .memo-table td {
+        padding: 8px 6px;
+        font-size: 0.85rem;
+    }
+    
+    .memo-title-text {
+        font-size: 0.85rem;
+    }
+    
+    .date-badge {
+        font-size: 0.75rem;
+    }
+    
+    .page-info {
+        font-size: 0.8rem;
+    }
+    
+    .page-link {
+        padding: 5px 8px;
+        font-size: 0.8rem;
+        min-width: 32px;
+    }
+}
+
+/* Small Mobile (320px - 374px) */
+@media (max-width: 374px) {
+    .memo-container {
+        padding: 12px;
+        padding-top: 25px;
+    }
+    
+    .memo-title {
+        font-size: 1.3rem;
+    }
+    
+    .filter-container {
+        padding: 8px 10px;
+    }
+    
+    .form-control {
+        padding: 7px 10px;
+        font-size: 0.85rem;
+    }
+    
+    .btn {
+        padding: 7px 10px;
+        font-size: 0.8rem;
+    }
+    
+    .memo-table {
+        font-size: 0.8rem;
+    }
+    
+    .memo-table th {
+        font-size: 0.8rem;
+        padding: 6px 4px;
+    }
+    
+    .memo-table td {
+        padding: 6px 4px;
+        font-size: 0.8rem;
+    }
+    
+    .memo-number {
+        font-size: 0.8rem;
+    }
+    
+    .date-badge {
+        font-size: 0.7rem;
+        padding: 3px 6px;
+    }
+    
+    .page-info {
+        font-size: 0.75rem;
+    }
+    
+    .page-link {
+        padding: 4px 6px;
+        font-size: 0.75rem;
+        min-width: 28px;
+    }
+    
+    .empty-state i {
+        font-size: 2.5rem;
+    }
+    
+    .empty-state h3 {
+        font-size: 1.1rem;
+    }
+    
+    .empty-state p {
+        font-size: 0.85rem;
+    }
+}
+
+/* Extra Small Mobile (below 320px) */
+@media (max-width: 319px) {
+    .memo-container {
+        padding: 10px;
+        padding-top: 20px;
+    }
+    
+    .memo-title {
+        font-size: 1.2rem;
+    }
+    
+    .filter-form {
+        gap: 8px;
+    }
+    
+    .form-control {
+        padding: 6px 8px;
+    }
+    
+    .btn {
+        padding: 6px 8px;
+        font-size: 0.75rem;
+    }
+    
+    .memo-table {
+        font-size: 0.75rem;
+    }
+    
+    .memo-table th {
+        font-size: 0.75rem;
+    }
+    
+    .memo-table td {
+        font-size: 0.75rem;
+    }
+    
+    .page-link {
+        padding: 3px 5px;
+        font-size: 0.7rem;
+        min-width: 24px;
+    }
+    
+    .empty-state i {
+        font-size: 2rem;
+    }
+    
+    .empty-state h3 {
+        font-size: 1rem;
     }
 }
 </style>

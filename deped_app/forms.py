@@ -75,7 +75,7 @@ class AnnouncementFrom(forms.ModelForm):
 class OrganizationalChartForm(forms.ModelForm):
     class Meta:
         model = OrganizationalChart
-        fields = ['management', 'positions', 'name', 'image', 'org_chart_image', 'contact', 'about', 'link', 'date_posted']
+        fields = ['management', 'positions', 'name', 'image', 'contact', 'about', 'link', 'date_posted']
         widgets = {
             'management': forms.TextInput(attrs={'class': 'form-control'}),
             'positions': forms.TextInput(attrs={'class': 'form-control'}),
@@ -88,6 +88,11 @@ class OrganizationalChartForm(forms.ModelForm):
                 'type': 'datetime-local'
             }),
         }
+
+class OrgChartWholeForm(forms.ModelForm):
+    class Meta:
+        model = OrgChartWhole  
+        fields = ['org_chart_image', 'date_posted']
 
 
 class CitizensCharterForm(forms.ModelForm): 
@@ -161,10 +166,9 @@ class QualityPolicyForm(forms.ModelForm):
 #class RegionalMemoForm(forms.ModelForm):
 #    class Meta:
 #        model = RegionalMemo
-#        fields = ['title', 'file', 'link', 'content', 'date_posted']
+#        fields = ['title', 'file', 'link', 'date_posted']
 #        widgets = {
 #            'title': forms.TextInput(attrs={'class': 'form-control'}),
-#            'content': forms.Textarea(attrs={'class': 'form-control'}),
 #            'link': forms.URLInput(attrs={'class': 'form-control'}),
 #            'date_posted':  forms.DateInput(attrs={'class': 'form-control', 'type': 'datetime-local'}),
 #        }
@@ -201,10 +205,9 @@ class RequiredYearMonthForm(forms.ModelForm):
 #class DivisionMemoForm(forms.ModelForm):
 #    class Meta:
 #        model = DivisionMemo
-#        fields = ['title', 'file', 'link', 'content', 'date_posted']
+#        fields = ['title', 'file', 'link', 'date_posted']
 #        widgets = {
 #            'title': forms.TextInput(attrs={'class': 'form-control'}),
-#            'content': forms.Textarea(attrs={'class': 'form-control'}),
 #            'link': forms.URLInput(attrs={'class': 'form-control'}),
 #            'date_posted':  forms.DateInput(attrs={'class': 'form-control', 'type': 'datetime-local'}),
 #        }
@@ -228,10 +231,9 @@ class DivisionMemoForm(forms.ModelForm):
 #class OfficeMemoForm(forms.ModelForm):
 #    class Meta:
 #        model = OfficeMemo
-#        fields = ['title', 'file', 'link', 'content', 'date_posted']
+#        fields = ['title', 'file', 'link', 'date_posted']
 #        widgets = {
 #            'title': forms.TextInput(attrs={'class': 'form-control'}),
-#            'content': forms.Textarea(attrs={'class': 'form-control'}),
 #            'link': forms.URLInput(attrs={'class': 'form-control'}),
 #            'date_posted':  forms.DateInput(attrs={'class': 'form-control', 'type': 'datetime-local'}),
 #        }
@@ -256,10 +258,9 @@ class OfficeMemoForm(forms.ModelForm):
 #class DepedOrderForm(forms.ModelForm):
 #    class Meta:
 #        model = DepedOrder
-#        fields = ['title', 'file', 'link', 'content', 'date_posted']
+#        fields = ['title', 'file', 'link', 'date_posted']
 #        widgets = {
 #            'title': forms.TextInput(attrs={'class': 'form-control'}),
-#            'content': forms.Textarea(attrs={'class': 'form-control'}),
 #            'link': forms.URLInput(attrs={'class': 'form-control'}),
 #            'date_posted':  forms.DateInput(attrs={'class': 'form-control', 'type': 'datetime-local'}),
 #        }
@@ -283,10 +284,9 @@ class DepedOrderForm(forms.ModelForm):
 #class DepedAdvisoriesForm(forms.ModelForm):
 #    class Meta:
 #        model = DepedAdvisories
-#        fields = ['title', 'file', 'link', 'content', 'date_posted']
+#        fields = ['title', 'file', 'link', 'date_posted']
 #        widgets = {
 #            'title': forms.TextInput(attrs={'class': 'form-control'}),
-#            'content': forms.Textarea(attrs={'class': 'form-control'}),
 #            'link': forms.URLInput(attrs={'class': 'form-control'}),
 #            'date_posted':  forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
 #        }

@@ -34,9 +34,6 @@
       </div>
     </div>
 
-    <div class="gallery-footer" style="text-align: center; margin-top: 20px;">
-      <h2 class="articles-text" style="font-size: 1.5rem; color: #7A0213; font-weight: 900;"><br>ARTICLES</h2>
-    </div>
   </div>
 
   <!-- ARTICLE SECTION -->
@@ -60,8 +57,7 @@
         
         <!-- CONTENT COLUMN -->
         <div style="flex: 1;">
-          <h3 style="font-size: 1.1rem; margin: 0 0 8px 0; color: white; 
-                     background: linear-gradient(90deg, #7A0213, #b03a4e); 
+          <h3 style="font-size: 1.1rem; margin: 0 0 8px 0; color: black;  
                      padding: 10px; border-radius: 5px;">
               {{ award.title }}
           </h3>
@@ -113,70 +109,118 @@
   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
-/* RESPONSIVE ADJUSTMENTS */
-@media (max-width: 992px) {
-  .scroll-container {
-    width: 100%;
+/* MOBILE STYLES */
+@media (max-width: 767px) {
+  .container-fluid {
+    padding: 0 10px !important;
   }
+  
+  .gallery-title, .articles-text {
+    font-size: 1.3rem !important;
+    margin-bottom: 5px !important;
+  }
+  
+  hr {
+    width: 70% !important;
+    margin: 5px auto 15px !important;
+  }
+  
+  .scroll-container {
+    width: 100% !important;
+    padding-bottom: 10px !important;
+  }
+  
+  .scroll-wrapper {
+    gap: 10px !important;
+    padding: 0 5px !important;
+  }
+  
+  .scroll-wrapper > div {
+    width: 110px !important;
+  }
+  
+  .scroll-wrapper > div img,
+  .scroll-wrapper > div div {
+    height: 100px !important;
+  }
+  
+  .scroll-wrapper > div > div {
+    font-size: 0.7rem !important;
+    padding: 5px !important;
+  }
+  
+  .articles-container {
+    padding: 0 5px !important;
+  }
+  
+  article {
+    margin-bottom: 20px !important;
+    border-radius: 6px !important;
+  }
+  
+  .article-wrapper {
+    padding: 15px !important;
+    gap: 15px !important;
+    flex-direction: column !important;
+  }
+  
+  .article-wrapper > div:first-child {
+    flex: 1 1 auto !important;
+    width: 100% !important;
+    min-height: auto !important;
+  }
+  
+  .article-wrapper > div:first-child img,
+  .article-wrapper > div:first-child div {
+    height: 180px !important;
+    max-height: none !important;
+  }
+  
+  h3 {
+    font-size: 1rem !important;
+    padding: 8px 0 !important;
+    margin-bottom: 5px !important;
+  }
+  
+  p {
+    font-size: 0.8rem !important;
+    margin-bottom: 10px !important;
+  }
+  
+  a[download] {
+    padding: 6px 12px !important;
+    font-size: 0.75rem !important;
+  }
+  
+  /* Extra small devices (phones, 375px and down) */
+  @media (max-width: 375px) {
+    .scroll-wrapper > div {
+      width: 95px !important;
+    }
+    
+    .article-wrapper > div:first-child img,
+    .article-wrapper > div:first-child div {
+      height: 150px !important;
+    }
+    
+    .gallery-title, .articles-text {
+      font-size: 1.1rem !important;
+    }
+  }
+}
 
+/* TABLET STYLES (768px-992px) */
+@media (min-width: 768px) and (max-width: 992px) {
   .scroll-wrapper > div {
     width: 140px !important;
   }
-
+  
   .article-wrapper {
-    flex-direction: column;
-    padding: 15px !important;
-    gap: 15px !important;
+    flex-direction: row !important;
   }
-
+  
   .article-wrapper > div:first-child {
-    width: 100% !important;
-    flex: 1 1 auto !important;
-    margin-bottom: 15px;
-  }
-
-  .article-wrapper > div:first-child img,
-  .article-wrapper > div:first-child div {
-    height: 200px !important;
-    max-height: none !important;
-  }
-}
-
-@media (max-width: 768px) {
-  .gallery-container {
-    padding: 15px 0 !important;
-  }
-
-  .scroll-wrapper > div {
-    width: 130px !important;
-  }
-
-  .articles-container {
-    padding: 0 10px !important;
-  }
-
-  h3 {
-    font-size: 1rem !important;
-    padding: 8px !important;
-  }
-}
-
-@media (max-width: 576px) {
-  .scroll-wrapper > div {
-    width: 120px !important;
-  }
-
-  .scroll-wrapper > div > div {
-    font-size: 0.75rem !important;
-  }
-
-  .article-wrapper {
-    padding: 12px !important;
-  }
-
-  .download-btn {
-    padding: 6px 12px !important;
-    font-size: 0.8rem !important;
+    flex: 0 0 180px !important;
   }
 }
 </style>

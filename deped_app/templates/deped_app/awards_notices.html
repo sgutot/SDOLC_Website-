@@ -177,6 +177,11 @@
     color: #7A0213;
     cursor: pointer;
     padding: 0.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
 }
 
 .search-button:hover {
@@ -326,6 +331,10 @@
         gap: 1.5rem;
     }
     
+    .memo-search-form {
+        width: 100%;
+    }
+    
     .search-container {
         max-width: 100%;
     }
@@ -352,21 +361,57 @@
     .memo-table th, 
     .memo-table td {
         padding: 0.75rem;
+        font-size: 0.9rem;
+    }
+    
+    .memo-title {
+        font-size: 1.3rem;
+    }
+    
+    .pagination {
+        gap: 0.4rem;
+    }
+    
+    .page-link {
+        padding: 0.45rem 0.65rem;
+        font-size: 0.9rem;
     }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 576px) {
     .memo-container {
         padding: 1rem 0.5rem;
     }
     
+    .memo-header {
+        padding: 0.5rem;
+        margin-bottom: 1.5rem;
+    }
+    
     .search-input {
-        padding: 0.65rem 0.8rem;
+        padding: 0.65rem 1rem;
+        padding-right: 2.5rem;
         font-size: 0.9rem;
     }
     
     .search-button {
-        padding: 0 1rem;
+        right: 0.3rem;
+        width: 26px;
+        height: 26px;
+    }
+    
+    .search-button i {
+        font-size: 0.9rem;
+    }
+    
+    .memo-table th, 
+    .memo-table td {
+        padding: 0.6rem;
+        font-size: 0.85rem;
+    }
+    
+    .memo-title {
+        font-size: 1.2rem;
     }
     
     .pagination {
@@ -376,6 +421,56 @@
     .page-link {
         padding: 0.4rem 0.6rem;
         font-size: 0.85rem;
+    }
+    
+    .page-info {
+        font-size: 0.85rem;
+    }
+    
+    .empty-state {
+        padding: 1.5rem;
+    }
+    
+    .empty-state i {
+        font-size: 2.5rem;
+    }
+    
+    .empty-state h3 {
+        font-size: 1.1rem;
+    }
+    
+    .empty-state p {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 400px) {
+    .memo-container {
+        padding: 0.75rem 0.25rem;
+    }
+    
+    .search-input {
+        padding: 0.6rem 0.8rem;
+        font-size: 0.85rem;
+    }
+    
+    .search-button {
+        right: 0.2rem;
+    }
+    
+    .memo-table th, 
+    .memo-table td {
+        padding: 0.5rem;
+        font-size: 0.8rem;
+    }
+    
+    .pagination {
+        gap: 0.2rem;
+    }
+    
+    .page-link {
+        padding: 0.35rem 0.5rem;
+        font-size: 0.8rem;
     }
 }
 </style>
@@ -410,11 +505,11 @@ $(document).ready(function(){
     
     // Focus search input when search icon is clicked (for mobile)
     $('.search-button').on('click', function() {
-        $(this).closest('.search-form').find('.search-input').focus();
+        $(this).closest('.search-container').find('.search-input').focus();
     });
     
     // Handle search form submission
-    $('.search-form').on('submit', function(e) {
+    $('.memo-search-form').on('submit', function(e) {
         // You can add additional validation here if needed
     });
 });

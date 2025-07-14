@@ -113,6 +113,7 @@
 </div>
 
 <style>
+/* Base Styles */
 .memo-container {
     max-width: 1200px;
     margin: 0 auto;
@@ -300,15 +301,35 @@
     margin: 0;
 }
 
+/* Tablet and Small Laptop (768px - 1024px) */
+@media (max-width: 1024px) {
+    .memo-container {
+        padding: 1.5rem;
+    }
+    
+    .memo-table th,
+    .memo-table td {
+        padding: 0.8rem;
+    }
+}
+
+/* Mobile Styles (up to 768px) */
 @media (max-width: 768px) {
+    .memo-container {
+        padding: 1rem 0.5rem;
+    }
+
     .memo-header {
         flex-direction: column;
-        align-items: center;
+        align-items: stretch;
         text-align: center;
+        gap: 1rem;
+        padding: 1rem 0.5rem;
     }
 
     .memo-title {
-        font-size: 1.75rem;
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
     }
 
     .memo-search-form {
@@ -319,7 +340,109 @@
 
     .search-container {
         width: 100%;
-        max-width: 400px;
+        max-width: 100%;
+    }
+
+    .search-input {
+        font-size: 1rem;
+        padding: 0.75rem 1rem;
+        padding-right: 3rem;
+    }
+
+    .memo-table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+        box-shadow: none;
+        border-radius: 0;
+    }
+
+    .memo-table th,
+    .memo-table td {
+        padding: 0.75rem 0.5rem;
+        font-size: 0.9rem;
+    }
+
+    .memo-table th {
+        font-size: 0.85rem;
+    }
+
+    .memo-table td {
+        white-space: normal;
+        word-break: break-word;
+    }
+
+    .memo-table a {
+        font-size: 0.9rem;
+    }
+
+    .pagination {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .page-link {
+        padding: 0.4rem 0.6rem;
+        font-size: 0.85rem;
+    }
+
+    .page-info {
+        font-size: 0.85rem;
+        text-align: center;
+    }
+
+    .empty-state {
+        padding: 1.5rem 1rem;
+    }
+
+    .empty-state i {
+        font-size: 2.5rem;
+    }
+
+    .empty-state h3 {
+        font-size: 1.25rem;
+    }
+}
+
+/* Small Mobile Devices (up to 480px) */
+@media (max-width: 480px) {
+    .memo-title {
+        font-size: 1.3rem;
+    }
+
+    .memo-table th,
+    .memo-table td {
+        padding: 0.5rem 0.3rem;
+        font-size: 0.8rem;
+    }
+
+    .memo-table th {
+        font-size: 0.8rem;
+    }
+
+    .pagination {
+        gap: 0.3rem;
+    }
+
+    .page-link {
+        padding: 0.3rem 0.5rem;
+        font-size: 0.8rem;
+    }
+
+    .empty-state {
+        padding: 1rem 0.5rem;
+    }
+
+    .empty-state i {
+        font-size: 2rem;
+    }
+
+    .empty-state h3 {
+        font-size: 1.1rem;
+    }
+
+    .empty-state p {
+        font-size: 0.9rem;
     }
 }
 </style>

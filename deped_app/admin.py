@@ -118,6 +118,13 @@ class OrganizationalChartAdmin(admin.ModelAdmin):
         if not obj:
             return self.fieldsets
         return super().get_fieldsets(request, obj)
+    
+
+@admin.register(OrgChartWhole)
+class OrgChartWholeAdmin(admin.ModelAdmin):
+    list_display = ('org_chart_image', 'date_posted')
+    fields = ('org_chart_image', 'date_posted')
+
 
 @admin.register(CitizensCharter)
 class CitizensCharterAdmin(admin.ModelAdmin):
@@ -176,9 +183,9 @@ class QualityPolicyAdmin(admin.ModelAdmin):
 
 #@admin.register(RegionalMemo)
 #class RegionalMemoAdmin(admin.ModelAdmin):
-#    list_display = ('title', 'content', 'file', 'link',)
+#    list_display = ('title', 'file', 'link',)
 #    search_fields = ('title',)
- #   fields = ('title', 'file', 'link', 'content', 'date_posted')
+ #   fields = ('title', 'file', 'link', 'date_posted')
 
 
 
@@ -201,9 +208,9 @@ class DivisionMemoAdmin(admin.ModelAdmin):
 
 #@admin.register(OfficeMemo)
 #class OfficeMemoAdmin(admin.ModelAdmin):
-#    list_display = ('title', 'content', 'file', 'link',)
+#    list_display = ('title', 'file', 'link',)
 #    search_fields = ('title', 'date_posted')
-#    fields = ('title', 'file', 'link', 'content', 'date_posted')
+#    fields = ('title', 'file', 'link', 'date_posted')
 
 @admin.register(OfficeMemo)
 class OfficeMemoAdmin(admin.ModelAdmin):
@@ -224,9 +231,9 @@ class OfficeMemoAdmin(admin.ModelAdmin):
 
 #@admin.register(DepedOrder)
 #class DepedOrderAdmin(admin.ModelAdmin):
-#    list_display = ('title', 'content', 'file', 'link',)
+#    list_display = ('title', 'file', 'link',)
 #    search_fields = ('title', 'date_posted')
-#    fields = ('title', 'file', 'link', 'content', 'date_posted')
+#    fields = ('title', 'file', 'link', 'date_posted')
 
 @admin.register(DepedOrder)
 class DepedOrderAdmin(admin.ModelAdmin):
@@ -248,9 +255,9 @@ class DepedOrderAdmin(admin.ModelAdmin):
 
 #@admin.register(DepedAdvisories)
 #class DepedAdvisoriesAdmin(admin.ModelAdmin):
-#    list_display = ('title', 'file', 'link', 'content',)
+#    list_display = ('title', 'file', 'link')
 #    search_fields = ('title', 'date_posted')
-#    fields = ('title', 'file', 'link', 'content', 'date_posted')
+#    fields = ('title', 'file', 'link', 'date_posted')
 
 @admin.register(DepedAdvisories)
 class DepedAdvisoriesAdmin(admin.ModelAdmin):

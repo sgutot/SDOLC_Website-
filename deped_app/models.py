@@ -198,7 +198,6 @@ class OrganizationalChart(models.Model):
     positions = models.CharField(blank=True, null=True)
     name = models.CharField(blank=True, null=True)
     image = models.ImageField(upload_to='orgchart_images/', blank=True, null=True)
-    org_chart_image = models.ImageField(upload_to='orgchart_images/', blank=True, null=True)
     contact = models.CharField(blank=True, null=True)
     about = models.TextField(blank=True, null=True)
     link = models.URLField(blank=True, null=True)
@@ -222,6 +221,9 @@ class OrganizationalChart(models.Model):
             models.Index(fields=['priority']),
         ] 
 
+class OrgChartWhole(models.Model):
+    org_chart_image = models.ImageField(upload_to='orgchart_images/', blank=True, null=True)
+    date_posted = models.DateField(default=timezone.now)
     
 class CitizensCharter(models.Model):
     title = models.CharField(null=True, blank=True)
@@ -381,10 +383,10 @@ class YearMonthFileStorage(FileSystemStorage):
     def get_available_name(self, name, max_length=None):
         return super().get_available_name(name, max_length)
     
-    def _save(self, name, content):
+    def _save(self, name, title):
         # Extract year and month from the model instance
-        if hasattr(content, 'instance'):
-            instance = content.instance
+        if hasattr(title, 'instance'):
+            instance = title.instance
             if hasattr(instance, 'year') and hasattr(instance, 'month'):
                 path_parts = name.split('/')
                 filename = path_parts[-1]
@@ -395,12 +397,11 @@ class YearMonthFileStorage(FileSystemStorage):
                     filename
                 )
                 name = new_path
-        return super()._save(name, content)
+        return super()._save(name, title)
 
 
 #class DivisionMemo(models.Model):
 #    title = models.CharField(null=True, blank=True)
-#    content = models.TextField(null=True, blank=True)
 #    link = models.URLField(null=True, blank=True)
 #    file = models.FileField(help_text="PDF file only", upload_to='divisionmemo/', null=True, blank=True)
 #    date_posted = models.DateField(default=timezone.now)

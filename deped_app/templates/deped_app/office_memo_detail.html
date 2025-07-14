@@ -24,8 +24,6 @@
             <!-- Content -->
             <div class="mb-4" style="font-size: 0.9rem; line-height: 1.6;">
                 {% if memo.content %}
-                    {{ memo.content|safe|linebreaks }}
-                {% else %}
                     <p class="text-muted">No content available for this memo.</p>
                 {% endif %}
             </div>

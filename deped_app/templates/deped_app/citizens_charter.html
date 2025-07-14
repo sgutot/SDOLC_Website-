@@ -4,7 +4,7 @@
 {% block content %}
 <div class="charter-container">
     <div class="charter-header">
-        <h2 class="charter-title">Citizens Charter</h2>
+        <h2 class="charter-title ">Citizens Charter</h2>
     </div>
 
     {% if videos_citizens_charter %}
@@ -41,11 +41,11 @@
                 </tr>
             </thead>
             <tbody>
-                {% for charter in charters %}
+                {% for charter in charters reversed %}
                 <tr>
                     <td>{{ forloop.counter }}</td>
                     <td>
-                        <a href="{% url 'citizens_charter_detail' charter.pk %}" class="text-decoration-none">{{ charter.title }}</a>
+                        <a href="{{ charter.file.url }}" class="text-decoration-none">{{ charter.title }}</a>
                     </td>
                     <td>
                         <small><i class="far fa-calendar-alt"></i> {{ charter.date_posted|date:"F j, Y" }}</small>
@@ -359,6 +359,108 @@
     .charter-table th:nth-child(3),
     .charter-table td:nth-child(3) {
         width: 25%;
+    }
+}
+
+/* MOBILE STYLES (under 576px) */
+@media (max-width: 575.98px) {
+    .charter-container {
+        padding: 1rem 0.5rem;
+    }
+
+    .charter-header {
+        padding: 0.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .charter-title {
+        font-size: 1.25rem;
+    }
+
+    /* Video Card */
+    .card {
+        border-radius: 0;
+    }
+    
+    .card-body {
+        padding: 0.25rem;
+    }
+    
+    .ratio-16x9 {
+        max-width: 100% !important;
+    }
+    
+    .h6 {
+        font-size: 0.8rem !important;
+    }
+
+    /* Table */
+    .charter-table {
+        min-width: 100%;
+        font-size: 0.85rem;
+    }
+    
+    .charter-table th,
+    .charter-table td {
+        padding: 0.5rem;
+    }
+    
+    .charter-table th:nth-child(3),
+    .charter-table td:nth-child(3) {
+        width: 25%;
+    }
+
+    /* Pagination */
+    .pagination {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .page-link {
+        padding: 0.35rem 0.5rem;
+        font-size: 0.8rem;
+    }
+
+    /* Empty State */
+    .empty-state {
+        padding: 1rem;
+    }
+    
+    .empty-state i {
+        font-size: 2rem;
+    }
+    
+    .empty-state h3 {
+        font-size: 1.1rem;
+    }
+    
+    .empty-state p {
+        font-size: 0.9rem;
+    }
+}
+
+/* EXTRA SMALL MOBILE (under 375px) */
+@media (max-width: 374.98px) {
+    .charter-title {
+        font-size: 1.1rem;
+    }
+    
+    .charter-table {
+        font-size: 0.8rem;
+    }
+    
+    .charter-table th,
+    .charter-table td {
+        padding: 0.35rem;
+    }
+    
+    .page-link {
+        padding: 0.25rem 0.4rem;
+        font-size: 0.75rem;
+    }
+    
+    .empty-state h3 {
+        font-size: 1rem;
     }
 }
 </style>

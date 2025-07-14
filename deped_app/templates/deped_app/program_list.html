@@ -7,36 +7,20 @@
 <div class="container-fluid px-3" style="max-width: 1200px;">
     <div class="row mb-4">
         <div class="col-md-8 mx-auto text-center">
-            <h1 class="mb-3" style="color: #7A0213; font-size: 1.8rem; font-weight: 700;">
-                <strong>Our Programs</strong>
-            </h1>
-            
-            <!-- Enhanced Search Bar -->
-            <div class="search-container mb-4">
-                <form method="get">
-                    <div class="search-bar-wrapper">
-                        <div class="input-group search-bar-group">
-                            <input type="text" 
-                                   name="q" 
-                                   class="form-control search-input" 
-                                   placeholder="Search programs..." 
-                                   value="{{ search_query|default:'' }}"
-                                   aria-label="Search programs">
-                            <button class="btn search-btn" type="submit" aria-label="Search">
-                                <i class="fas fa-search"></i>
-                            </button>
-                        </div>
+            <h1 class="mb-3" style="color: #7A0213; font-size: 1.8rem; font-weight: 700;"><strong>Our Programs</strong></h1>
+                <form method="get" class="mb-4">
+                    <div class="search-container">
+                        <input type="text" name="q" class="form-control search-input" 
+                               placeholder="Search programs..." 
+                               value="{{ search_query|default:'' }}"
+                               id="programInput">
+                        <button type="submit" class="search-button">
+                            <i class="fas fa-search"></i>
+                        </button>
                     </div>
                 </form>
             </div>
-            
-            {% if search_query and not programs %}
-                <div class="alert alert-info mt-3" style="font-size: 0.9rem;">
-                    No programs found matching your search.
-                </div>
-            {% endif %}
         </div>
-    </div>
 
     <div class="row mx-0">
         <!-- Main Programs Content -->
@@ -78,9 +62,9 @@
                             </a>
                             {% endif %}
                             {% if program.link %}
-                            <a href="{{ program.link }}" class="btn btn-sm btn-outline-secondary float-end" 
-                               target="_blank" style="font-size: 0.8rem;">
-                                <i class="fas fa-external-link-alt"></i>
+                            <a href="{{ program.link }}" class="btn btn-sm "
+                            style="background-color: #7A0213; color: white; font-size: 0.8rem;">
+                            View Link
                             </a>
                             {% endif %}
                         </div>
@@ -135,57 +119,49 @@
         background-color: #f8f9fa;
     }
 
-    /* Updated Search Bar Styles */
-    .search-bar-wrapper {
-        max-width: 600px;
+    .program-search-form {
+        max-width: 500px;
         margin: 0 auto;
     }
-    
-    .search-bar-group {
-        display: flex;
-        border-radius: 8px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        overflow: hidden;
-        border: 1px solid #e0e0e0;
-        background: white;
+
+    .search-container {
+        position: relative;
+        max-width: 500px;
+        margin: 0 auto 30px;
     }
-    
+
     .search-input {
-        flex: 1;
-        border: none;
-        padding: 14px 20px;
-        font-size: 1rem;
-        color: #333;
+        width: 100%;
+        padding: 12px 20px;
+        padding-right: 45px;
+        border: 1px solid #ddd;
+        border-radius: 30px;
+        font-size: 0.95rem;
         outline: none;
-        height: auto;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
     }
-    
-    .search-input::placeholder {
-        color: #999;
-        font-weight: 400;
+
+    .search-input:focus {
+        border-color: #7A0213;
+        box-shadow: 0 5px 15px rgba(122, 2, 19, 0.1);
     }
-    
-    .search-btn {
+
+    .search-button {
+        position: absolute;
+        right: 15px;
+        top: 50%;
+        transform: translateY(-50%);
         background: transparent;
         border: none;
-        padding: 0 20px;
         color: #7A0213;
         cursor: pointer;
-        transition: all 0.2s ease;
+        transition: all 0.3s ease;
     }
-    
-    .search-btn:hover {
-        color: #5a0110;
-    }
-    
-    .search-btn i {
-        font-size: 1.1rem;
-    }
-    
-    /* Focus state */
-    .search-bar-group:focus-within {
-        box-shadow: 0 0 0 2px rgba(122, 2, 19, 0.2);
-        border-color: #7A0213;
+
+    .search-button:hover {
+        color: #5a0113;
+        transform: translateY(-50%) scale(1.1);
     }
 
     /* Card Styles */
@@ -205,42 +181,135 @@
         overflow: hidden;
     }
 
-    /* Responsive Adjustments */
-    @media (min-width: 992px) {
-        .mobile-img-container {
-            max-height: 180px;
-        }
-    }
-
-    @media (max-width: 991px) {
-        .mobile-img-container {
-            max-height: 30vw;
-            min-height: 140px;
+    /* ========== MOBILE STYLES ========== */
+    @media (max-width: 767px) {
+        /* General adjustments */
+        .container-fluid {
+            padding-left: 10px;
+            padding-right: 10px;
         }
         
-        .card-body {
-            padding: 1rem !important;
+        /* Header */
+        h1 {
+            font-size: 1.5rem !important;
+            margin-bottom: 15px !important;
         }
-    }
-
-    @media (max-width: 768px) {
-        .search-bar-group {
-            border-radius: 25px;
+        
+        /* Search bar */
+        .search-container {
+            margin-bottom: 20px;
+            max-width: 100%;
         }
         
         .search-input {
-            padding: 10px 12px;
+            padding: 10px 15px;
+            padding-right: 40px;
+            font-size: 0.9rem;
         }
         
-        .search-btn {
-            padding: 10px 20px;
+        .search-button {
+            right: 12px;
+            font-size: 0.9rem;
+        }
+        
+        /* Search results text */
+        h4 {
+            font-size: 0.85rem !important;
+            margin-left: 5px;
+        }
+        
+        /* Cards grid */
+        .row.mx-0 {
+            margin-left: -5px !important;
+            margin-right: -5px !important;
+        }
+        
+        .col-sm-6, .col-12 {
+            padding-left: 5px !important;
+            padding-right: 5px !important;
+        }
+        
+        /* Cards */
+        .card {
+            margin-bottom: 10px;
+        }
+        
+        .mobile-img-container {
+            min-height: 120px;
+        }
+        
+        .card-body {
+            padding: 0.8rem !important;
+        }
+        
+        .card-title {
+            font-size: 0.85rem !important;
+            margin-bottom: 0.5rem !important;
+        }
+        
+        .card-text {
+            font-size: 0.8rem !important;
+            line-height: 1.4;
+        }
+        
+        .card-footer {
+            padding: 0.8rem !important;
+        }
+        
+        /* Buttons */
+        .btn-sm {
+            font-size: 0.75rem !important;
+            padding: 5px 10px !important;
+        }
+        
+        /* Pagination */
+        .pagination {
+            font-size: 0.8rem !important;
+        }
+        
+        .page-link {
+            padding: 0.3rem 0.6rem;
+        }
+        
+        /* Alert */
+        .alert {
+            font-size: 0.85rem !important;
+            padding: 0.75rem;
         }
     }
 
-    @media (max-width: 576px) {
+    /* Extra small devices (phones, 400px and down) */
+    @media (max-width: 400px) {
+        h1 {
+            font-size: 1.3rem !important;
+        }
+        
+        .search-input {
+            padding: 8px 12px;
+            font-size: 0.85rem;
+        }
+        
         .mobile-img-container {
-            max-height: 35vw;
-            min-height: 120px;
+            min-height: 100px;
+        }
+        
+        .card-title {
+            font-size: 0.8rem !important;
+        }
+        
+        .card-text {
+            font-size: 0.75rem !important;
+        }
+        
+        .btn-sm {
+            font-size: 0.7rem !important;
+        }
+    }
+
+    /* Tablet styles (768px - 991px) */
+    @media (min-width: 768px) and (max-width: 991px) {
+        .mobile-img-container {
+            min-height: 150px;
         }
         
         .card-title {
@@ -250,35 +319,43 @@
         .card-text {
             font-size: 0.8rem !important;
         }
-        
-        .card-body {
-            padding: 0.75rem !important;
-        }
-        
-        .col-sm-6, .col-12 {
-            padding-left: 6px;
-            padding-right: 6px;
-        }
-        
-        .row.mx-0 {
-            margin-left: -6px;
-            margin-right: -6px;
-        }
-        
-        .search-bar-group {
-            border-radius: 20px;
-        }
-        
-        .search-btn {
-            padding: 8px 15px;
-        }
-    }
-
-    @media (max-width: 400px) {
-        .mobile-img-container {
-            max-height: 40vw;
-            min-height: 100px;
-        }
     }
 </style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.getElementById('programInput');
+        const searchButton = document.querySelector('.search-button');
+        
+        // Focus animation
+        searchInput.addEventListener('focus', function() {
+            this.classList.add('animated-search');
+        });
+        
+        searchInput.addEventListener('blur', function() {
+            this.classList.remove('animated-search');
+        });
+        
+        // Hover effects
+        searchButton.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-50%) scale(1.1)';
+        });
+        
+        searchButton.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(-50%)';
+        });
+        
+        // Empty search warning animation
+        const form = document.querySelector('form');
+        form.addEventListener('submit', function(e) {
+            if (searchInput.value.trim() === '') {
+                e.preventDefault();
+                searchInput.style.animation = 'pulseWarning 0.8s';
+                setTimeout(() => {
+                    searchInput.style.animation = '';
+                }, 800);
+            }
+        });
+    });
+</script>
 {% endblock %}

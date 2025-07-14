@@ -3,33 +3,25 @@
 
 {% block content %}
 <style>
-    /* Center alignment styles */
+    /* Base styles for all devices */
     .content-container {
         max-width: 1200px;
         margin: 0 auto;
         padding: 0 30px;
-        text-align: center; /* This will center all text by default */
+        text-align: center;
     }
     
-    /* Override for specific elements if needed */
     .section-content {
         font-size: 0.9rem;
         padding: 0 15px;
         max-width: 800px;
-        margin: 0 auto; /* Center the content block */
-        text-align: center; /* Center the text */
+        margin: 0 auto;
+        text-align: center;
     }
     
-    /* Animation styles */
     @keyframes slideInFromLeft {
-        0% {
-            transform: translateX(-100%);
-            opacity: 0;
-        }
-        100% {
-            transform: translateX(0);
-            opacity: 1;
-        }
+        0% { transform: translateX(-100%); opacity: 0; }
+        100% { transform: translateX(0); opacity: 1; }
     }
     
     .section-title-container {
@@ -40,7 +32,7 @@
         box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         animation: slideInFromLeft 0.4s ease-out forwards;
         opacity: 0;
-        text-align: center; /* Ensures text is centered in the oval */
+        text-align: center;
     }
     
     .section-title {
@@ -49,7 +41,6 @@
         margin: 0;
     }
     
-    /* Center all text content */
     .policy-content p,
     .policy-content ul,
     .policy-content ol,
@@ -58,7 +49,6 @@
         text-align: center;
     }
     
-    /* Center buttons */
     .text-center {
         display: flex;
         justify-content: center;
@@ -66,21 +56,14 @@
         flex-wrap: wrap;
     }
 
-    /* Responsive adjustments */
-    @media (max-width: 768px) {
-        .content-container {
-            padding: 0 15px;
-        }
-        .section-content {
-            padding: 0;
-            max-width: 100%;
-        }
-        .section-title-container {
-            padding: 0.5rem 1.5rem;
-        }
+    .core-values-content {
+        font-style: italic;
+        text-align: center;
+        margin: 1.5rem auto;
+        max-width: 300px;
+        white-space: pre-line;
     }
-    
-    /* Section spacing */
+
     .mb-5 {
         margin-bottom: 3rem !important;
         width: 100%;
@@ -92,45 +75,144 @@
         opacity: 0.2;
     }
 
-.core-values-content {
-    font-style: italic;
-    text-align: center;
-    margin: 1.5rem auto;
-    max-width: 300px;
-    white-space: pre-line; /* This preserves your line breaks */
-}
+    /* Tablet styles (768px and below) */
+    @media (max-width: 768px) {
+        .content-container {
+            padding: 0 20px;
+        }
+        
+        .section-title-container {
+            padding: 0.4rem 1.5rem;
+        }
+        
+        .section-title {
+            font-size: 0.95rem;
+        }
+        
+        .section-content {
+            font-size: 0.85rem;
+            padding: 0 10px;
+        }
+        
+        .core-values-content {
+            max-width: 280px;
+            margin: 1.2rem auto;
+        }
+        
+        hr {
+            width: 70%;
+            margin: 1.5rem auto;
+        }
+        
+        .mb-5 {
+            margin-bottom: 2.5rem !important;
+        }
+    }
 
-/* Or if you prefer the spacing between items more pronounced: */
-.core-values-content-alt {
-    font-style: italic;
-    text-align: center;
-    margin: 1.5rem auto;
-    max-width: 300px;
-}
+    /* Mobile styles (576px and below) */
+    @media (max-width: 576px) {
+        .content-container {
+            padding: 0 15px;
+        }
+        
+        .section-title-container {
+            padding: 0.3rem 1.2rem;
+            border-radius: 30px;
+        }
+        
+        .section-title {
+            font-size: 0.9rem;
+        }
+        
+        .section-content {
+            font-size: 0.82rem;
+            padding: 0;
+            text-align: center;
+        }
+        
+        .core-values-content {
+            max-width: 250px;
+            margin: 1rem auto;
+            font-size: 0.85rem;
+        }
+        
+        hr {
+            width: 60%;
+            margin: 1.2rem auto;
+        }
+        
+        .mb-5 {
+            margin-bottom: 2rem !important;
+        }
+        
+        .text-center {
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .btn {
+            width: 100%;
+            max-width: 220px;
+            margin: 0 auto !important;
+            padding: 0.375rem 0.75rem;
+            font-size: 0.85rem;
+        }
+        
+        .btn i {
+            margin-right: 5px;
+        }
+    }
 
-.core-values-content-alt p {
-    margin: 0.8rem 0; /* Adds space between paragraphs */
-}
+    /* Small mobile devices (400px and below) */
+    @media (max-width: 400px) {
+        .content-container {
+            padding: 0 10px;
+        }
+        
+        .section-title-container {
+            padding: 0.25rem 1rem;
+        }
+        
+        .section-title {
+            font-size: 0.85rem;
+        }
+        
+        .section-content {
+            font-size: 0.8rem;
+        }
+        
+        .core-values-content {
+            max-width: 220px;
+            font-size: 0.8rem;
+        }
+        
+        hr {
+            width: 50%;
+        }
+        
+        .btn {
+            max-width: 200px;
+            font-size: 0.8rem;
+        }
+    }
 </style>
+
 <div class="content-container">
     <div class="row">
         <div class="col-12">
             <!-- Vision Section -->
             {% for vision in vision %}
             <div class="mb-5">
-                <!-- Oval Title Container with Animation -->
                 <div class="text-center my-4">
                     <div class="section-title-container vision-title">
                         <h2 class="section-title">{{ vision.title }}</h2>
                     </div>
                 </div>
                 
-                <!-- Content Section -->
                 <div class="section-content text-justify"> 
                     {{ vision.content|safe }}
                 </div>
                 
-                <!-- Buttons -->
                 <div class="text-center mt-4">
                     {% if vision.file %}
                     <a href="{{ vision.file.url }}" class="btn btn-primary" download>
@@ -149,19 +231,16 @@
             <!-- Mission Section -->
             {% for mission in mission %}
             <div class="mb-5"><hr>
-                <!-- Oval Title Container with Animation -->
                 <div class="text-center my-4">
                     <div class="section-title-container mission-title">
                         <h2 class="section-title">{{ mission.title }}</h2>
                     </div>
                 </div>
                 
-                <!-- Content Section -->
                 <div class="section-content text-justify">
                     {{ mission.content|safe }}
                 </div>
                 
-                <!-- Buttons -->
                 <div class="text-center mt-4">
                     {% if mission.file %}
                     <a href="{{ mission.file.url }}" class="btn btn-primary" download>
@@ -177,58 +256,47 @@
             </div>
             {% endfor %}
             
-<!-- Core Values Section -->
-{% for core_value in core_values %}
-<div class="mb-5"><hr>
-    <!-- Oval Title Container with Animation -->
-    <div class="text-center my-4">
-        <div class="section-title-container core-values-title">
-            <h2 class="section-title">{{ core_value.title }}</h2>
-        </div>
-    </div>
-    
-    <!-- Content Section - Now with proper spacing AND centering -->
-    <div class="core-values-content" style="
-        font-style: italic;
-        text-align: center;
-        margin: 1.5rem auto;
-        max-width: 300px;
-    ">
-        {{ core_value.content|linebreaks }}
-    </div>
-    
-    <!-- Buttons -->
-    <div class="text-center mt-4">
-        {% if core_value.file %}
-        <a href="{{ core_value.file.url }}" class="btn btn-primary" download>
-            <i class="fas fa-download me-1"></i> Download File
-        </a>
-        {% endif %}
-        {% if core_value.link %}
-        <a href="{{ core_value.link }}" class="btn btn-outline-secondary ms-2" target="_blank">
-            <i class="fas fa-external-link-alt me-1"></i> Related Link
-        </a>
-        {% endif %}
-    </div>
-</div>
-{% endfor %}
+            <!-- Core Values Section -->
+            {% for core_value in core_values %}
+            <div class="mb-5"><hr>
+                <div class="text-center my-4">
+                    <div class="section-title-container core-values-title">
+                        <h2 class="section-title">{{ core_value.title }}</h2>
+                    </div>
+                </div>
+                
+                <div class="core-values-content">
+                    {{ core_value.content|linebreaks }}
+                </div>
+                
+                <div class="text-center mt-4">
+                    {% if core_value.file %}
+                    <a href="{{ core_value.file.url }}" class="btn btn-primary" download>
+                        <i class="fas fa-download me-1"></i> Download File
+                    </a>
+                    {% endif %}
+                    {% if core_value.link %}
+                    <a href="{{ core_value.link }}" class="btn btn-outline-secondary ms-2" target="_blank">
+                        <i class="fas fa-external-link-alt me-1"></i> Related Link
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
             
             <!-- Mandate Section -->
             {% for mandate in mandate %}
             <div class="mb-5"><hr>
-                <!-- Oval Title Container with Animation -->
                 <div class="text-center my-4">
                     <div class="section-title-container mandate-title">
                         <h2 class="section-title">{{ mandate.title }}</h2>
                     </div>
                 </div>
                 
-                <!-- Content Section -->
                 <div class="section-content text-justify">
                     {{ mandate.content|linebreaks }}
                 </div>
                 
-                <!-- Buttons -->
                 <div class="text-center mt-4">
                     {% if mandate.file %}
                     <a href="{{ mandate.file.url }}" class="btn btn-primary" download>
@@ -248,19 +316,16 @@
             {% if quality_policy %}
                 {% for policy in quality_policy %}
                 <div class="mb-5"><hr>
-                    <!-- Oval Title Container with Animation -->
                     <div class="text-center my-4">
                         <div class="section-title-container quality-policy-title">
                             <h2 class="section-title">{{ policy.title|default:"Quality Policy" }}</h2>
                         </div>
                     </div>
                     
-                    <!-- Content Section -->
                     <div class="section-content text-justify">
                         {{ policy.content|linebreaks|default:"No content available." }}
                     </div>
                     
-                    <!-- Buttons -->
                     <div class="text-center mt-4">
                         {% if policy.file %}
                         <a href="{{ policy.file.url }}" class="btn btn-primary" download>
@@ -281,13 +346,11 @@
 </div>
 
 <script>
-    // This ensures animations play when navigating back to the page
     document.addEventListener('DOMContentLoaded', function() {
         const animatedElements = document.querySelectorAll('.section-title-container');
         animatedElements.forEach(el => {
-            // Reset animation
             el.style.animation = 'none';
-            void el.offsetWidth; // Trigger reflow
+            void el.offsetWidth;
             el.style.animation = null;
         });
     });

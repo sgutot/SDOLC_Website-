@@ -114,6 +114,7 @@
 </div>
 
 <style>
+    /* Existing styles remain unchanged */
     .contact-form, .contact-location {
         transition: all 0.3s ease;
     }
@@ -135,6 +136,131 @@
     .btn-primary:hover {
         transform: translateY(-2px);
         box-shadow: 0 4px 8px rgba(122, 2, 19, 0.3);
+    }
+
+    /* New mobile-responsive styles */
+    @media (max-width: 992px) {
+        .container.my-5 {
+            margin-top: 2rem !important;
+            margin-bottom: 2rem !important;
+        }
+        
+        .row.g-5 {
+            gap: 2rem !important;
+        }
+        
+        .card-body.p-4.p-md-5 {
+            padding: 1.5rem !important;
+        }
+        
+        h3.h4 {
+            font-size: 1.25rem;
+        }
+        
+        .form-control, .form-select {
+            padding: 0.65rem 0.9rem;
+        }
+        
+        .btn-primary.py-3 {
+            padding-top: 0.75rem !important;
+            padding-bottom: 0.75rem !important;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .container.my-5 {
+            margin-top: 1.5rem !important;
+            margin-bottom: 1.5rem !important;
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+        
+        .row.g-5 {
+            gap: 1.5rem !important;
+        }
+        
+        .card {
+            border-radius: 0.75rem !important;
+        }
+        
+        .card-body.p-4.p-md-5 {
+            padding: 1.25rem !important;
+        }
+        
+        .alert {
+            padding: 0.75rem;
+        }
+        
+        .form-label {
+            font-size: 0.9rem;
+        }
+        
+        .contact-info p {
+            font-size: 0.9rem;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .container.my-5 {
+            margin-top: 1rem !important;
+            margin-bottom: 1rem !important;
+            padding-left: 12px;
+            padding-right: 12px;
+        }
+        
+        .card-body.p-4.p-md-5 {
+            padding: 1rem !important;
+        }
+        
+        .form-control, .form-select {
+            padding: 0.5rem 0.75rem;
+            font-size: 0.9rem;
+        }
+        
+        .btn-primary.py-3 {
+            padding-top: 0.6rem !important;
+            padding-bottom: 0.6rem !important;
+            font-size: 0.9rem;
+        }
+        
+        .ratio.ratio-16x9.mb-4 {
+            margin-bottom: 1rem !important;
+        }
+        
+        .contact-info p {
+            margin-bottom: 0.75rem !important;
+            font-size: 0.85rem;
+        }
+    }
+
+    @media (max-width: 360px) {
+        .container.my-5 {
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+        
+        .card-body.p-4.p-md-5 {
+            padding: 0.75rem !important;
+        }
+        
+        h3.h4 {
+            font-size: 1.1rem;
+        }
+        
+        .form-control, .form-select {
+            padding: 0.45rem 0.65rem;
+            font-size: 0.85rem;
+        }
+        
+        .btn-primary.py-3 {
+            padding-top: 0.5rem !important;
+            padding-bottom: 0.5rem !important;
+            font-size: 0.85rem;
+        }
+        
+        .contact-info p {
+            margin-bottom: 0.5rem !important;
+        }
     }
 </style>
 {% endblock %}

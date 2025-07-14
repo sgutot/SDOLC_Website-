@@ -85,7 +85,6 @@ def search(request):
 
         #'regional_memo': RegionalMemo.objects.filter(
         #    Q(title__icontains=search_query) | 
-        #    Q(content__icontains=search_query)
         #).order_by('-date_posted'),
 
         'division_memo': DivisionMemo.objects.filter(
@@ -284,7 +283,15 @@ def news_detail(request, slug):
     })
 
 
+def org_chart_whole(request):
+    return render(request, 'deped_app/organizational_chart.html', {
+        'org_chart_whole': OrgChartWhole.objects.all()
+    })
+
+
+
 def organizational_chart(request):
+    org_chart_whole = OrgChartWhole.objects.all()
     management_choices = OrganizationalChart.MANAGEMENT_CHOICES
     current_management = request.GET.get('dept', None)
     
@@ -313,6 +320,7 @@ def organizational_chart(request):
             grouped_charts[choice[1]] = sorted_groups
     
     context = {
+        'org_chart_whole': org_chart_whole,
         'management_choices': management_choices,
         'grouped_charts': grouped_charts,
         'current_management': current_management,
@@ -401,8 +409,7 @@ def division_memo_list(request):
     # Apply search filter
     if search_query:
         memos = memos.filter(
-            Q(title__icontains=search_query) | 
-            Q(content__icontains=search_query)
+            Q(title__icontains=search_query)
         )
     
     # Apply year filter
@@ -421,7 +428,7 @@ def division_memo_list(request):
         available_months = []
     
     # Pagination
-    paginator = Paginator(memos, 5)
+    paginator = Paginator(memos, 20)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     
@@ -451,8 +458,7 @@ def division_memo_detail(request, pk):
     
 #    if search_query:
 #        office_memo = office_memo.filter(
-#            Q(title__icontains=search_query) | 
-#            Q(content__icontains=search_query) |
+#            Q(title__icontains=search_query)
 #            Q(date_posted__icontains=search_query)
 #        )
     
@@ -482,8 +488,7 @@ def office_memo_list(request):
     # Apply search filter
     if search_query:
         memos = memos.filter(
-            Q(title__icontains=search_query) | 
-            Q(content__icontains=search_query)
+            Q(title__icontains=search_query)
         )
     
     # Apply year filter
@@ -530,8 +535,7 @@ def office_memo_detail(request, pk):
     
 #    if search_query:
 #        deped_order = deped_order.filter(
-#            Q(title__icontains=search_query) | 
-#            Q(content__icontains=search_query) |
+#            Q(title__icontains=search_query)
 #            Q(date_posted__icontains=search_query)
 #        )
     
@@ -559,8 +563,7 @@ def deped_order_list(request):
     # Apply search filter
     if search_query:
         memos = memos.filter(
-            Q(title__icontains=search_query) | 
-            Q(content__icontains=search_query)
+            Q(title__icontains=search_query)
         )
     
     # Apply year filter
@@ -607,8 +610,7 @@ def deped_order_detail(request, pk):
     
 #    if search_query:
 #        deped_advisories = deped_advisories.filter(
-#            Q(title__icontains=search_query) | 
-#            Q(content__icontains=search_query) |
+#            Q(title__icontains=search_query)
 #            Q(date_posted__icontains=search_query)
 #        )
     
@@ -638,8 +640,7 @@ def deped_advisories_list(request):
     # Apply search filter
     if search_query:
         memos = memos.filter(
-            Q(title__icontains=search_query) | 
-            Q(content__icontains=search_query)
+            Q(title__icontains=search_query)
         )
     
     # Apply year filter

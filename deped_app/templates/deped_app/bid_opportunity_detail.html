@@ -14,10 +14,8 @@
         </nav>
     </div>
     
-    <!-- Main Content Card with hover effect -->
     <div class="card border-0 shadow-sm mb-3 hover-card" style="max-width: 800px; margin: 0 auto;">
         <div class="card-body p-4">
-            <!-- Project Title with line below -->
             <h2 class="text-center mb-3" style="font-size: 1.1rem; color: #7A0213; font-weight: 600;">{{ bid.projectname }}</h2>
             <hr class="my-2" style="border-top: 1px solid #eee;">
 
@@ -39,8 +37,7 @@
             
             <!-- Line before buttons -->
             <hr class="my-4" style="border-top: 1px solid #555;">
-            
-            <!-- Action Buttons with posted date -->
+
             <div class="d-flex flex-column flex-md-row justify-content-between align-items-center">
                 <div class="text-muted small mb-2 mb-md-0">
                     <i class="far fa-calendar-alt me-1"></i>Published Date: {{ bid.date_published|date:"M d, Y" }}

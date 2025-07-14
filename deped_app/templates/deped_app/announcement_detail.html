@@ -2,106 +2,306 @@
 
 {% block content %}
 <div class="container my-2">
-    <!-- Compact Breadcrumb -->
     <nav aria-label="breadcrumb" class="mb-3">
-        <ol class="breadcrumb justify-content-center" style="font-size: 0.85rem; background-color: transparent; padding: 0.5rem 0;">
-            <li class="breadcrumb-item"><a href="{% url 'home' %}" style="color: #7A0213; text-decoration: none;"><strong>Home</strong></a></li>
-            <li class="breadcrumb-item active" aria-current="page" style="color: #495057;">{{ announcement.title}}</li>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'home' %}"><strong>Home</strong></a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ announcement.title }}</li>
         </ol>
     </nav>
 
-    <div class="announcement-detail bg-white rounded-2 shadow-sm p-2 p-md-3">
-        <!-- Compact Header -->
-        <div class="announcement-header mb-2 pb-1 border-bottom">
-            <h5 class="fs-6 fw-bold mb-0 text-center" style="color: #7A0213;">{{ announcement.title }}</h5>
-        </div>
+ >
+    <div class="announcement-header mb-2 pb-1">
+        <h5 class="announcement-title">{{ announcement.title }}</h5>
+    </div>
 
-        <!-- Compact Content -->
-        <div class="announcement-content fs-6 lh-sm py-1">
-            {{ announcement.content|linebreaks }}
-        </div>
+    <div class="announcement-content">
+        {{ announcement.content|linebreaks }}
+    </div>
 
-        <!-- Compact Attachments -->
-        <div class="announcement-actions mt-2 pt-1 border-top">
-            <div class="d-flex flex-wrap gap-1 align-items-center justify-content-between">
-                <div class="text-muted small" style="font-size: 1rem;">
-                    <i class="far fa-calendar-alt me-1"></i>
-                    <span>{{ announcement.date_published|date:"M d, Y" }}</span>
-                </div>
-                <div class="d-flex gap-1">
-                    {% if announcement.file %}
-                    <a href="{{ announcement.file.url }}" class="btn btn-sm px-2 py-0" style="font-size: 1rem;">
-                        <i class="fas fa-file-pdf me-1"></i> View
-                    </a>
-                    {% endif %}
-                    {% if announcement.file %}
-                    <a href="{{ announcement.file.url }}" download class="btn btn-sm px-2 py-0" style="font-size: 1rem;">
-                        <i class="fas fa-download"></i>
-                    </a>
-                    {% endif %}
-                    {% if announcement.link %}
-                    <a href="{{ announcement.link }}" class="btn btn-sm px-2 py-0" style="font-size: 1rem;" target="_blank">
-                        <i class="fas fa-external-link-alt"></i>
-                    </a>
-                    {% endif %}
-                </div>
+    <div class="announcement-actions mt-2 pt-1">
+        <div class="action-wrapper">
+            <div class="publish-date">
+                <i class="far fa-calendar-alt me-1"></i>
+                <span>{{ announcement.date_posted|date:"M d, Y" }}</span>
+            </div>
+            <div class="action-buttons">
+                {% if announcement.file %}
+                <a href="{{ announcement.file.url }}" class="btn btn-view">
+                    <i class="fas fa-file-pdf me-1"></i> View
+                </a>
+                {% endif %}
+                {% if announcement.file %}
+                <a href="{{ announcement.file.url }}" download class="btn btn-download">
+                    <i class="fas fa-download"></i>
+                </a>
+                {% endif %}
+                {% if announcement.link %}
+                <a href="{{ announcement.link }}" class="btn btn-external" target="_blank">
+                    <i class="fas fa-external-link-alt"></i>
+                </a>
+                {% endif %}
             </div>
         </div>
     </div>
 </div>
 
 <style>
-    .announcement-detail {
+    /* ===== Base Styles ===== */
+    .container {
         max-width: 800px;
-        margin: 0 auto;
-    }
-    
-    .announcement-header {
-        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-    }
-    
-    .announcement-content {
-        color: #495057;
-        line-height: 1.4;
-    }
-    
-    .announcement-content img {
-        max-width: 90%;
-        height: auto;
-        border-radius: 4px;
-        margin: 0.75rem 0;
-    }
-    
-    .btn {
-        transition: all 0.2s ease;
-        padding: 0.25rem 0.5rem;
-        font-size: 0.75rem;
-        border-radius: 3px;
+        padding: 0 1rem;
     }
 
+    /* Breadcrumb */
+    .breadcrumb {
+        background-color: transparent;
+        padding: 0.5rem 0;
+        margin: 0;
+        font-size: 0.85rem;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        white-space: nowrap;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none; 
+    }
+
+    .breadcrumb::-webkit-scrollbar {
+        display: none;
+    }
+
+    .breadcrumb-item {
+        display: inline-block;
+    }
+
+    .breadcrumb-item a {
+        color: #7A0213;
+        text-decoration: none;
+        font-weight: 500;
+    }
+
+    .breadcrumb-item.active {
+        color: #495057;
+    }
+
+    /* Announcement Header */
+    .announcement-header {
+        border-bottom: 1px solid rgba(122, 2, 19, 0.1);
+        padding-bottom: 0.5rem;
+    }
+
+    .announcement-title {
+        color: #7A0213;
+        font-weight: 600;
+        margin: 0;
+        text-align: center;
+        font-size: 1.25rem;
+        line-height: 1.3;
+    }
+
+    /* Announcement Content */
+    .announcement-content {
+        color: #495057;
+        line-height: 1.6;
+        font-size: 0.9375rem;
+    }
+
+    .announcement-content img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 4px;
+        margin: 1rem auto;
+        display: block;
+    }
+
+    /* Announcement Actions */
+    .announcement-actions {
+        border-top: 1px solid rgba(122, 2, 19, 0.1);
+        padding-top: 0.75rem;
+    }
+
+    .action-wrapper {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .publish-date {
+        color: #6c757d;
+        font-size: 0.8125rem;
+        display: flex;
+        align-items: center;
+    }
+
+    .action-buttons {
+        display: flex;
+        gap: 0.75rem;
+    }
+
+    /* Buttons - Modern Style */
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.5rem 1rem;
+        font-size: 0.85rem;
+        font-weight: 500;
+        border-radius: 6px;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        border: none;
+        cursor: pointer;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .btn::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255,255,255,0.1);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .btn:hover::after {
+        opacity: 1;
+    }
+
+    .btn-view, 
+    .btn-download, 
+    .btn-external {
+        background: linear-gradient(135deg, #7A0213 0%, #9a0319 100%);
+        color: white;
+    }
+
+    .btn-view:hover,
+    .btn-download:hover,
+    .btn-external:hover {
+        background: linear-gradient(135deg, #5a010e 0%, #7A0213 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    }
+
+    .btn:active {
+        transform: translateY(0);
+        box-shadow: 0 2px 3px rgba(0,0,0,0.1);
+    }
+
+    .btn i {
+        transition: transform 0.3s ease;
+    }
+
+    .btn:hover i {
+        transform: scale(1.1);
+    }
+
+    /* ===== Mobile Styles ===== */
     @media (max-width: 768px) {
         .container {
-            padding-left: 0.75rem;
-            padding-right: 0.75rem;
+            padding: 0 0.75rem;
         }
-        
-        .announcement-detail {
-            padding: 0.75rem;
+
+        .breadcrumb {
+            font-size: 0.8rem;
+            padding: 0.4rem 0;
         }
-        
-        .announcement-header h5 {
-            font-size: 0.9375rem;
+
+        .announcement-title {
+            font-size: 1.1rem;
         }
-        
+
         .announcement-content {
-            font-size: 0.75rem;
-            line-height: 1.3;
+            font-size: 0.875rem;
+            line-height: 1.5;
         }
-        
-        .announcement-actions {
+
+        .publish-date {
+            font-size: 0.75rem;
+        }
+
+        .btn {
+            padding: 0.4rem 0.8rem;
+            font-size: 0.8rem;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .container {
+            padding: 0 0.5rem;
+        }
+
+        .announcement-title {
+            font-size: 1rem;
+        }
+
+        .announcement-content {
+            font-size: 0.8125rem;
+        }
+
+        .action-wrapper {
             flex-direction: column;
             align-items: flex-start;
-            gap: 0.25rem;
+            gap: 0.75rem;
+        }
+
+        .action-buttons {
+            width: 100%;
+            justify-content: space-between;
+        }
+
+        .btn {
+            flex: 1;
+            text-align: center;
+            padding: 0.6rem;
+        }
+    }
+
+    @media (max-width: 400px) {
+        .breadcrumb {
+            font-size: 0.75rem;
+        }
+
+        .announcement-title {
+            font-size: 0.9375rem;
+        }
+
+        .announcement-content {
+            font-size: 0.75rem;
+        }
+
+        .publish-date {
+            font-size: 0.6875rem;
+        }
+
+        .btn {
+            font-size: 0.75rem;
+            padding: 0.5rem;
+        }
+
+        .btn i {
+            margin-right: 0 !important;
+        }
+
+        .btn-view span {
+            display: none;
+        }
+    }
+
+    /* Very small devices (under 350px) */
+    @media (max-width: 350px) {
+        .btn {
+            padding: 0.4rem;
+            font-size: 0.7rem;
+        }
+
+        .btn i {
+            font-size: 0.75rem;
         }
     }
 </style>

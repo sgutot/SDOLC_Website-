@@ -101,7 +101,7 @@
 </div>
 
 <style>
-/* Main Container */
+/* Base Styles */
 .memo-container {
     max-width: 1200px;
     margin: 0 auto;
@@ -109,7 +109,6 @@
     font-family: 'Segoe UI', Roboto, sans-serif;
 }
 
-/* Header Styles */
 .memo-header {
     display: flex;
     justify-content: space-between;
@@ -128,7 +127,6 @@
     margin: 0;
 }
 
-/* Search Form Styles */
 .memo-search-form {
     width: 300px;
 }
@@ -169,7 +167,6 @@
     color: #5a0113;
 }
 
-/* Table Styles */
 .memo-table {
     width: 100%;
     border-collapse: collapse;
@@ -212,7 +209,17 @@
     text-decoration: underline;
 }
 
-/* Pagination Styles */
+.memo-table small {
+    color: #666;
+    font-size: 0.8rem;
+}
+
+.memo-table i.far {
+    margin-right: 0.5rem;
+    color: #7A0213;
+    font-size: 0.8rem;
+}
+
 .pagination-container {
     display: flex;
     flex-direction: column;
@@ -264,7 +271,6 @@
     font-size: 0.9rem;
 }
 
-/* Empty State */
 .no-memos {
     margin: 3rem 0;
 }
@@ -294,17 +300,34 @@
     margin: 0;
 }
 
-/* Responsive Design */
+/* Mobile Responsive Styles */
+@media (max-width: 1024px) {
+    .memo-container {
+        padding: 1.5rem;
+    }
+    
+    .memo-table th,
+    .memo-table td {
+        padding: 0.8rem;
+    }
+}
+
 @media (max-width: 768px) {
+    .memo-container {
+        padding: 1rem 0.5rem;
+    }
+
     .memo-header {
         flex-direction: column;
-        align-items: center;
-        gap: 1rem;
+        align-items: stretch;
         text-align: center;
+        gap: 1rem;
+        padding: 1rem 0.5rem;
     }
 
     .memo-title {
-        font-size: 1.75rem;
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
     }
 
     .memo-search-form {
@@ -315,22 +338,196 @@
 
     .search-container {
         width: 100%;
-        max-width: 300px;
+        max-width: 100%;
+    }
+
+    .search-input {
+        font-size: 1rem;
+        padding: 0.75rem 1rem;
+        padding-right: 3rem;
     }
 
     .table-responsive {
-        overflow-x: unset !important;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        margin: 0 -0.5rem;
+        padding: 0 0.5rem;
     }
 
     .memo-table {
-        width: 100%;
-        min-width: unset;
+        min-width: 600px;
+        box-shadow: none;
+        border-radius: 0;
     }
 
-    .memo-table th:nth-child(3),
-    .memo-table td:nth-child(3) {
-        width: 25%;
+    .memo-table th,
+    .memo-table td {
+        padding: 0.75rem 0.5rem;
+        font-size: 0.9rem;
+    }
+
+    .memo-table th {
+        font-size: 0.85rem;
+    }
+
+    .memo-table td {
+        white-space: normal;
+        word-break: break-word;
+    }
+
+    .memo-table a {
+        font-size: 0.9rem;
+    }
+
+    .pagination {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .page-link {
+        padding: 0.4rem 0.6rem;
+        font-size: 0.85rem;
+    }
+
+    .page-info {
+        font-size: 0.85rem;
+        text-align: center;
+    }
+
+    .empty-state {
+        padding: 1.5rem 1rem;
+    }
+
+    .empty-state i {
+        font-size: 2.5rem;
+    }
+
+    .empty-state h3 {
+        font-size: 1.25rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .memo-container {
+        padding: 1rem 0.25rem;
+    }
+
+    .memo-title {
+        font-size: 1.3rem;
+    }
+
+    .search-input {
+        padding: 0.65rem 0.8rem;
+        font-size: 0.9rem;
+    }
+
+    .search-button {
+        padding: 0 1rem;
+    }
+
+    .memo-table {
+        min-width: 550px;
+    }
+
+    .memo-table th,
+    .memo-table td {
+        padding: 0.5rem 0.3rem;
+        font-size: 0.8rem;
+    }
+
+    .memo-table th {
+        font-size: 0.8rem;
+    }
+
+    .pagination {
+        gap: 0.3rem;
+    }
+
+    .page-link {
+        padding: 0.3rem 0.5rem;
+        font-size: 0.8rem;
+    }
+
+    .empty-state {
+        padding: 1rem 0.5rem;
+    }
+
+    .empty-state i {
+        font-size: 2rem;
+    }
+
+    .empty-state h3 {
+        font-size: 1.1rem;
+    }
+
+    .empty-state p {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 360px) {
+    .memo-title {
+        font-size: 1.2rem;
+    }
+
+    .search-input {
+        padding: 0.6rem 0.7rem;
+        font-size: 0.85rem;
+    }
+
+    .memo-table {
+        min-width: 500px;
+    }
+
+    .memo-table th,
+    .memo-table td {
+        padding: 0.4rem 0.2rem;
+        font-size: 0.75rem;
+    }
+
+    .page-link {
+        padding: 0.25rem 0.4rem;
+        font-size: 0.75rem;
+    }
+
+    .empty-state i {
+        font-size: 1.8rem;
+    }
+
+    .empty-state h3 {
+        font-size: 1rem;
+    }
+
+    .empty-state p {
+        font-size: 0.85rem;
     }
 }
 </style>
+
+{% block extra_js %}
+<script>
+$(document).ready(function(){
+    // Initialize tooltips
+    $('[title]').tooltip({
+        trigger: 'hover',
+        placement: 'top'
+    });
+    
+    // Add animation to table rows
+    $('tbody tr').hover(
+        function() {
+            $(this).css('transform', 'translateX(5px)');
+        }, 
+        function() {
+            $(this).css('transform', 'translateX(0)');
+        }
+    );
+    
+    // Focus search input when search icon is clicked (for mobile)
+    $('.search-button').on('click', function() {
+        $(this).closest('.search-container').find('.search-input').focus();
+    });
+});
+</script>
+{% endblock %}
 {% endblock %}

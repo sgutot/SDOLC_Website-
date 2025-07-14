@@ -93,15 +93,15 @@
     <div class="no-memos">
         <div class="empty-state">
             <i class="fas fa-file-alt"></i>
-            <h3>No Memorandum Available</h3>
-            <p>There are currently no division memorandum to display.</p>
+            <h3>No Performance Management Available</h3>
+            <p>There are currently no performance management documents to display.</p>
         </div>
     </div>
     {% endif %}
 </div>
 
 <style>
-/* Main Container */
+/* Base Styles */
 .memo-container {
     max-width: 1200px;
     margin: 0 auto;
@@ -109,7 +109,6 @@
     font-family: 'Segoe UI', Roboto, sans-serif;
 }
 
-/* Header Styles */
 .memo-header {
     display: flex;
     justify-content: space-between;
@@ -128,7 +127,6 @@
     margin: 0;
 }
 
-/* Search Form Styles */
 .memo-search-form {
     width: 300px;
 }
@@ -169,7 +167,6 @@
     color: #5a0113;
 }
 
-/* Table Styles */
 .memo-table {
     width: 100%;
     border-collapse: collapse;
@@ -202,7 +199,6 @@
     background-color: #f9f9f9;
 }
 
-/* Table Link */
 .memo-table a {
     color: #7A0213;
     font-weight: 500;
@@ -213,18 +209,17 @@
     text-decoration: underline;
 }
 
-/* Small Date Text */
 .memo-table small {
     color: #666;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
 }
 
 .memo-table i.far {
     margin-right: 0.5rem;
     color: #7A0213;
+    font-size: 0.8rem;
 }
 
-/* Pagination Styles */
 .pagination-container {
     display: flex;
     flex-direction: column;
@@ -266,12 +261,16 @@
     border-color: #7A0213;
 }
 
+.page-item.disabled .page-link {
+    color: #aaa;
+    pointer-events: none;
+}
+
 .page-info {
     color: #666;
     font-size: 0.9rem;
 }
 
-/* Empty State */
 .no-memos {
     margin: 3rem 0;
 }
@@ -301,13 +300,34 @@
     margin: 0;
 }
 
-/* Responsive Design */
+/* Mobile Responsive Styles */
+@media (max-width: 1024px) {
+    .memo-container {
+        padding: 1.5rem;
+    }
+    
+    .memo-table th,
+    .memo-table td {
+        padding: 0.8rem;
+    }
+}
+
 @media (max-width: 768px) {
+    .memo-container {
+        padding: 1rem 0.5rem;
+    }
+
     .memo-header {
         flex-direction: column;
-        align-items: center;
-        text-align: center;
+        align-items: stretch;
         gap: 1rem;
+        padding: 1rem 0.5rem;
+    }
+
+    .memo-title {
+        font-size: 1.4rem;
+        margin-bottom: 0.5rem;
+        text-align: center;
     }
 
     .memo-search-form {
@@ -318,22 +338,141 @@
 
     .search-container {
         width: 100%;
-        max-width: 300px;
     }
 
-    .memo-title {
-        font-size: 1.75rem;
-        text-align: center;
+    .search-input {
+        padding: 0.75rem 1rem;
+        font-size: 1rem;
     }
 
     .table-responsive {
-        overflow-x: unset !important;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        margin: 0 -0.5rem;
+        padding: 0 0.5rem;
     }
 
     .memo-table {
-        width: 100%;
-        min-width: unset;
+        min-width: 600px;
+        box-shadow: none;
+    }
+
+    .memo-table th,
+    .memo-table td {
+        padding: 0.75rem;
+    }
+
+    .pagination {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .empty-state {
+        padding: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .memo-container {
+        padding: 1rem 0.25rem;
+    }
+
+    .memo-title {
+        font-size: 1.3rem;
+    }
+
+    .search-input {
+        padding: 0.65rem 0.8rem;
+        font-size: 0.95rem;
+    }
+
+    .memo-table {
+        min-width: 550px;
+    }
+
+    .memo-table th,
+    .memo-table td {
+        padding: 0.6rem;
+        font-size: 0.85rem;
+    }
+
+    .page-link {
+        padding: 0.4rem 0.6rem;
+        font-size: 0.85rem;
+    }
+
+    .empty-state {
+        padding: 1rem;
+    }
+
+    .empty-state i {
+        font-size: 2rem;
+    }
+
+    .empty-state h3 {
+        font-size: 1.1rem;
+    }
+}
+
+@media (max-width: 360px) {
+    .memo-title {
+        font-size: 1.2rem;
+    }
+
+    .search-input {
+        padding: 0.6rem 0.7rem;
+        font-size: 0.9rem;
+    }
+
+    .memo-table {
+        min-width: 500px;
+    }
+
+    .memo-table th,
+    .memo-table td {
+        padding: 0.5rem;
+        font-size: 0.8rem;
+    }
+
+    .page-link {
+        padding: 0.35rem 0.5rem;
+        font-size: 0.8rem;
+    }
+
+    .empty-state i {
+        font-size: 1.8rem;
+    }
+
+    .empty-state h3 {
+        font-size: 1rem;
     }
 }
 </style>
+
+{% block extra_js %}
+<script>
+$(document).ready(function(){
+    // Initialize tooltips
+    $('[title]').tooltip({
+        trigger: 'hover',
+        placement: 'top'
+    });
+    
+    // Add animation to table rows
+    $('tbody tr').hover(
+        function() {
+            $(this).css('transform', 'translateX(5px)');
+        }, 
+        function() {
+            $(this).css('transform', 'translateX(0)');
+        }
+    );
+    
+    // Focus search input when search icon is clicked
+    $('.search-button').on('click', function() {
+        $(this).closest('.search-container').find('.search-input').focus();
+    });
+});
+</script>
+{% endblock %}
 {% endblock %}
